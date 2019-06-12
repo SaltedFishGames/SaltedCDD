@@ -1,4 +1,4 @@
-package cn.saltedfish.saltedcdd.common.activity;
+package cn.saltedfish.saltedcdd;
 
 import android.annotation.TargetApi;
 import android.os.Build;
@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
 public class FullscreenActivity extends AppCompatActivity {
-    private boolean immersiveEnabled = false;
+    private boolean mImmersiveEnabled = false;
 
     @Override
     @TargetApi(19)
@@ -15,7 +15,7 @@ public class FullscreenActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         if (Build.VERSION.SDK_INT >= 19) {
-            this.immersiveEnabled = true;
+            mImmersiveEnabled = true;
             hideSystemUI();
         }
     }
@@ -35,7 +35,7 @@ public class FullscreenActivity extends AppCompatActivity {
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
-        if (this.immersiveEnabled && hasFocus) {
+        if (mImmersiveEnabled && hasFocus) {
             hideSystemUI();
         }
     }

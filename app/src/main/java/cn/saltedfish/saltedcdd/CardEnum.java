@@ -1,4 +1,4 @@
-package cn.saltedfish.bigtwo.define;
+package cn.saltedfish.saltedcdd;
 
 public enum CardEnum {
     CLUB_3(CardNumberEnum.NUMBER_3, CardSuitEnum.CLUB),
@@ -71,5 +71,16 @@ public enum CardEnum {
 
     public CardSuitEnum getSuit() {
         return suit;
+    }
+
+    public static CardEnum getCard(CardNumberEnum number, CardSuitEnum suit) {
+        for (CardEnum card : CardEnum.values())
+        {
+            if (card.number == number && card.suit == suit)
+            {
+                return card;
+            }
+        }
+        return null;
     }
 }

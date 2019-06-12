@@ -1,4 +1,4 @@
-package cn.saltedfish.bigtwo.define;
+package cn.saltedfish.saltedcdd;
 
 public enum CardSuitEnum {
     CLUB, // 梅花
