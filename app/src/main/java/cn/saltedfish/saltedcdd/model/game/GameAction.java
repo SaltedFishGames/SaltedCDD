@@ -4,7 +4,7 @@ public class GameAction
 {
     public CDDPlayer mPlayer;
     public boolean mIsPass;
-    public CardGroup mCards;
+    public CardCollection mCards;
 
     public static GameAction createPassAction(CDDPlayer player)
     {
@@ -15,7 +15,7 @@ public class GameAction
         return action;
     }
 
-    public static GameAction createShowCardAction(CDDPlayer player, CardGroup cards)
+    public static GameAction createShowCardAction(CDDPlayer player, CardCollection cards)
     {
         GameAction action = new GameAction();
         action.mPlayer = player;

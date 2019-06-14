@@ -17,7 +17,7 @@ public class CDDGameBoard implements PlayerActionListener {
     protected CDDPlayer mCurrentPlayer;
     protected GameStateBase mCurrentGameState;
 
-    protected CardGroup mShowedCards;
+    protected CardCollection mShowedCards;
 
     protected ArrayList<GameRound> mRounds = new ArrayList<>();
 
@@ -101,12 +101,12 @@ public class CDDGameBoard implements PlayerActionListener {
         mCurrentGameState.onEnterState(this);
     }
 
-    public ShowCardResult tryPlayerShowCard(CDDPlayer player, CardGroup cards)
+    public ShowCardResult tryPlayerShowCard(CDDPlayer player, CardCollection cards)
     {
         return mCurrentGameState.tryPlayerShowCard(this, player, cards);
     }
 
-    public ShowCardResult onPlayerShowCard(CDDPlayer player, CardGroup cards)
+    public ShowCardResult onPlayerShowCard(CDDPlayer player, CardCollection cards)
     {
         ShowCardResult result = mCurrentGameState.onPlayerShowCard(this, player, cards);
         if (result == ShowCardResult.SUCCESS)
@@ -114,12 +114,12 @@ public class CDDGameBoard implements PlayerActionListener {
             GameAction action = GameAction.createShowCardAction(player, cards);
             getCurrentRound().add(action);
 
-            mShowedCards.add(cards);
+            mShowedCards.addAll(cards);
         }
         return result;
     }
 
-    public void onPlayerPass(CDDPlayer player, CardGroup cards)
+    public void onPlayerPass(CDDPlayer player, CardCollection cards)
     {
         mCurrentGameState.onPlayerPass(this, player);
         getCurrentRound().add(GameAction.createPassAction(player));

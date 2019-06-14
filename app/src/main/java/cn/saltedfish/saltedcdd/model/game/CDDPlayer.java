@@ -1,18 +1,14 @@
 package cn.saltedfish.saltedcdd.model.game;
 
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import cn.saltedfish.saltedcdd.CardEnum;
-import cn.saltedfish.saltedcdd.CardNumberEnum;
-import cn.saltedfish.saltedcdd.CardSuitEnum;
 
 public class CDDPlayer {
     protected int mPlayerId;
 
     protected String mNickname;
-    protected CardGroup mCardsInHand = new CardGroup();
+    protected CardCollection mCardsInHand = new CardCollection();
 
     public CDDPlayer(int playerId, String nickname)
     {
@@ -46,7 +42,7 @@ public class CDDPlayer {
         return mCardsInHand.contains(query);
     }
 
-    public boolean removeCards(CardGroup group)
+    public boolean removeCards(CardCollection group)
     {
         return false;
     }
