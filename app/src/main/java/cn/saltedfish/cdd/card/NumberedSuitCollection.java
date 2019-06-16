@@ -1,11 +1,8 @@
-package cn.saltedfish.saltedcdd.model.game;
+package cn.saltedfish.cdd.card;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-
-import cn.saltedfish.saltedcdd.CardNumberEnum;
-import cn.saltedfish.saltedcdd.CardSuitEnum;
 
 public class NumberedSuitCollection {
     protected CardNumberEnum mCardNumber;

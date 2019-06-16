@@ -1,4 +1,4 @@
-package cn.saltedfish.saltedcdd;
+package cn.saltedfish.cdd.card;
 
 public enum CardSuitEnum {
     CLUB, // 梅花

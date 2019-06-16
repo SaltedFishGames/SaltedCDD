@@ -1,4 +1,4 @@
-package cn.saltedfish.saltedcdd.model.game;
+package cn.saltedfish.cdd.game;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,9 +15,10 @@ public class GameRound {
     {
         for (int i = mActions.size() - 1; i >= 0; i--)
         {
-            if (!mActions.get(i).mIsPass)
+            GameAction action = mActions.get(i);
+            if (action.mType == TurnActionTypeEnum.ShowCard)
             {
-                return mActions.get(i);
+                return action;
             }
         }
         return null;

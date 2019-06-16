@@ -4,7 +4,9 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 
-import cn.saltedfish.saltedcdd.model.game.NumberedSuitCollection;
+import cn.saltedfish.cdd.card.CardNumberEnum;
+import cn.saltedfish.cdd.card.CardSuitEnum;
+import cn.saltedfish.cdd.card.NumberedSuitCollection;
 
 import static org.junit.Assert.*;
 
@@ -12,15 +14,15 @@ public class NumberedSuitCollectionTest {
     @Test
     public void testCardNumber()
     {
-        NumberedSuitCollection collection = new NumberedSuitCollection(CardNumberEnum.NUMBER_3);
+        NumberedSuitCollection collection = new NumberedSuitCollection(CardNumberEnum.NUM_3);
 
-        assertEquals(CardNumberEnum.NUMBER_3, collection.getCardNumber());
+        assertEquals(CardNumberEnum.NUM_3, collection.getCardNumber());
     }
 
     @Test
     public void testAdd()
     {
-        NumberedSuitCollection collection = new NumberedSuitCollection(CardNumberEnum.NUMBER_3);
+        NumberedSuitCollection collection = new NumberedSuitCollection(CardNumberEnum.NUM_3);
 
         collection.add(CardSuitEnum.CLUB);
         collection.add(CardSuitEnum.CLUB);
@@ -39,12 +41,12 @@ public class NumberedSuitCollectionTest {
     @Test
     public void testAddAll()
     {
-        NumberedSuitCollection collection1 = new NumberedSuitCollection(CardNumberEnum.NUMBER_3);
+        NumberedSuitCollection collection1 = new NumberedSuitCollection(CardNumberEnum.NUM_3);
         collection1.add(CardSuitEnum.CLUB);
         collection1.add(CardSuitEnum.CLUB);
         collection1.add(CardSuitEnum.HEART);
 
-        NumberedSuitCollection collection2 = new NumberedSuitCollection(CardNumberEnum.NUMBER_3);
+        NumberedSuitCollection collection2 = new NumberedSuitCollection(CardNumberEnum.NUM_3);
         collection2.add(CardSuitEnum.DIAMOND);
         collection2.add(CardSuitEnum.HEART);
 
@@ -59,7 +61,7 @@ public class NumberedSuitCollectionTest {
     @Test
     public void testRemove()
     {
-        NumberedSuitCollection collection = new NumberedSuitCollection(CardNumberEnum.NUMBER_3);
+        NumberedSuitCollection collection = new NumberedSuitCollection(CardNumberEnum.NUM_3);
         collection.add(CardSuitEnum.CLUB);
         collection.add(CardSuitEnum.CLUB);
         collection.add(CardSuitEnum.HEART);
@@ -75,7 +77,7 @@ public class NumberedSuitCollectionTest {
     @Test
     public void testGetAllSuits()
     {
-        NumberedSuitCollection collection = new NumberedSuitCollection(CardNumberEnum.NUMBER_3);
+        NumberedSuitCollection collection = new NumberedSuitCollection(CardNumberEnum.NUM_3);
         collection.add(CardSuitEnum.CLUB);
         collection.add(CardSuitEnum.CLUB);
 
@@ -125,7 +127,7 @@ public class NumberedSuitCollectionTest {
     @Test
     public void testClear()
     {
-        NumberedSuitCollection collection = new NumberedSuitCollection(CardNumberEnum.NUMBER_3);
+        NumberedSuitCollection collection = new NumberedSuitCollection(CardNumberEnum.NUM_3);
         collection.add(CardSuitEnum.CLUB);
         collection.add(CardSuitEnum.CLUB);
 
