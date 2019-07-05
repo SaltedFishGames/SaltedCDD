@@ -6,4 +6,5 @@ import cn.saltedfish.saltedcdd.game.card.Card;
 
 public class Player {
     public ArrayList<Card> mCards;
+    public int mId;
 }

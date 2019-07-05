@@ -1,23 +1,23 @@
 package cn.saltedfish.saltedcdd.game.card;
 
 public class Card {
-    protected CardNumber mNumber;
-    protected CardSuit mSuit;
+    protected ECardNumber mNumber;
+    protected ECardSuit mSuit;
 
     protected int mId;
 
-    public Card(CardNumber pNumber, CardSuit pSuit)
+    public Card(ECardNumber pNumber, ECardSuit pSuit)
     {
         mNumber = pNumber;
         mSuit = pSuit;
     }
 
-    public CardNumber getNumber()
+    public ECardNumber getNumber()
     {
         return mNumber;
     }
 
-    public CardSuit getSuit()
+    public ECardSuit getSuit()
     {
         return mSuit;
     }

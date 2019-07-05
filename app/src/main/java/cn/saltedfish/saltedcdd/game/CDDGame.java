@@ -1,5 +1,8 @@
 package cn.saltedfish.saltedcdd.game;
 
+import cn.saltedfish.saltedcdd.game.card.CardFactory;
+import cn.saltedfish.saltedcdd.game.fourplayer.GameStateFactory;
+
 public abstract class CDDGame {
     protected Player[] mPlayers;
 
@@ -9,19 +12,26 @@ public abstract class CDDGame {
 
     protected GameState mCurrentState;
 
-    public abstract void handleStartGame();
+    protected CardFactory mCardFactory;
 
-    public abstract void handlePlayerAction();
+    public abstract void prepare(Player[] pPlayers);
+
+    public abstract void start();
+
+    public abstract void onPlayerAction();
 
     public void setEventListener(IGameEventListener pListener)
     {
         mEventListener = pListener;
     }
 
-    public void enterState(GameState pNewState)
+    protected void enterState(GameState pNewState)
     {
         mCurrentState = pNewState;
     }
 
-
+    public Player getPlayer(int id)
+    {
+        return mPlayers[id];
+    }
 }

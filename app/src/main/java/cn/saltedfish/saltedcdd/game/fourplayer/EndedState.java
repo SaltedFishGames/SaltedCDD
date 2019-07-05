@@ -1,4 +1,4 @@
-package cn.saltedfish.saltedcdd.game.impl;
+package cn.saltedfish.saltedcdd.game.fourplayer;
 
 import cn.saltedfish.saltedcdd.game.GameState;
 
