@@ -2,15 +2,19 @@ package cn.saltedfish.saltedcdd.game.routine;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Random;
 
 import cn.saltedfish.saltedcdd.game.CDDGame;
+import cn.saltedfish.saltedcdd.game.EActionType;
 import cn.saltedfish.saltedcdd.game.GameBoard;
+import cn.saltedfish.saltedcdd.game.GameHistory;
 import cn.saltedfish.saltedcdd.game.GameState;
 import cn.saltedfish.saltedcdd.game.Player;
+import cn.saltedfish.saltedcdd.game.PlayerAction;
 import cn.saltedfish.saltedcdd.game.card.Card;
 import cn.saltedfish.saltedcdd.game.card.CardFactory;
 
@@ -23,6 +27,7 @@ public class FourPlayerGame extends CDDGame {
     {
         mBoard = new GameBoard();
         mCardFactory = new CardFactory();
+        mHistory = new GameHistory();
 
         for (EGameState state : EGameState.values())
         {
@@ -39,6 +44,8 @@ public class FourPlayerGame extends CDDGame {
                 e.printStackTrace();
             }
         }
+
+        enterState(EGameState.Idle);
     }
 
     @Override
@@ -68,23 +75,31 @@ public class FourPlayerGame extends CDDGame {
     @Override
     public void start()
     {
-
+        if (mCurrentState == getState(EGameState.Prepared))
+        {
+            enterState(EGameState.RoundHead);
+        }
     }
 
     @Override
-    public void onPlayerAction()
+    public void onPlayerAction(Player pPlayer, EActionType pAction, Collection<Card> pCards)
     {
-
+        // mHistory.getCurrentRound().add(new PlayerAction(pPlayer.mId, pAction, ));
     }
 
     @Override
-    protected void enterState(GameState pNewState)
+    public void enterNewRound()
     {
-        super.enterState(pNewState);
+        mHistory.newRound();
+    }
+
+    protected GameState getState(EGameState pState)
+    {
+        return mStateCache.get(pState);
     }
 
     public void enterState(EGameState pState)
     {
-        enterState(mStateCache.get(pState));
+        enterState(getState(pState));
     }
 }
