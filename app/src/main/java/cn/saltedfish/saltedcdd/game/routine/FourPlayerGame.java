@@ -21,7 +21,9 @@ import cn.saltedfish.saltedcdd.game.card.CardFactory;
 public class FourPlayerGame extends CDDGame {
     protected EnumMap<EGameState, GameState> mStateCache = new EnumMap<>(EGameState.class);
 
-    protected static final int PlayerInitialCardNum = 52 / 4;
+    protected static final int PlayerCount = 4;
+
+    protected static final int PlayerInitialCardNum = 52 / PlayerCount;
 
     public FourPlayerGame()
     {
@@ -51,10 +53,13 @@ public class FourPlayerGame extends CDDGame {
     @Override
     public void prepare(Player[] pPlayers)
     {
-        mPlayers = Arrays.copyOf(pPlayers, pPlayers.length);
+        if (curStateIs(EGameState.Idle) && pPlayers.length == PlayerCount)
+        {
+            mPlayers = Arrays.copyOf(pPlayers, pPlayers.length);
 
-        dealCards();
-        enterState(EGameState.Prepared);
+            dealCards();
+            enterState(EGameState.Prepared);
+        }
     }
 
     protected void dealCards()
@@ -75,7 +80,7 @@ public class FourPlayerGame extends CDDGame {
     @Override
     public void start()
     {
-        if (mCurrentState == getState(EGameState.Prepared))
+        if (curStateIs(EGameState.Prepared))
         {
             enterState(EGameState.RoundHead);
         }
@@ -101,5 +106,10 @@ public class FourPlayerGame extends CDDGame {
     public void enterState(EGameState pState)
     {
         enterState(getState(pState));
+    }
+
+    public boolean curStateIs(EGameState pState)
+    {
+        return mCurrentState == getState(pState);
     }
 }
