@@ -1,9 +1,9 @@
-package cn.saltedfish.saltedcdd.title;
+package cn.saltedfish.saltedcdd.stage.title;
 
 import android.os.Bundle;
 
 import cn.saltedfish.saltedcdd.R;
-import cn.saltedfish.saltedcdd.FullscreenActivity;
+import cn.saltedfish.saltedcdd.stage.FullscreenActivity;
 
 public class TitleActivity extends FullscreenActivity {
     @Override

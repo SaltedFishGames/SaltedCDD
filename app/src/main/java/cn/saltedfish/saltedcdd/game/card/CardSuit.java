@@ -1,6 +1,6 @@
-package cn.saltedfish.cdd.card;
+package cn.saltedfish.saltedcdd.game.card;
 
-public enum CardSuitEnum {
+public enum CardSuit {
     CLUB, // 梅花
     SPADE, // 黑桃
     DIAMOND, // 方片

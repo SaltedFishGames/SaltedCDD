@@ -1,6 +1,6 @@
-package cn.saltedfish.cdd.card;
+package cn.saltedfish.saltedcdd.game.card;
 
-public enum CardNumberEnum {
+public enum CardNumber {
     NUM_3,
     NUM_4,
     NUM_5,
