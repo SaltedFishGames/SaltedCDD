@@ -1,7 +1,7 @@
 package cn.saltedfish.saltedcdd.game;
 
 import cn.saltedfish.saltedcdd.game.card.CardFactory;
-import cn.saltedfish.saltedcdd.game.fourplayer.GameStateFactory;
+import cn.saltedfish.saltedcdd.game.routine.GameStateFactory;
 
 public abstract class CDDGame {
     protected Player[] mPlayers;
