@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Salted CDD</string>
+    <string name="btnName_startGame">Start New Game</string>
+    <string name="btnName_setting">Setting</string>
+    <string name="btnName_exit">Exit</string>
 </resources>
