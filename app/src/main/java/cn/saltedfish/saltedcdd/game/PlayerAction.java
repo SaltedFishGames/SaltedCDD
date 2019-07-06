@@ -1,5 +1,7 @@
 package cn.saltedfish.saltedcdd.game;
 
+import cn.saltedfish.saltedcdd.game.pattern.CardGroup;
+
 public class PlayerAction {
     public EActionType mAction;
     public CardGroup mCards;

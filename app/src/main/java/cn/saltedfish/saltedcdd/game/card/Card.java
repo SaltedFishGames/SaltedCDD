@@ -31,4 +31,9 @@ public class Card {
     {
         mId = pId;
     }
+
+    public boolean equals(ECardNumber pNumber, ECardSuit pSuit)
+    {
+        return mNumber == pNumber && mSuit == pSuit;
+    }
 }

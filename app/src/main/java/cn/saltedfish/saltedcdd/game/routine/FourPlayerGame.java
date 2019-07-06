@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Random;
 
 import cn.saltedfish.saltedcdd.game.CDDGame;
+import cn.saltedfish.saltedcdd.game.pattern.CardGroup;
 import cn.saltedfish.saltedcdd.game.EActionType;
 import cn.saltedfish.saltedcdd.game.GameBoard;
 import cn.saltedfish.saltedcdd.game.GameHistory;
@@ -17,13 +18,15 @@ import cn.saltedfish.saltedcdd.game.Player;
 import cn.saltedfish.saltedcdd.game.PlayerAction;
 import cn.saltedfish.saltedcdd.game.card.Card;
 import cn.saltedfish.saltedcdd.game.card.CardFactory;
+import cn.saltedfish.saltedcdd.game.card.ECardNumber;
+import cn.saltedfish.saltedcdd.game.card.ECardSuit;
+import cn.saltedfish.saltedcdd.game.pattern.EPatternType;
+import cn.saltedfish.saltedcdd.game.pattern.PatternRecognizer;
 
 public class FourPlayerGame extends CDDGame {
-    protected EnumMap<EGameState, GameState> mStateCache = new EnumMap<>(EGameState.class);
+    public static final int PlayerCount = 4;
 
-    protected static final int PlayerCount = 4;
-
-    protected static final int PlayerInitialCardNum = 52 / PlayerCount;
+    public static final int PlayerInitialCardNum = 52 / PlayerCount;
 
     public FourPlayerGame()
     {
@@ -31,38 +34,10 @@ public class FourPlayerGame extends CDDGame {
         mCardFactory = new CardFactory();
         mHistory = new GameHistory();
 
-        for (EGameState state : EGameState.values())
-        {
-            try
-            {
-                mStateCache.put(state, state.getClazz().newInstance());
-            }
-            catch (IllegalAccessException e)
-            {
-                e.printStackTrace();
-            }
-            catch (InstantiationException e)
-            {
-                e.printStackTrace();
-            }
-        }
-
-        enterState(EGameState.Idle);
+        enterState(IdleState.class);
     }
 
-    @Override
-    public void prepare(Player[] pPlayers)
-    {
-        if (curStateIs(EGameState.Idle) && pPlayers.length == PlayerCount)
-        {
-            mPlayers = Arrays.copyOf(pPlayers, pPlayers.length);
-
-            dealCards();
-            enterState(EGameState.Prepared);
-        }
-    }
-
-    protected void dealCards()
+    public void dealCards()
     {
         Card[] deck = mCardFactory.createDeck();
         List<Card> cardList = Arrays.asList(deck);
@@ -77,39 +52,74 @@ public class FourPlayerGame extends CDDGame {
         }
     }
 
-    @Override
-    public void start()
+    protected void decideFirstPlayer()
     {
-        if (curStateIs(EGameState.Prepared))
+        for (int i = 0; i < mPlayers.length; i++)
         {
-            enterState(EGameState.RoundHead);
+            if (mPlayers[i].hasCard(ECardNumber.NUM_3, ECardSuit.DIAMOND))
+            {
+                setCurrentTurnedPlayer(mPlayers[i]);
+                return;
+            }
+        }
+    }
+
+    @Override
+    public void prepare(Player[] pPlayers)
+    {
+        mPlayers = Arrays.copyOf(pPlayers, pPlayers.length);
+
+        if (pPlayers.length == PlayerCount)
+        {
+            mCurrentState.onPrepare(this);
+        }
+    }
+
+    @Override
+    public void startGame()
+    {
+        mCurrentState.onStartGame(this);
+    }
+
+    @Override
+    public void onGameEnded()
+    {
+        if (mEventListener != null)
+        {
+            mEventListener.onGameEnded();
+        }
+    }
+
+    @Override
+    public boolean isActionAllowed(Player pPlayer, EActionType pAction, Collection<Card> pCards)
+    {
+        if (mCurrentState != null)
+        {
+            return mCurrentState.isActionAllowed(this, pPlayer, pAction, pCards);
+        }
+        else
+        {
+            return false;
         }
     }
 
     @Override
     public void onPlayerAction(Player pPlayer, EActionType pAction, Collection<Card> pCards)
     {
-        // mHistory.getCurrentRound().add(new PlayerAction(pPlayer.mId, pAction, ));
+        CardGroup group = PatternRecognizer.recognize(pCards);
+        if (group.mType != EPatternType.Unknown)
+        {
+            mHistory.getCurrentRound().add(new PlayerAction(pPlayer.mId, pAction, group));
+            if (mEventListener != null)
+            {
+                mEventListener.onPlayerAction(pPlayer, pAction, group.mCards);
+            }
+        }
     }
 
     @Override
-    public void enterNewRound()
+    public void turnToNextPlayer()
     {
-        mHistory.newRound();
-    }
-
-    protected GameState getState(EGameState pState)
-    {
-        return mStateCache.get(pState);
-    }
-
-    public void enterState(EGameState pState)
-    {
-        enterState(getState(pState));
-    }
-
-    public boolean curStateIs(EGameState pState)
-    {
-        return mCurrentState == getState(pState);
+        setCurrentTurnedPlayer(mPlayers[(getCurrentTurnedPlayer().mId + 1) % PlayerCount]);
     }
 }
