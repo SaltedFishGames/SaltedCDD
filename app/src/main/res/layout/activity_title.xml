@@ -4,8 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+<<<<<<< HEAD
     android:background="@color/colorPrimary"
     tools:context=".title.TitleActivity">
+=======
+    tools:context=".stage.title.TitleActivity">
+>>>>>>> 55370c802983f7548cc50960bb5c37f2d0f493bb
 
     <TextView
         android:id="@+id/textView"
