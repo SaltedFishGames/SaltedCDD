@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.EnumMap;
 import java.util.List;
 import java.util.Random;
 
@@ -13,13 +12,10 @@ import cn.saltedfish.saltedcdd.game.pattern.CardGroup;
 import cn.saltedfish.saltedcdd.game.EActionType;
 import cn.saltedfish.saltedcdd.game.GameBoard;
 import cn.saltedfish.saltedcdd.game.GameHistory;
-import cn.saltedfish.saltedcdd.game.GameState;
 import cn.saltedfish.saltedcdd.game.Player;
 import cn.saltedfish.saltedcdd.game.PlayerAction;
 import cn.saltedfish.saltedcdd.game.card.Card;
 import cn.saltedfish.saltedcdd.game.card.CardFactory;
-import cn.saltedfish.saltedcdd.game.card.ECardNumber;
-import cn.saltedfish.saltedcdd.game.card.ECardSuit;
 import cn.saltedfish.saltedcdd.game.pattern.EPatternType;
 import cn.saltedfish.saltedcdd.game.pattern.PatternRecognizer;
 
@@ -52,18 +48,6 @@ public class FourPlayerGame extends CDDGame {
         }
     }
 
-    protected void decideFirstPlayer()
-    {
-        for (int i = 0; i < mPlayers.length; i++)
-        {
-            if (mPlayers[i].hasCard(ECardNumber.NUM_3, ECardSuit.DIAMOND))
-            {
-                setCurrentTurnedPlayer(mPlayers[i]);
-                return;
-            }
-        }
-    }
-
     @Override
     public void prepare(Player[] pPlayers)
     {
@@ -82,44 +66,75 @@ public class FourPlayerGame extends CDDGame {
     }
 
     @Override
-    public void onGameEnded()
-    {
-        if (mEventListener != null)
-        {
-            mEventListener.onGameEnded();
-        }
-    }
-
-    @Override
     public boolean isActionAllowed(Player pPlayer, EActionType pAction, Collection<Card> pCards)
     {
-        if (mCurrentState != null)
-        {
-            return mCurrentState.isActionAllowed(this, pPlayer, pAction, pCards);
-        }
-        else
+        if (mCurrentState == null)
         {
             return false;
         }
+
+        switch (pAction)
+        {
+            case ShowCard:
+                return mCurrentState.isShowCardAllowed(this, pPlayer, pCards);
+            case Pass:
+                return mCurrentState.isPassAllowed(this, pPlayer);
+            default:
+                return false;
+        }
     }
 
     @Override
-    public void onPlayerAction(Player pPlayer, EActionType pAction, Collection<Card> pCards)
+    public boolean onPlayerAction(Player pPlayer, EActionType pAction, Collection<Card> pCards)
     {
-        CardGroup group = PatternRecognizer.recognize(pCards);
-        if (group.mType != EPatternType.Unknown)
+        if (mCurrentState == null)
         {
-            mHistory.getCurrentRound().add(new PlayerAction(pPlayer.mId, pAction, group));
+            return false;
+        }
+
+        CardGroup group = null;
+        boolean accepted = false;
+
+        switch (pAction)
+        {
+            case ShowCard:
+                group = PatternRecognizer.recognize(pCards);
+                if (group.mType != EPatternType.Unknown)
+                {
+                    accepted = mCurrentState.onPlayerShowCard(this, pPlayer, group);
+                }
+                break;
+            case Pass:
+                accepted = mCurrentState.onPlayerPass(this, pPlayer);
+                break;
+        }
+
+        if (accepted)
+        {
+            mHistory.getCurrentRound().add(new PlayerAction(
+                    pPlayer.mId,
+                    pAction,
+                    group));
             if (mEventListener != null)
             {
-                mEventListener.onPlayerAction(pPlayer, pAction, group.mCards);
+                mEventListener.onPlayerAction(pPlayer, pAction, group);
             }
+
+            turnToNextPlayer();
         }
+
+        return accepted;
     }
 
     @Override
     public void turnToNextPlayer()
     {
         setCurrentTurnedPlayer(mPlayers[(getCurrentTurnedPlayer().mId + 1) % PlayerCount]);
+    }
+
+    @Override
+    public int getPlayerCount()
+    {
+        return PlayerCount;
     }
 }

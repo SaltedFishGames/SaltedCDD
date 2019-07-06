@@ -7,9 +7,13 @@ import cn.saltedfish.saltedcdd.game.card.Card;
 public class PatternRecognizer {
     public static CardGroup recognize(Collection<Card> pCards)
     {
-        CardGroup group = new CardGroup(pCards);
-
         // do recognize
+
+
+        CardGroup group = null;
+        // group.mType = ...
+        // group.mCriticalCard = ...
+        group.sort();
         return group;
     }
 

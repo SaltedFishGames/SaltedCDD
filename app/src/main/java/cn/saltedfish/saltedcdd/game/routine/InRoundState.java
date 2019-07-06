@@ -4,40 +4,51 @@ import java.util.Collection;
 
 import cn.saltedfish.saltedcdd.game.EActionType;
 import cn.saltedfish.saltedcdd.game.GameState;
-import cn.saltedfish.saltedcdd.game.IGameStateInterface;
+import cn.saltedfish.saltedcdd.game.IGameOperationBridge;
 import cn.saltedfish.saltedcdd.game.Player;
 import cn.saltedfish.saltedcdd.game.card.Card;
+import cn.saltedfish.saltedcdd.game.pattern.CardGroup;
+import cn.saltedfish.saltedcdd.game.pattern.EPatternType;
+import cn.saltedfish.saltedcdd.game.pattern.PatternRecognizer;
 
 public class InRoundState extends GameState {
     @Override
-    public boolean isActionAllowed(IGameStateInterface pGame, Player pPlayer, EActionType pAction, Collection<Card> pCards)
+    public boolean isShowCardAllowed(IGameOperationBridge pGame, Player pPlayer, Collection<Card> pCards)
     {
-        if (pGame.getCurrentTurnedPlayer() != pPlayer)
+        if (pPlayer == pGame.getCurrentTurnedPlayer())
         {
-            return false;
+            return PatternRecognizer.getPatternType(pCards) != EPatternType.Unknown;
         }
-        return true;
+        return false;
     }
 
     @Override
-    public boolean onPlayerAction(IGameStateInterface pGame, Player pPlayer, EActionType pAction, Collection<Card> pCards)
+    public boolean isPassAllowed(IGameOperationBridge pGame, Player pPlayer)
     {
-        if (pGame.getCurrentTurnedPlayer() != pPlayer)
-        {
-            return false;
-        }
-        switch (pAction)
-        {
-            case Pass:
-                if (pGame.getCurrentRound().getContinuousPassActionCount() - 1
-                        == FourPlayerGame.PlayerCount - 1)
-                {
-                    pGame.enterState(RoundHeadState.class);
-                }
-                break;
-            case ShowCard:
+        return pPlayer == pGame.getCurrentTurnedPlayer();
+    }
 
-                break;
+    @Override
+    public boolean onPlayerShowCard(IGameOperationBridge pGame, Player pPlayer, CardGroup pCards)
+    {
+        if (pPlayer != pGame.getCurrentTurnedPlayer())
+            return false;
+
+        CardGroup lastGroup = pGame.getCurrentRound().getLastShowCardAction().mCards;
+
+        return lastGroup.isSameType(pCards) && pCards.compareTo(lastGroup) > 0;
+    }
+
+    @Override
+    public boolean onPlayerPass(IGameOperationBridge pGame, Player pPlayer)
+    {
+        if (pPlayer != pGame.getCurrentTurnedPlayer())
+            return false;
+
+        if (pGame.getCurrentRound().getContinuousPassActionCount() + 1 ==
+            pGame.getPlayerCount() - 1)
+        {
+            pGame.enterState(RoundHeadState.class);
         }
         return true;
     }

@@ -1,13 +1,18 @@
 package cn.saltedfish.saltedcdd.game;
 
-public interface IGameStateInterface {
+public interface IGameOperationBridge {
     void dealCards();
     void enterState(Class<? extends GameState> pNewStateClass);
-    void enterNewRound();
     void setCurrentTurnedPlayer(Player pPlayer);
 
+    void onEnterNewRound();
+    void onGameEnded();
+
     GameRound getCurrentRound();
+
     Player getCurrentTurnedPlayer();
-    boolean curStateIs(Class<? extends GameState> pStateClass);
     Player getPlayer(int id);
+    int getPlayerCount();
+
+    boolean curStateIs(Class<? extends GameState> pStateClass);
 }

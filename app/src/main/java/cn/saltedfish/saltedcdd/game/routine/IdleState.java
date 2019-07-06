@@ -1,10 +1,11 @@
 package cn.saltedfish.saltedcdd.game.routine;
 
 import cn.saltedfish.saltedcdd.game.GameState;
-import cn.saltedfish.saltedcdd.game.IGameStateInterface;
+import cn.saltedfish.saltedcdd.game.IGameOperationBridge;
 
 public class IdleState extends GameState {
-    public void onPrepare(IGameStateInterface pGame)
+    @Override
+    public void onPrepare(IGameOperationBridge pGame)
     {
         pGame.dealCards();
         pGame.enterState(PreparedState.class);

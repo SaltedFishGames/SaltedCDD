@@ -4,10 +4,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import cn.saltedfish.saltedcdd.game.card.Card;
-import cn.saltedfish.saltedcdd.game.card.ECardNumber;
-import cn.saltedfish.saltedcdd.game.pattern.EPatternType;
 
-public class CardGroup {
+public abstract class CardGroup implements Comparable<CardGroup>{
     public ArrayList<Card> mCards;
 
     public EPatternType mType = EPatternType.Unrecognized;
@@ -18,4 +16,18 @@ public class CardGroup {
     {
         mCards = new ArrayList<>(pCards);
     }
+
+    public boolean isSameType(CardGroup pGroup)
+    {
+        if (pGroup == null)
+        {
+            return false;
+        }
+        return pGroup.mType == mType;
+    }
+
+    @Override
+    public abstract int compareTo(CardGroup pGroup);
+
+    public abstract void sort();
 }

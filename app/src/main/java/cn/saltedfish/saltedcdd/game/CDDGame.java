@@ -1,13 +1,12 @@
 package cn.saltedfish.saltedcdd.game;
 
 import java.util.Collection;
-import java.util.Dictionary;
 import java.util.HashMap;
 
 import cn.saltedfish.saltedcdd.game.card.Card;
 import cn.saltedfish.saltedcdd.game.card.CardFactory;
 
-public abstract class CDDGame implements IGameStateInterface {
+public abstract class CDDGame implements IGameOperationBridge {
     protected Player[] mPlayers;
 
     protected GameBoard mBoard;
@@ -20,7 +19,7 @@ public abstract class CDDGame implements IGameStateInterface {
 
     protected GameState mCurrentState;
 
-    protected Player mCurrentTurn;
+    protected Player mCurrentTurnedPlayer;
 
     protected HashMap<Class<? extends GameState>, GameState> mStateCache = new HashMap<>();
 
@@ -34,9 +33,7 @@ public abstract class CDDGame implements IGameStateInterface {
 
     public abstract void startGame();
 
-    public abstract void onGameEnded();
-
-    public abstract void onPlayerAction(Player pPlayer, EActionType pAction, Collection<Card> pCards);
+    public abstract boolean onPlayerAction(Player pPlayer, EActionType pAction, Collection<Card> pCards);
 
     // msg from state
     public void enterState(Class<? extends GameState> pNewStateClass)
@@ -77,7 +74,7 @@ public abstract class CDDGame implements IGameStateInterface {
         }
     }
 
-    public void enterNewRound()
+    public void onEnterNewRound()
     {
         mHistory.newRound();
         if (mEventListener != null)
@@ -88,10 +85,18 @@ public abstract class CDDGame implements IGameStateInterface {
 
     public void setCurrentTurnedPlayer(Player pPlayer)
     {
-        mCurrentTurn = pPlayer;
+        mCurrentTurnedPlayer = pPlayer;
         if (mEventListener != null)
         {
             mEventListener.onPlayerTurn(pPlayer);
+        }
+    }
+
+    public void onGameEnded()
+    {
+        if (mEventListener != null)
+        {
+            mEventListener.onGameEnded();
         }
     }
 
@@ -105,7 +110,7 @@ public abstract class CDDGame implements IGameStateInterface {
 
     public Player getCurrentTurnedPlayer()
     {
-        return mCurrentTurn;
+        return mCurrentTurnedPlayer;
     }
 
     public Player getPlayer(int id)
@@ -119,4 +124,6 @@ public abstract class CDDGame implements IGameStateInterface {
     }
 
     public abstract void turnToNextPlayer();
+
+    public abstract int getPlayerCount();
 }
