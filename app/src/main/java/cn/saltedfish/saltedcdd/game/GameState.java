@@ -1,6 +1,6 @@
 package cn.saltedfish.saltedcdd.game;
 
-import java.util.Collection;
+import java.util.List;
 
 import cn.saltedfish.saltedcdd.game.card.Card;
 import cn.saltedfish.saltedcdd.game.pattern.CardGroup;
@@ -32,7 +32,7 @@ public abstract class GameState {
 
     }
 
-    public boolean isShowCardAllowed(IGameOperationBridge pGame, Player pPlayer, Collection<Card> pCards)
+    public boolean isShowCardAllowed(IGameOperationBridge pGame, Player pPlayer, List<Card> pCards)
     {
         return false;
     }

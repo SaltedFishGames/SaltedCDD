@@ -1,18 +1,29 @@
 package cn.saltedfish.saltedcdd.game.pattern;
 
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 import cn.saltedfish.saltedcdd.game.card.Card;
 
-public abstract class CardGroup implements Comparable<CardGroup>{
+public class CardGroup implements Comparable<CardGroup>{
     public ArrayList<Card> mCards;
 
     public EPatternType mType = EPatternType.Unrecognized;
 
     public Card mCriticalCard;
 
-    public CardGroup(Collection<Card> pCards)
+    public CardGroup(Card[] pCards)
+    {
+        mCards = new ArrayList<>();
+        for (Card card : pCards)
+        {
+            mCards.add(card);
+        }
+    }
+
+    public CardGroup(List<Card> pCards)
     {
         mCards = new ArrayList<>(pCards);
     }
@@ -27,7 +38,27 @@ public abstract class CardGroup implements Comparable<CardGroup>{
     }
 
     @Override
-    public abstract int compareTo(CardGroup pGroup);
+    public int compareTo(CardGroup pGroup)
+    {
+        if (isSameType(pGroup))
+        {
+            return mCriticalCard.compareTo(pGroup.mCriticalCard);
+        }
+        return 0;
+    }
 
-    public abstract void sort();
+    public void sort()
+    {
+        Collections.sort(mCards);
+    }
+
+    public int count()
+    {
+        return mCards.size();
+    }
+
+    public Card get(int index)
+    {
+        return mCards.get(index);
+    }
 }

@@ -45,6 +45,7 @@ public class FourPlayerGame extends CDDGame {
         {
             mPlayers[i].mId = i;
             mPlayers[i].mCards = new ArrayList<>(cardList.subList(i * PlayerInitialCardNum, (i + 1) * PlayerInitialCardNum));
+            Collections.sort(mPlayers[i].mCards);
         }
     }
 
@@ -66,7 +67,7 @@ public class FourPlayerGame extends CDDGame {
     }
 
     @Override
-    public boolean isActionAllowed(Player pPlayer, EActionType pAction, Collection<Card> pCards)
+    public boolean isActionAllowed(Player pPlayer, EActionType pAction, List<Card> pCards)
     {
         if (mCurrentState == null)
         {
@@ -85,7 +86,7 @@ public class FourPlayerGame extends CDDGame {
     }
 
     @Override
-    public boolean onPlayerAction(Player pPlayer, EActionType pAction, Collection<Card> pCards)
+    public boolean onPlayerAction(Player pPlayer, EActionType pAction, List<Card> pCards)
     {
         if (mCurrentState == null)
         {

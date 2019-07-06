@@ -2,6 +2,7 @@ package cn.saltedfish.saltedcdd.game;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 
 import cn.saltedfish.saltedcdd.game.card.Card;
 import cn.saltedfish.saltedcdd.game.card.CardFactory;
@@ -33,7 +34,7 @@ public abstract class CDDGame implements IGameOperationBridge {
 
     public abstract void startGame();
 
-    public abstract boolean onPlayerAction(Player pPlayer, EActionType pAction, Collection<Card> pCards);
+    public abstract boolean onPlayerAction(Player pPlayer, EActionType pAction, List<Card> pCards);
 
     // msg from state
     public void enterState(Class<? extends GameState> pNewStateClass)
@@ -101,7 +102,7 @@ public abstract class CDDGame implements IGameOperationBridge {
     }
 
     // get context data
-    public abstract boolean isActionAllowed(Player pPlayer, EActionType pAction, Collection<Card> pCards);
+    public abstract boolean isActionAllowed(Player pPlayer, EActionType pAction, List<Card> pCards);
 
     public GameRound getCurrentRound()
     {
