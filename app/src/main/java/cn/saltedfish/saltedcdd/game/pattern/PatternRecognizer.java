@@ -1,28 +1,27 @@
 package cn.saltedfish.saltedcdd.game.pattern;
 
-import java.util.Collection;
 import java.util.List;
 
 import cn.saltedfish.saltedcdd.game.card.Card;
 
 public class PatternRecognizer {
-    protected static EPatternType[] mSingleCardPatterns = new EPatternType[] {
+    protected static EPatternType[] sSingleCardPatterns = new EPatternType[] {
         EPatternType.Single
     };
 
-    protected static EPatternType[] mDoubleCardPatterns = new EPatternType[] {
+    protected static EPatternType[] sDoubleCardPatterns = new EPatternType[] {
         EPatternType.Pair
     };
 
-    protected static EPatternType[] mTripleCardPatterns = new EPatternType[] {
+    protected static EPatternType[] sTripleCardPatterns = new EPatternType[] {
         EPatternType.Triple
     };
 
-    protected static EPatternType[] mQuadrupleCardPatterns = new EPatternType[] {
+    protected static EPatternType[] sQuadrupleCardPatterns = new EPatternType[] {
         EPatternType.Quadruple
     };
 
-    protected static EPatternType[] mQuintupleCardPatterns = new EPatternType[] {
+    protected static EPatternType[] sQuintupleCardPatterns = new EPatternType[] {
         EPatternType.StraightFlush,
         EPatternType.FourOfAKind,
         EPatternType.FullHouse,
@@ -62,15 +61,15 @@ public class PatternRecognizer {
         switch (num)
         {
             case 1:
-                return mSingleCardPatterns;
+                return sSingleCardPatterns;
             case 2:
-                return mDoubleCardPatterns;
+                return sDoubleCardPatterns;
             case 3:
-                return mTripleCardPatterns;
+                return sTripleCardPatterns;
             case 4:
-                return mQuadrupleCardPatterns;
+                return sQuadrupleCardPatterns;
             case 5:
-                return mQuintupleCardPatterns;
+                return sQuintupleCardPatterns;
             default:
                 return null;
         }

@@ -17,11 +17,6 @@ public abstract class GameState {
 
     }
 
-    public void onGameEnded(IGameOperationBridge pGame)
-    {
-
-    }
-
     public void onEnterState(IGameOperationBridge pGame)
     {
 
