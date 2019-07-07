@@ -1,5 +1,10 @@
 package cn.saltedfish.saltedcdd.game;
 
+import java.util.Collection;
+
+import cn.saltedfish.saltedcdd.game.card.Card;
+import cn.saltedfish.saltedcdd.game.pattern.CardGroup;
+
 public class PlayerAction {
     public EActionType mAction;
     public CardGroup mCards;

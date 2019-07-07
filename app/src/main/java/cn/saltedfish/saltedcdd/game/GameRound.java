@@ -18,4 +18,32 @@ public class GameRound {
     {
         mActions.add(pAction);
     }
+
+    public PlayerAction getLastShowCardAction()
+    {
+        for (int i = mActions.size() - 1; i >= 0; i--)
+        {
+            PlayerAction action = mActions.get(i);
+            if (action.mAction == EActionType.ShowCard)
+            {
+                return action;
+            }
+        }
+        return null;
+    }
+
+    public int getContinuousPassActionCount()
+    {
+        int count = 0;
+        for (int i = mActions.size() - 1; i >= 0; i--)
+        {
+            PlayerAction action = mActions.get(i);
+            if (action.mAction == EActionType.ShowCard)
+            {
+                break;
+            }
+            count++;
+        }
+        return count;
+    }
 }
