@@ -20,10 +20,14 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".gameplay.GamePlayActivity"
+            android:name=".stage.gameplay.GamePlayActivity"
             android:screenOrientation="landscape"
             android:configChanges="keyboardHidden|orientation|screenSize">
-
+        </activity>
+        <activity
+            android:name=".stage.setting.SettingActivity"
+            android:screenOrientation="landscape"
+            android:configChanges="keyboardHidden|orientation|screenSize">
         </activity>
     </application>
 

@@ -1,20 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorPrimary">
 
     <ImageButton
-        android:id="@+id/button_pause"
+        android:id="@+id/button_back"
         android:layout_width="60dp"
         android:layout_height="54dp"
-        android:background="@drawable/btn_pause"
-        android:paddingLeft="20dp"
+        android:background="@drawable/btn_back"
+        android:paddingLeft="8dp"
         android:paddingRight="15dp"
         android:scaleType="centerInside"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/icon_play" />
+        app:srcCompat="@drawable/icon_return" />
 </android.support.constraint.ConstraintLayout>

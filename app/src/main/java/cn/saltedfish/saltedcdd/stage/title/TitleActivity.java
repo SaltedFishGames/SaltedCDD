@@ -6,12 +6,9 @@ import android.view.View;
 import android.widget.Button;
 
 import cn.saltedfish.saltedcdd.R;
-<<<<<<< HEAD:app/src/main/java/cn/saltedfish/saltedcdd/title/TitleActivity.java
-import cn.saltedfish.saltedcdd.FullscreenActivity;
-import cn.saltedfish.saltedcdd.gameplay.GamePlayActivity;
-=======
 import cn.saltedfish.saltedcdd.stage.FullscreenActivity;
->>>>>>> 55370c802983f7548cc50960bb5c37f2d0f493bb:app/src/main/java/cn/saltedfish/saltedcdd/stage/title/TitleActivity.java
+import cn.saltedfish.saltedcdd.stage.gameplay.GamePlayActivity;
+import cn.saltedfish.saltedcdd.stage.setting.SettingActivity;
 
 public class TitleActivity extends FullscreenActivity {
 
@@ -21,6 +18,7 @@ public class TitleActivity extends FullscreenActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_title);
 
+        /*开始游戏界面跳转*/
         Button btn_startGame = findViewById(R.id.start_game_btn);
         btn_startGame.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -30,7 +28,17 @@ public class TitleActivity extends FullscreenActivity {
                 overridePendingTransition(R.anim.activity_in, R.anim.activity_out);
             }
         });
-
+        /*设置界面跳转*/
+        Button btn_setting = findViewById(R.id.setting_btn);
+        btn_setting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent setting = new Intent(TitleActivity.this, SettingActivity.class);
+                startActivity(setting);
+                overridePendingTransition(R.anim.activity_in, R.anim.activity_out);
+            }
+        });
+        /*退出游戏*/
         Button btn_exit = findViewById(R.id.exit_btn);
         btn_exit.setOnClickListener(new View.OnClickListener() {
             @Override
