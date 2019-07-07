@@ -8,7 +8,7 @@
     tools:context=".stage.title.TitleActivity">
 
     <Button
-        android:id="@+id/start_game_btn"
+        android:id="@+id/button_startGame"
         android:layout_width="@android:dimen/thumbnail_width"
         android:layout_height="wrap_content"
         android:background="@drawable/btn_main_normal"
@@ -16,13 +16,13 @@
         android:textColor="@android:color/background_light"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/button_setting"
+        app:layout_constraintStart_toStartOf="@+id/button_setting"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.5" />
 
     <Button
-        android:id="@+id/setting_btn"
+        android:id="@+id/button_setting"
         android:layout_width="@android:dimen/thumbnail_width"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
@@ -30,12 +30,12 @@
         android:text="@string/btnName_setting"
         android:textColor="@android:color/background_light"
         android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/start_game_btn" />
+        app:layout_constraintEnd_toEndOf="@+id/button_exit"
+        app:layout_constraintStart_toStartOf="@+id/button_exit"
+        app:layout_constraintTop_toBottomOf="@+id/button_startGame" />
 
     <Button
-        android:id="@+id/exit_btn"
+        android:id="@+id/button_exit"
         android:layout_width="@android:dimen/thumbnail_width"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
@@ -45,6 +45,6 @@
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/setting_btn" />
+        app:layout_constraintTop_toBottomOf="@+id/button_setting" />
 
 </android.support.constraint.ConstraintLayout>

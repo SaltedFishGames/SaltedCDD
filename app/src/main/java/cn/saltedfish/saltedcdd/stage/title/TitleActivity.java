@@ -19,7 +19,7 @@ public class TitleActivity extends FullscreenActivity {
         setContentView(R.layout.activity_title);
 
         /*开始游戏界面跳转*/
-        Button btn_startGame = findViewById(R.id.start_game_btn);
+        Button btn_startGame = findViewById(R.id.button_startGame);
         btn_startGame.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -29,7 +29,7 @@ public class TitleActivity extends FullscreenActivity {
             }
         });
         /*设置界面跳转*/
-        Button btn_setting = findViewById(R.id.setting_btn);
+        Button btn_setting = findViewById(R.id.button_setting);
         btn_setting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -39,7 +39,7 @@ public class TitleActivity extends FullscreenActivity {
             }
         });
         /*退出游戏*/
-        Button btn_exit = findViewById(R.id.exit_btn);
+        Button btn_exit = findViewById(R.id.button_exit);
         btn_exit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
