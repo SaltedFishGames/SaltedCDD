@@ -31,7 +31,11 @@ public class PatternRecognizer {
 
     public static CardGroup recognize(List<Card> pCards)
     {
-        CardGroup group = new CardGroup(pCards);
+        return recognize(new CardGroup(pCards));
+    }
+
+    public static CardGroup recognize(CardGroup group)
+    {
         group.sort();
 
         EPatternType[] patterns = getAvailablePatterns(group.count());

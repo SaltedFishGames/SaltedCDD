@@ -1,4 +1,4 @@
-package cn.saltedfish.saltedcdd;
+package cn.saltedfish.saltedcdd.util;
 
 public class ValueContainer<T> {
     private T mValue;

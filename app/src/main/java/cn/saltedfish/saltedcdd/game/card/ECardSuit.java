@@ -15,7 +15,7 @@ public enum ECardSuit {
         mName = pName;
     }
 
-    int compareWeight(ECardSuit pOther)
+    public int compareWeight(ECardSuit pOther)
     {
         return mWeight - pOther.mWeight;
     }
@@ -23,6 +23,11 @@ public enum ECardSuit {
     public String getName()
     {
         return mName;
+    }
+
+    public int getWeight()
+    {
+        return mWeight;
     }
 
     public static ECardSuit fromString(String pName)

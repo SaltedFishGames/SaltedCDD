@@ -5,8 +5,6 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import cn.saltedfish.saltedcdd.game.CDDGame;
-import cn.saltedfish.saltedcdd.game.EActionType;
 import cn.saltedfish.saltedcdd.game.GameRound;
 import cn.saltedfish.saltedcdd.game.IGameEventListener;
 import cn.saltedfish.saltedcdd.game.Player;
@@ -14,8 +12,8 @@ import cn.saltedfish.saltedcdd.game.PlayerAction;
 import cn.saltedfish.saltedcdd.game.card.Card;
 import cn.saltedfish.saltedcdd.game.card.ECardNumber;
 import cn.saltedfish.saltedcdd.game.card.ECardSuit;
-import cn.saltedfish.saltedcdd.game.pattern.CardGroup;
 import cn.saltedfish.saltedcdd.game.routine.FourPlayerGame;
+import cn.saltedfish.saltedcdd.util.ValueContainer;
 
 import static org.junit.Assert.*;
 

@@ -7,7 +7,7 @@ import cn.saltedfish.saltedcdd.game.card.ECardNumber;
 import cn.saltedfish.saltedcdd.game.card.ECardSuit;
 
 public class PatternMatchUtil {
-    protected static ECardNumber[][] sStraightSets = new ECardNumber[][]{
+    protected static ECardNumber[][] sStraightPatterns = new ECardNumber[][]{
         new ECardNumber[] { ECardNumber.NUM_3, ECardNumber.NUM_4, ECardNumber.NUM_5, ECardNumber.NUM_A, ECardNumber.NUM_2 },
         new ECardNumber[] { ECardNumber.NUM_3, ECardNumber.NUM_4, ECardNumber.NUM_5, ECardNumber.NUM_6, ECardNumber.NUM_2 },
         new ECardNumber[] { ECardNumber.NUM_3, ECardNumber.NUM_4, ECardNumber.NUM_5, ECardNumber.NUM_6, ECardNumber.NUM_7 },
@@ -20,10 +20,30 @@ public class PatternMatchUtil {
         new ECardNumber[] { ECardNumber.NUM_10, ECardNumber.NUM_J, ECardNumber.NUM_Q, ECardNumber.NUM_K, ECardNumber.NUM_A },
     };
 
+    public static boolean isFiveStraightNumber(Card[] pCards)
+    {
+        for (ECardNumber[] pattern : sStraightPatterns)
+        {
+            boolean flag = true;
+            for (int i = 0; i < pattern.length; i++)
+            {
+                if (pCards[i].getNumber() != pattern[i])
+                {
+                    flag = false;
+                    break;
+                }
+            }
+            if (flag)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
 
     public static boolean isFiveStraightNumber(List<Card> pCards)
     {
-        for (ECardNumber[] pattern : sStraightSets)
+        for (ECardNumber[] pattern : sStraightPatterns)
         {
             boolean flag = true;
             for (int i = 0; i < pattern.length; i++)
@@ -77,4 +97,11 @@ public class PatternMatchUtil {
 
         return true;
     }
+
+    public static ECardNumber[][] getStraightPatterns()
+    {
+        return sStraightPatterns;
+    }
+
+
 }

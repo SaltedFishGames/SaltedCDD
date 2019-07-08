@@ -41,7 +41,7 @@ public class CardGroup implements Comparable<CardGroup>{
     {
         if (isComparableTo(pGroup))
         {
-            int result = mType.getWeight() - pGroup.mType.getWeight();
+            int result = mType.compareWeight(pGroup.mType);
             if (result == 0)
             {
                 return getCriticalCard().compareTo(pGroup.getCriticalCard());
@@ -64,6 +64,11 @@ public class CardGroup implements Comparable<CardGroup>{
     public Card get(int index)
     {
         return mCards.get(index);
+    }
+
+    public void recognize()
+    {
+        PatternRecognizer.recognize(this);
     }
 
     @Override
