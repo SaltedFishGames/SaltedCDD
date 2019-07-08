@@ -62,9 +62,4 @@ public class CDDGameTest {
          */
     }
 
-    @Test
-    public void testPairCard()
-    {
-        // CardGroup c1 = new CardGroup(new Card[] {  });
-    }
 }

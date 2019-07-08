@@ -39,7 +39,7 @@ public enum ECardNumber {
         return mName;
     }
 
-    public static ECardNumber fromName(String pName)
+    public static ECardNumber fromString(String pName)
     {
         for (ECardNumber number : ECardNumber.values())
         {

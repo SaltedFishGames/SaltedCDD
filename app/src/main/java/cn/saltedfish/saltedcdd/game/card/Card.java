@@ -53,4 +53,22 @@ public class Card implements Comparable<Card> {
     {
         return mSuit.getName() + mNumber.getName();
     }
+
+    public static Card fromString(String pStr)
+    {
+        String suitStr = pStr.substring(0, 1);
+        String numberStr = pStr.substring(1);
+
+        ECardSuit suit = ECardSuit.fromString(suitStr);
+        ECardNumber number = ECardNumber.NUM_3.fromString(numberStr);
+
+        if (suit != null && number != null)
+        {
+            return new Card(number, suit);
+        }
+        else
+        {
+            return null;
+        }
+    }
 }

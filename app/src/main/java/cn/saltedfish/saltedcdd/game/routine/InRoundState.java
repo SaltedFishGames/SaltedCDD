@@ -14,11 +14,18 @@ public class InRoundState extends GameState {
     @Override
     public boolean isShowCardAllowed(IGameOperationBridge pGame, Player pPlayer, List<Card> pCards)
     {
-        if (pPlayer == pGame.getCurrentTurnedPlayer())
-        {
-            return PatternRecognizer.getPatternType(pCards) != EPatternType.Unknown;
-        }
-        return false;
+        if (pPlayer != pGame.getCurrentTurnedPlayer())
+            return false;
+
+        if (!pPlayer.hasCards(pCards))
+            return false;
+
+        CardGroup lastGroup = pGame.getCurrentRound().getLastShowCardAction().mCards;
+        CardGroup group = PatternRecognizer.recognize(pCards);
+
+        return PatternRecognizer.getPatternType(pCards) != EPatternType.Unknown
+                && lastGroup.isSameType(group)
+                && group.compareTo(lastGroup) > 0;
     }
 
     @Override

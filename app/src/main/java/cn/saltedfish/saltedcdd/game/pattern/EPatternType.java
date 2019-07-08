@@ -1,6 +1,7 @@
 package cn.saltedfish.saltedcdd.game.pattern;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import cn.saltedfish.saltedcdd.game.card.Card;
 
@@ -55,13 +56,14 @@ public enum EPatternType {
     Pair { // 对子
         public boolean match(CardGroup pGroup)
         {
-            if (pGroup.count() == 2)
-                if(pGroup.mCards.get(0).getNumber() == pGroup.mCards.get(1).getNumber())
-                {
-                    pGroup.mType = this;
-                    pGroup.mCriticalCard = pGroup.get(1);
-                    return true;
-                }
+            if (pGroup.count() != 2) return false;
+
+            if (PatternMatchUtil.isSameNumber(pGroup.mCards))
+            {
+                pGroup.mType = this;
+                pGroup.mCriticalCard = pGroup.get(1);
+                return true;
+            }
             return false;
         }
 
@@ -81,14 +83,14 @@ public enum EPatternType {
     Triple { // 三张
         public boolean match(CardGroup pGroup)
         {
-            if(pGroup.count() == 3)
-                if(pGroup.mCards.get(0).getNumber() == pGroup.mCards.get(1).getNumber()
-                        && pGroup.mCards.get(1).getNumber() == pGroup.mCards.get(2).getNumber())
-                {
-                    pGroup.mType = this;
-                    pGroup.mCriticalCard = pGroup.get(2);
-                    return true;
-                }
+            if (pGroup.count() != 3) return false;
+
+            if (PatternMatchUtil.isSameNumber(pGroup.mCards))
+            {
+                pGroup.mType = this;
+                pGroup.mCriticalCard = pGroup.get(2);
+                return true;
+            }
             return false;
         }
         
@@ -108,15 +110,14 @@ public enum EPatternType {
     Quadruple { // 四张
         public boolean match(CardGroup pGroup)
         {
-            if(pGroup.count() == 4)
-                if(pGroup.mCards.get(0).getNumber() == pGroup.mCards.get(1).getNumber()
-                        && pGroup.mCards.get(1).getNumber() == pGroup.mCards.get(2).getNumber()
-                        && pGroup.mCards.get(2).getNumber() == pGroup.mCards.get(3).getNumber())
-                {
-                    pGroup.mType = this;
-                    pGroup.mCriticalCard = pGroup.get(3);
-                    return true;
-                }
+            if (pGroup.count() != 4) return false;
+
+            if (PatternMatchUtil.isSameNumber(pGroup.mCards))
+            {
+                pGroup.mType = this;
+                pGroup.mCriticalCard = pGroup.get(3);
+                return true;
+            }
             return false;
         }
 

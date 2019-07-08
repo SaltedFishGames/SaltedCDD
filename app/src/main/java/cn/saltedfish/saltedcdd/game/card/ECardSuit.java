@@ -1,10 +1,10 @@
 package cn.saltedfish.saltedcdd.game.card;
 
 public enum ECardSuit {
-    SPADE(1, "♠"), // 黑桃
-    HEART(2, "♥"), // 红桃
-    CLUB(3, "♣"), // 梅花
-    DIAMOND(4, "♦"); // 方片
+    DIAMOND(1, "♦"), // 方片
+    CLUB(2, "♣"), // 梅花
+    HEART(3, "♥"), // 红桃
+    SPADE(4, "♠"); // 黑桃
 
     int mWeight;
     String mName;
@@ -30,7 +30,7 @@ public enum ECardSuit {
         return mWeight;
     }
 
-    public static ECardSuit fromName(String pName)
+    public static ECardSuit fromString(String pName)
     {
         for (ECardSuit suit : ECardSuit.values())
         {
