@@ -10,9 +10,19 @@ public enum EPatternType {
         {
             return false;
         }
+
+        public boolean CanFollow(Card cCard, List<Card> pCards)
+        {
+            return false;
+        }
     },
     Unknown { // 未知牌型
         public boolean match(CardGroup pGroup)
+        {
+            return false;
+        }
+
+        public boolean CanFollow(Card cCard, List<Card> pCards)
         {
             return false;
         }
@@ -30,6 +40,15 @@ public enum EPatternType {
             }
             return false;
         }
+
+        public boolean CanFollow(Card cCard, List<Card> pCards)
+        {
+            for(Card card : pCards)
+                if(card.compareTo(cCard) > 0)
+                    return true;
+            
+            return false;
+        }
     },
 
     // 2 张牌
@@ -43,6 +62,17 @@ public enum EPatternType {
                     pGroup.mCriticalCard = pGroup.get(1);
                     return true;
                 }
+            return false;
+        }
+
+        public boolean CanFollow(Card cCard, List<Card> pCards)
+        {
+            int size = pCards.count();
+            for(int index = 1; index < size; index ++)
+                if(pCards.get(index).compareTo(cCard) > 0
+                && Pair.match(pCards.subList(index - 1, index + 1))
+                    return true;
+
             return false;
         }
     },
@@ -59,6 +89,17 @@ public enum EPatternType {
                     pGroup.mCriticalCard = pGroup.get(2);
                     return true;
                 }
+            return false;
+        }
+        
+        public boolean CanFollow(Card cCard, List<Card> pCards)
+        {
+            int size = pCards.count();
+            for(int index = 2; index < size; index ++)
+                if(pCards.get(index).compareTo(cCard) > 0
+                && Triple.match(pCards.subList(index - 2, index + 1)))
+                    return true;
+            
             return false;
         }
     },
@@ -78,6 +119,17 @@ public enum EPatternType {
                 }
             return false;
         }
+
+        public boolean CanFollow(Card cCard, List<Card> pCards)
+        {
+            int size = pCards.count();
+            for(int index = 3; index < size; index ++)
+                if(pCards.get(index).compareTo(cCard) > 0
+                && Quadruple.match(pCards.subList(index - 3, index + 1)))
+                    return true;
+            
+            return false;
+        }
     },
 
     // 5 张牌
@@ -95,6 +147,36 @@ public enum EPatternType {
 
             return false;
         }
+
+        public boolean CanFollow(Card cCard, List<Card> pCards)
+        {
+            boolean NumberKind[] = new boolean[14];
+            ECardSuit SuitKind[] = new ECardSuit[14];
+            for(Card card : pCards)
+            {
+                int index = card.getNumber().getWeight();
+                if(index >= 13) index -= 13;
+
+                NumberKind[index] = true;
+                SuitKind[index] = card.getSuit();
+            }
+            int count = cCard.getNumber().getWeight();
+            for(int index = count; index < 14; index ++)
+                if(index > count || (index == count 
+                && SuitKind[index].compareWeight(cCard.getSuit()) > 0))
+                {
+                    boolean isStraight = true;
+                    for(int i = index; i > i-5; i --)
+                        if(!NumberKind[i])
+                        {
+                            isStraight = false;
+                            break;
+                        }
+                    if(isStraight) return true;
+                }
+
+            return false;
+        }
     },
     Flush { // 同花
         public boolean match(CardGroup pGroup)
@@ -107,6 +189,24 @@ public enum EPatternType {
                 pGroup.mCriticalCard = pGroup.get(4);
                 return true;
             }
+            return false;
+        }
+
+        public boolean CanFollow(Card cCard, List<Card> pCards)
+        {
+            int Suitcount[] = new int[4];
+            boolean hasGreater[] = new boolean[4];
+            for(Card card : pCards)
+            {
+                int index = card.getSuit().getWeight() - 1;
+                Suitcount[index] ++;
+                if(card.compareTo(cCard) > 0)
+                    hasGreater[index] = true;
+            }
+            for(int index = 0; index < 4; index ++)
+                if(Suitcount[index] >= 5 && hasGreater[index])
+                    return true;
+            
             return false;
         }
     },
@@ -135,6 +235,20 @@ public enum EPatternType {
 
             return false;
         }
+
+        public boolean CanFollow(Card cCard, List<Card> pCards)
+        {
+            int size = pCards.count();
+            for(int index = 2; index < size; index ++)
+                if(pCards.get(index).compareTo(cCard) > 0
+                && Triple.match(pCards.subList(index - 2, index + 1)))
+                    for(int sub = 1; sub < size; sub ++)
+                        if( (sub < index-2 || sub >= index + 2)
+                        && Pair.match(pCards.subList(sub - 1, sub + 1)))
+                            return true;
+            
+            return false;
+        }
     },
     FourOfAKind { // 铁支（四带一）
         public boolean match(CardGroup pGroup)
@@ -159,6 +273,18 @@ public enum EPatternType {
 
             return false;
         }
+
+        public boolean CanFollow(Card cCard, List<Card> pCards)
+        {
+            int size = pCards.count();
+            for(int index = 3; index < size; index ++)
+                if(pCards.get(index).compareTo(cCard) > 0
+                && Quadruple.match(pCards.subList(index - 3, index + 1))
+                && size >= 5)
+                    return true;
+            
+            return false;
+        }
     },
     StraightFlush { // 同花顺（顺子 & 同花）
         public boolean match(CardGroup pGroup)
@@ -175,7 +301,44 @@ public enum EPatternType {
 
             return false;
         }
+
+        public boolean CanFollow(Card cCard, List<Card> pCards)
+        {
+            boolean SuitKind[][] = new boolean[14][4];
+            int suit = 0;
+            for(Card card : pCards)
+            {
+                int index = card.getNumber().getWeight();
+                if(index >= 13) index -= 13;
+
+                int suit = card.getSuit().getWeight() - 1;
+                SuitKind[index][suit] = true;
+            }
+            int count = cCard.getNumber().getWeight();
+            for(int index = count; index < 14; index ++)
+                for(int j = 0; j < 4; j ++)
+                {
+                    boolean isStraight = true;
+                    for(int i = index; i > i-5; i --)
+                        if(!SuitKind[i][j])
+                        {
+                            isStraight = false;
+                            break;
+                        }
+                    if(isStraight)
+                    {
+                        ECardSuit temp = new ECardSuit(j+1, "");
+                        if(index > count || (index == count
+                        && temp.compareWeight(cCard.getSuit()) > 0))
+                            return true;
+                    }
+                }
+
+            return false;
+        }
     };
 
     public abstract boolean match(CardGroup pGroup);
+
+    public abstract boolean CanFollow(Card cCard, List<Card> pCards);
 }

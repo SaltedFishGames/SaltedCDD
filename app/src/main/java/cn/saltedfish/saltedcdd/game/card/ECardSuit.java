@@ -17,12 +17,17 @@ public enum ECardSuit {
 
     int compareWeight(ECardSuit pOther)
     {
-        return mWeight - pOther.mWeight;
+        return pOther.mWeight - mWeigh;
     }
 
     public String getName()
     {
         return mName;
+    }
+
+    public int getWeight()
+    {
+        return mWeight;
     }
 
     public static ECardSuit fromName(String pName)
