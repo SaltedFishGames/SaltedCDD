@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GameRound {
-    public List<PlayerAction> mActions;
+    protected List<PlayerAction> mActions;
 
-    public int mIndex;
+    protected int mIndex;
 
     public GameRound(int pIndex)
     {
@@ -24,7 +24,7 @@ public class GameRound {
         for (int i = mActions.size() - 1; i >= 0; i--)
         {
             PlayerAction action = mActions.get(i);
-            if (action.mAction == EActionType.ShowCard)
+            if (action.getType() == EActionType.ShowCard)
             {
                 return action;
             }
@@ -38,12 +38,22 @@ public class GameRound {
         for (int i = mActions.size() - 1; i >= 0; i--)
         {
             PlayerAction action = mActions.get(i);
-            if (action.mAction == EActionType.ShowCard)
+            if (action.getType() == EActionType.ShowCard)
             {
                 break;
             }
             count++;
         }
         return count;
+    }
+
+    public List<PlayerAction> actions()
+    {
+        return mActions;
+    }
+
+    public int getIndex()
+    {
+        return mIndex;
     }
 }

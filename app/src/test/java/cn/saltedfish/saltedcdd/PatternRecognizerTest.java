@@ -35,7 +35,7 @@ public class PatternRecognizerTest {
 
         cards = createCardList("♥10", "♥3");
         group = PatternRecognizer.recognize(cards);
-        assertEquals(EPatternType.Unknown, group.mType);
+        assertEquals(EPatternType.Unknown, group.getType());
     }
 
     @Test
@@ -46,15 +46,15 @@ public class PatternRecognizerTest {
 
         cards = createCardList("♠3");
         group = PatternRecognizer.recognize(cards);
-        assertEquals(EPatternType.Single, group.mType);
+        assertEquals(EPatternType.Single, group.getType());
 
         cards = createCardList("♥10");
         group = PatternRecognizer.recognize(cards);
-        assertEquals(EPatternType.Single, group.mType);
+        assertEquals(EPatternType.Single, group.getType());
 
         cards = createCardList("♥10", "♠10");
         group = PatternRecognizer.recognize(cards);
-        assertNotEquals(EPatternType.Single, group.mType);
+        assertNotEquals(EPatternType.Single, group.getType());
     }
 
     @Test
@@ -65,11 +65,11 @@ public class PatternRecognizerTest {
 
         cards = createCardList("♥10", "♠10");
         group = PatternRecognizer.recognize(cards);
-        assertEquals(EPatternType.Pair, group.mType);
+        assertEquals(EPatternType.Pair, group.getType());
 
         cards = createCardList("♥10", "♠9");
         group = PatternRecognizer.recognize(cards);
-        assertNotEquals(EPatternType.Pair, group.mType);
+        assertNotEquals(EPatternType.Pair, group.getType());
     }
 
     @Test
@@ -80,15 +80,15 @@ public class PatternRecognizerTest {
 
         cards = createCardList("♥10", "♠10", "♦10");
         group = PatternRecognizer.recognize(cards);
-        assertEquals(EPatternType.Triple, group.mType);
+        assertEquals(EPatternType.Triple, group.getType());
 
         cards = createCardList("♥10", "♠10", "♦10", "♣10");
         group = PatternRecognizer.recognize(cards);
-        assertNotEquals(EPatternType.Triple, group.mType);
+        assertNotEquals(EPatternType.Triple, group.getType());
 
         cards = createCardList("♥10", "♠10", "♦9");
         group = PatternRecognizer.recognize(cards);
-        assertNotEquals(EPatternType.Triple, group.mType);
+        assertNotEquals(EPatternType.Triple, group.getType());
     }
 
     @Test
@@ -99,15 +99,15 @@ public class PatternRecognizerTest {
 
         cards = createCardList("♥10", "♠10", "♦10", "♣10");
         group = PatternRecognizer.recognize(cards);
-        assertEquals(EPatternType.Quadruple, group.mType);
+        assertEquals(EPatternType.Quadruple, group.getType());
 
         cards = createCardList("♥10", "♠10", "♦10");
         group = PatternRecognizer.recognize(cards);
-        assertNotEquals(EPatternType.Quadruple, group.mType);
+        assertNotEquals(EPatternType.Quadruple, group.getType());
 
         cards = createCardList("♥10", "♠10", "♦9", "♣10");
         group = PatternRecognizer.recognize(cards);
-        assertNotEquals(EPatternType.Quadruple, group.mType);
+        assertNotEquals(EPatternType.Quadruple, group.getType());
     }
 
     @Test
@@ -118,19 +118,19 @@ public class PatternRecognizerTest {
 
         cards = createCardList("♥3", "♠4", "♦5", "♠6", "♦7");
         group = PatternRecognizer.recognize(cards);
-        assertEquals(EPatternType.Straight, group.mType);
+        assertEquals(EPatternType.Straight, group.getType());
 
         cards = createCardList("♥2", "♠A", "♦3", "♠4", "♦5");
         group = PatternRecognizer.recognize(cards);
-        assertEquals(EPatternType.Straight, group.mType);
+        assertEquals(EPatternType.Straight, group.getType());
 
         cards = createCardList("♥3", "♠4", "♦5", "♠6", "♦8");
         group = PatternRecognizer.recognize(cards);
-        assertNotEquals(EPatternType.Straight, group.mType);
+        assertNotEquals(EPatternType.Straight, group.getType());
 
         cards = createCardList("♥3", "♠4", "♦5", "♠6");
         group = PatternRecognizer.recognize(cards);
-        assertNotEquals(EPatternType.Straight, group.mType);
+        assertNotEquals(EPatternType.Straight, group.getType());
     }
 
     @Test
@@ -141,11 +141,11 @@ public class PatternRecognizerTest {
 
         cards = createCardList("♥3", "♥4", "♥5", "♥8", "♥10");
         group = PatternRecognizer.recognize(cards);
-        assertEquals(EPatternType.Flush, group.mType);
+        assertEquals(EPatternType.Flush, group.getType());
 
         cards = createCardList("♥3", "♥4", "♥5", "♥6", "♥7");
         group = PatternRecognizer.recognize(cards);
-        assertNotEquals(EPatternType.Flush, group.mType);
+        assertNotEquals(EPatternType.Flush, group.getType());
     }
 
     @Test
@@ -156,15 +156,15 @@ public class PatternRecognizerTest {
 
         cards = createCardList("♥3", "♥4", "♥5", "♥6", "♥7");
         group = PatternRecognizer.recognize(cards);
-        assertEquals(EPatternType.StraightFlush, group.mType);
+        assertEquals(EPatternType.StraightFlush, group.getType());
 
         cards = createCardList("♥3", "♥4", "♥5", "♥8", "♥10");
         group = PatternRecognizer.recognize(cards);
-        assertNotEquals(EPatternType.StraightFlush, group.mType);
+        assertNotEquals(EPatternType.StraightFlush, group.getType());
 
         cards = createCardList("♥3", "♥4", "♥5", "♣6", "♥7");
         group = PatternRecognizer.recognize(cards);
-        assertNotEquals(EPatternType.StraightFlush, group.mType);
+        assertNotEquals(EPatternType.StraightFlush, group.getType());
     }
 
     @Test
@@ -175,19 +175,19 @@ public class PatternRecognizerTest {
 
         cards = createCardList("♥3", "♠3", "♦3", "♣3", "♥7");
         group = PatternRecognizer.recognize(cards);
-        assertEquals(EPatternType.FourOfAKind, group.mType);
+        assertEquals(EPatternType.FourOfAKind, group.getType());
 
         cards = createCardList("♥3", "♥4", "♠4", "♦4", "♣4");
         group = PatternRecognizer.recognize(cards);
-        assertEquals(EPatternType.FourOfAKind, group.mType);
+        assertEquals(EPatternType.FourOfAKind, group.getType());
 
         cards = createCardList("♥3", "♠3", "♠4", "♦4", "♣4");
         group = PatternRecognizer.recognize(cards);
-        assertNotEquals(EPatternType.FourOfAKind, group.mType);
+        assertNotEquals(EPatternType.FourOfAKind, group.getType());
 
         cards = createCardList("♥3", "♥4", "♥5", "♣6", "♥7");
         group = PatternRecognizer.recognize(cards);
-        assertNotEquals(EPatternType.FourOfAKind, group.mType);
+        assertNotEquals(EPatternType.FourOfAKind, group.getType());
     }
 
     @Test
@@ -198,18 +198,18 @@ public class PatternRecognizerTest {
 
         cards = createCardList("♥3", "♠3", "♦3", "♠7", "♥7");
         group = PatternRecognizer.recognize(cards);
-        assertEquals(EPatternType.FullHouse, group.mType);
+        assertEquals(EPatternType.FullHouse, group.getType());
 
         cards = createCardList("♥3", "♠3", "♠7", "♦7", "♣7");
         group = PatternRecognizer.recognize(cards);
-        assertEquals(EPatternType.FullHouse, group.mType);
+        assertEquals(EPatternType.FullHouse, group.getType());
 
         cards = createCardList("♥3", "♠4", "♠4", "♦4", "♣4");
         group = PatternRecognizer.recognize(cards);
-        assertNotEquals(EPatternType.FullHouse, group.mType);
+        assertNotEquals(EPatternType.FullHouse, group.getType());
 
         cards = createCardList("♥3", "♥4", "♥5", "♣6", "♥7");
         group = PatternRecognizer.recognize(cards);
-        assertNotEquals(EPatternType.FullHouse, group.mType);
+        assertNotEquals(EPatternType.FullHouse, group.getType());
     }
 }

@@ -9,5 +9,6 @@ public class IdleState extends GameState {
     {
         pGame.dealCards();
         pGame.enterState(PreparedState.class);
+
     }
 }

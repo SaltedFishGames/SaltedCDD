@@ -8,13 +8,20 @@ import cn.saltedfish.saltedcdd.game.card.ECardSuit;
 
 public class PreparedState extends GameState {
     @Override
+    public void onEnterState(IGameOperationBridge pGame)
+    {
+        pGame.onPrepared();
+    }
+
+    @Override
     public void onStartGame(IGameOperationBridge pGame)
     {
-        if (pGame.curStateIs(PreparedState.class))
+        if (pGame.isInState(PreparedState.class))
         {
             Player firstPlayer = decideFirstPlayer(pGame);
-            pGame.setCurrentTurnedPlayer(firstPlayer);
+
             pGame.enterState(RoundHeadState.class);
+            pGame.setCurrentTurnedPlayer(firstPlayer);
         }
     }
 

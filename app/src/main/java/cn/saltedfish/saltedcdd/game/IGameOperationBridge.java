@@ -4,7 +4,9 @@ public interface IGameOperationBridge {
     void dealCards();
     void enterState(Class<? extends GameState> pNewStateClass);
     void setCurrentTurnedPlayer(Player pPlayer);
+    Player getNextPlayer(Player pThisPlayer);
 
+    void onPrepared();
     void onEnterNewRound();
     void onGameEnded();
 
@@ -14,5 +16,5 @@ public interface IGameOperationBridge {
     Player getPlayer(int id);
     int getPlayerCount();
 
-    boolean curStateIs(Class<? extends GameState> pStateClass);
+    boolean isInState(Class<? extends GameState> pStateClass);
 }

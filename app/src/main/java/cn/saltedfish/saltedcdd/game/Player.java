@@ -2,14 +2,30 @@ package cn.saltedfish.saltedcdd.game;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import cn.saltedfish.saltedcdd.game.card.Card;
 import cn.saltedfish.saltedcdd.game.card.ECardNumber;
 import cn.saltedfish.saltedcdd.game.card.ECardSuit;
 
 public class Player {
-    public ArrayList<Card> mCards;
-    public int mId;
+    protected ArrayList<Card> mCards = new ArrayList<>();
+    protected int mId;
+
+    public int getId()
+    {
+        return mId;
+    }
+
+    public void setId(int pId)
+    {
+        mId = pId;
+    }
+
+    public List<Card> cards()
+    {
+        return mCards;
+    }
 
     public boolean hasCard(ECardNumber pNumber, ECardSuit pSuit)
     {

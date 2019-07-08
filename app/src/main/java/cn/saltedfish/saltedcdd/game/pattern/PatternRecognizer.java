@@ -47,10 +47,10 @@ public class PatternRecognizer {
             }
         }
 
-        if (group.mType == EPatternType.Unrecognized)
+        if (group.getType() == EPatternType.Unrecognized)
         {
-            group.mType = EPatternType.Unknown;
-            group.mCriticalCard = group.get(group.count() - 1);
+            group.setType(EPatternType.Unknown);
+            group.setCriticalCard(group.get(group.count() - 1));
         }
 
         return group;
@@ -77,6 +77,6 @@ public class PatternRecognizer {
 
     public static EPatternType getPatternType(List<Card> pCards)
     {
-        return recognize(pCards).mType;
+        return recognize(pCards).getType();
     }
 }

@@ -1,14 +1,11 @@
 package cn.saltedfish.saltedcdd.game.routine;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
 import cn.saltedfish.saltedcdd.game.CDDGame;
-import cn.saltedfish.saltedcdd.game.pattern.CardGroup;
 import cn.saltedfish.saltedcdd.game.EActionType;
 import cn.saltedfish.saltedcdd.game.GameBoard;
 import cn.saltedfish.saltedcdd.game.GameHistory;
@@ -16,8 +13,6 @@ import cn.saltedfish.saltedcdd.game.Player;
 import cn.saltedfish.saltedcdd.game.PlayerAction;
 import cn.saltedfish.saltedcdd.game.card.Card;
 import cn.saltedfish.saltedcdd.game.card.CardFactory;
-import cn.saltedfish.saltedcdd.game.pattern.EPatternType;
-import cn.saltedfish.saltedcdd.game.pattern.PatternRecognizer;
 
 public class FourPlayerGame extends CDDGame {
     public static final int PlayerCount = 4;
@@ -43,9 +38,13 @@ public class FourPlayerGame extends CDDGame {
 
         for (int i = 0; i < mPlayers.length; i++)
         {
-            mPlayers[i].mId = i;
-            mPlayers[i].mCards = new ArrayList<>(cardList.subList(i * PlayerInitialCardNum, (i + 1) * PlayerInitialCardNum));
-            Collections.sort(mPlayers[i].mCards);
+            List<Card> playerCards = mPlayers[i].cards();
+
+            mPlayers[i].setId(i);
+
+            playerCards.clear();
+            playerCards.addAll(cardList.subList(i * PlayerInitialCardNum, (i + 1) * PlayerInitialCardNum));
+            Collections.sort(playerCards);
         }
     }
 
@@ -67,70 +66,79 @@ public class FourPlayerGame extends CDDGame {
     }
 
     @Override
-    public boolean isActionAllowed(Player pPlayer, EActionType pAction, List<Card> pCards)
+    public boolean onPlayerShowCard(Player pPlayer, List<Card> pCards)
     {
-        if (mCurrentState == null)
-        {
-            return false;
-        }
+        PlayerAction action = new PlayerAction(pPlayer, EActionType.ShowCard, pCards);
 
-        switch (pAction)
-        {
-            case ShowCard:
-                return mCurrentState.isShowCardAllowed(this, pPlayer, pCards);
-            case Pass:
-                return mCurrentState.isPassAllowed(this, pPlayer);
-            default:
-                return false;
-        }
+        return handlePlayerAction(action);
     }
 
     @Override
-    public boolean onPlayerAction(Player pPlayer, EActionType pAction, List<Card> pCards)
+    public boolean onPlayerPass(Player pPlayer)
     {
-        if (mCurrentState == null)
-        {
+        PlayerAction action = new PlayerAction(pPlayer, EActionType.Pass, null);
+
+        return handlePlayerAction(action);
+    }
+
+    protected boolean handlePlayerAction(PlayerAction pAction)
+    {
+        if (!isValidAction(pAction))
             return false;
-        }
 
-        CardGroup group = null;
-        boolean accepted = false;
+        mCurrentState.onPlayerAction(this, pAction);
 
-        switch (pAction)
+        if (pAction.isAccepted())
         {
-            case ShowCard:
-                group = PatternRecognizer.recognize(pCards);
-                if (group.mType != EPatternType.Unknown)
-                {
-                    accepted = mCurrentState.onPlayerShowCard(this, pPlayer, group);
-                }
-                break;
-            case Pass:
-                accepted = mCurrentState.onPlayerPass(this, pPlayer);
-                break;
-        }
+            mHistory.getCurrentRound().add(pAction);
 
-        if (accepted)
-        {
-            mHistory.getCurrentRound().add(new PlayerAction(
-                    pPlayer.mId,
-                    pAction,
-                    group));
             if (mEventListener != null)
             {
-                mEventListener.onPlayerAction(pPlayer, pAction, group);
+                mEventListener.onPlayerAction(pAction);
             }
 
-            turnToNextPlayer();
+            if (pAction.getEnterNewState() != null)
+            {
+                enterState(pAction.getEnterNewState());
+            }
+
+            if (pAction.getTurnToPlayer() != null)
+            {
+                setCurrentTurnedPlayer(pAction.getTurnToPlayer());
+            }
         }
 
-        return accepted;
+        return pAction.isAccepted();
     }
 
     @Override
-    public void turnToNextPlayer()
+    public boolean isShowCardAllowed(Player pPlayer, List<Card> pCards)
     {
-        setCurrentTurnedPlayer(mPlayers[(getCurrentTurnedPlayer().mId + 1) % PlayerCount]);
+        PlayerAction action = new PlayerAction(pPlayer, EActionType.ShowCard, pCards);
+
+        return isPlayerActionAllowed(action);
+    }
+
+    @Override
+    public boolean isPassAllowed(Player pPlayer)
+    {
+        PlayerAction action = new PlayerAction(pPlayer, EActionType.Pass, null);
+
+        return isPlayerActionAllowed(action);
+    }
+
+    protected boolean isPlayerActionAllowed(PlayerAction pAction)
+    {
+        if (!isValidAction(pAction))
+            return false;
+
+        return mCurrentState.isActionAllowed(this, pAction);
+    }
+
+    @Override
+    public Player getNextPlayer(Player pThisPlayer)
+    {
+        return mPlayers[(pThisPlayer.getId() + 1) % PlayerCount];
     }
 
     @Override

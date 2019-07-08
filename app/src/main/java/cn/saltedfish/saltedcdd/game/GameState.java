@@ -27,23 +27,13 @@ public abstract class GameState {
 
     }
 
-    public boolean isShowCardAllowed(IGameOperationBridge pGame, Player pPlayer, List<Card> pCards)
+    public boolean isActionAllowed(IGameOperationBridge pGame, PlayerAction pAction)
     {
         return false;
     }
 
-    public boolean isPassAllowed(IGameOperationBridge pGame, Player pPlayer)
+    public void onPlayerAction(IGameOperationBridge pGame, PlayerAction pAction)
     {
-        return false;
-    }
-
-    public boolean onPlayerShowCard(IGameOperationBridge pGame, Player pPlayer, CardGroup pCards)
-    {
-        return false;
-    }
-
-    public boolean onPlayerPass(IGameOperationBridge pGame, Player pPlayer)
-    {
-        return false;
+        pAction.reject();
     }
 }

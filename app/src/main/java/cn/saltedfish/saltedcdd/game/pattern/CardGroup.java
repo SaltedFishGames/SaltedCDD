@@ -1,18 +1,17 @@
 package cn.saltedfish.saltedcdd.game.pattern;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
 import cn.saltedfish.saltedcdd.game.card.Card;
 
 public class CardGroup implements Comparable<CardGroup>{
-    public ArrayList<Card> mCards;
+    protected ArrayList<Card> mCards;
 
-    public EPatternType mType = EPatternType.Unrecognized;
+    protected EPatternType mType = EPatternType.Unrecognized;
 
-    public Card mCriticalCard;
+    protected Card mCriticalCard;
 
     public CardGroup(Card[] pCards)
     {
@@ -28,21 +27,26 @@ public class CardGroup implements Comparable<CardGroup>{
         mCards = new ArrayList<>(pCards);
     }
 
-    public boolean isSameType(CardGroup pGroup)
+    public boolean isComparableTo(CardGroup pGroup)
     {
         if (pGroup == null)
         {
             return false;
         }
-        return pGroup.mType == mType;
+        return pGroup.cards().size() == mCards.size();
     }
 
     @Override
     public int compareTo(CardGroup pGroup)
     {
-        if (isSameType(pGroup))
+        if (isComparableTo(pGroup))
         {
-            return mCriticalCard.compareTo(pGroup.mCriticalCard);
+            int result = mType.getWeight() - pGroup.mType.getWeight();
+            if (result == 0)
+            {
+                return getCriticalCard().compareTo(pGroup.getCriticalCard());
+            }
+            return result;
         }
         return 0;
     }
@@ -60,5 +64,45 @@ public class CardGroup implements Comparable<CardGroup>{
     public Card get(int index)
     {
         return mCards.get(index);
+    }
+
+    @Override
+    public String toString()
+    {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < mCards.size(); i++)
+        {
+            if (i > 0)
+            {
+                sb.append(", ");
+            }
+            sb.append(mCards.get(i).toString());
+        }
+        return sb.toString();
+    }
+
+    public ArrayList<Card> cards()
+    {
+        return mCards;
+    }
+
+    public EPatternType getType()
+    {
+        return mType;
+    }
+
+    public void setType(EPatternType pType)
+    {
+        mType = pType;
+    }
+
+    public Card getCriticalCard()
+    {
+        return mCriticalCard;
+    }
+
+    public void setCriticalCard(Card pCriticalCard)
+    {
+        mCriticalCard = pCriticalCard;
     }
 }

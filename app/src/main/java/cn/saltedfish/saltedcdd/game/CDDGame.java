@@ -6,6 +6,7 @@ import java.util.List;
 
 import cn.saltedfish.saltedcdd.game.card.Card;
 import cn.saltedfish.saltedcdd.game.card.CardFactory;
+import cn.saltedfish.saltedcdd.game.pattern.EPatternType;
 
 public abstract class CDDGame implements IGameOperationBridge {
     protected Player[] mPlayers;
@@ -34,7 +35,13 @@ public abstract class CDDGame implements IGameOperationBridge {
 
     public abstract void startGame();
 
-    public abstract boolean onPlayerAction(Player pPlayer, EActionType pAction, List<Card> pCards);
+    public abstract boolean onPlayerShowCard(Player pPlayer, List<Card> pCards);
+
+    public abstract boolean onPlayerPass(Player pPlayer);
+
+    public abstract boolean isShowCardAllowed(Player pPlayer, List<Card> pCards);
+
+    public abstract boolean isPassAllowed(Player pPlayer);
 
     // msg from state
     public void enterState(Class<? extends GameState> pNewStateClass)
@@ -75,21 +82,20 @@ public abstract class CDDGame implements IGameOperationBridge {
         }
     }
 
-    public void onEnterNewRound()
+    public void onPrepared()
     {
-        mHistory.newRound();
         if (mEventListener != null)
         {
-            mEventListener.onNewRound();
+            mEventListener.onGamePrepared();
         }
     }
 
-    public void setCurrentTurnedPlayer(Player pPlayer)
+    public void onEnterNewRound()
     {
-        mCurrentTurnedPlayer = pPlayer;
+        GameRound newRound = mHistory.newRound();
         if (mEventListener != null)
         {
-            mEventListener.onPlayerTurn(pPlayer);
+            mEventListener.onNewRound(newRound);
         }
     }
 
@@ -101,9 +107,16 @@ public abstract class CDDGame implements IGameOperationBridge {
         }
     }
 
-    // get context data
-    public abstract boolean isActionAllowed(Player pPlayer, EActionType pAction, List<Card> pCards);
+    public void setCurrentTurnedPlayer(Player pPlayer)
+    {
+        mCurrentTurnedPlayer = pPlayer;
+        if (mEventListener != null)
+        {
+            mEventListener.onPlayerTurn(pPlayer, getCurrentRound());
+        }
+    }
 
+    // get context data
     public GameRound getCurrentRound()
     {
         return mHistory.getCurrentRound();
@@ -119,12 +132,28 @@ public abstract class CDDGame implements IGameOperationBridge {
         return mPlayers[id];
     }
 
-    public boolean curStateIs(Class<? extends GameState> pStateClass)
+    public boolean isInState(Class<? extends GameState> pStateClass)
     {
         return mCurrentState.getClass() == pStateClass;
     }
 
-    public abstract void turnToNextPlayer();
+    public boolean isValidAction(PlayerAction pAction)
+    {
+        if (pAction.getPlayer() != getCurrentTurnedPlayer())
+            return false;
+
+        if (pAction.getCardGroup() != null)
+        {
+            if (pAction.getCardGroup().getType() == EPatternType.Unknown)
+                return false;
+            if (!pAction.getPlayer().hasCards(pAction.getCardGroup().cards()))
+                return false;
+        }
+
+        return true;
+    }
+
+    public abstract Player getNextPlayer(Player pThisPlayer);
 
     public abstract int getPlayerCount();
 }
