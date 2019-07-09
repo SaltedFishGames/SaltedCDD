@@ -1,6 +1,5 @@
 package cn.saltedfish.saltedcdd.game;
 
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
@@ -115,7 +114,7 @@ public abstract class CDDGame implements IGameOperationBridge {
         mCurrentTurnedPlayer = pPlayer;
         if (mEventListener != null)
         {
-            TurnHint hint = new TurnHint(getCurrentRound(), pPlayer, this);
+            ActionHint hint = new ActionHint(getCurrentRound(), pPlayer, this);
             mEventListener.onPlayerTurn(pPlayer, hint);
         }
     }

@@ -4,7 +4,7 @@ public interface IGameEventListener {
     void onGamePrepared();
 
     void onNewRound(GameRound pNewRound);
-    void onPlayerTurn(Player pPlayer, TurnHint pHint);
+    void onPlayerTurn(Player pPlayer, ActionHint pHint);
     void onPlayerAction(PlayerAction action);
 
     void onGameEnded();

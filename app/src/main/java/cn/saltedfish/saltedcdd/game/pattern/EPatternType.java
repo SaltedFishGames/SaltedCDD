@@ -55,7 +55,7 @@ public enum EPatternType {
         {
             List<CardGroup> result = new ArrayList<>();
             Card[] potentialCards = new Card[1];
-            for (List<Card> cards : pAvailableCards.mNumberMap.values())
+            for (List<Card> cards : pAvailableCards.getNumberMap().values())
             {
                 for (Card card : cards)
                 {
@@ -86,7 +86,7 @@ public enum EPatternType {
         public List<CardGroup> potentialCardGroup(AnnotatedCards pAvailableCards)
         {
             List<CardGroup> result = new ArrayList<>();
-            for (List<Card> cards : pAvailableCards.mNumberMap.values())
+            for (List<Card> cards : pAvailableCards.getNumberMap().values())
             {
                 if (cards.size() >= 2)
                 {
@@ -116,7 +116,7 @@ public enum EPatternType {
         public List<CardGroup> potentialCardGroup(AnnotatedCards pAvailableCards)
         {
             List<CardGroup> result = new ArrayList<>();
-            for (List<Card> cards : pAvailableCards.mNumberMap.values())
+            for (List<Card> cards : pAvailableCards.getNumberMap().values())
             {
                 if (cards.size() >= 3)
                 {
@@ -146,7 +146,7 @@ public enum EPatternType {
         public List<CardGroup> potentialCardGroup(AnnotatedCards pAvailableCards)
         {
             List<CardGroup> result = new ArrayList<>();
-            for (List<Card> cards : pAvailableCards.mNumberMap.values())
+            for (List<Card> cards : pAvailableCards.getNumberMap().values())
             {
                 if (cards.size() >= 4)
                 {
@@ -182,7 +182,7 @@ public enum EPatternType {
             }
             else
             {
-                List<Card> cardsAtDepth = pAvailableCards.mNumberMap.get(pPattern[depth]);
+                List<Card> cardsAtDepth = pAvailableCards.getNumberMap().get(pPattern[depth]);
                 if (cardsAtDepth == null || cardsAtDepth.size() == 0)
                 {
                     return false;
@@ -230,7 +230,7 @@ public enum EPatternType {
         public List<CardGroup> potentialCardGroup(AnnotatedCards pAvailableCards)
         {
             List<CardGroup> result = new ArrayList<>();
-            for (List<Card> cards : pAvailableCards.mSuitMap.values())
+            for (List<Card> cards : pAvailableCards.getSuitMap().values())
             {
                 if (cards.size() >= 5)
                 {
@@ -286,7 +286,7 @@ public enum EPatternType {
                 @Override
                 public void handle(Card[] item)
                 {
-                    for (List<Card> cardsTwo : pAvailableCards.mNumberMap.values())
+                    for (List<Card> cardsTwo : pAvailableCards.getNumberMap().values())
                     {
                         if (cardsTwo.size() >= 2
                                 && cardsTwo.get(0).getNumber() != numberHolder.getValue())
@@ -297,7 +297,7 @@ public enum EPatternType {
                 }
             };
 
-            for (final List<Card> cardsThree : pAvailableCards.mNumberMap.values())
+            for (final List<Card> cardsThree : pAvailableCards.getNumberMap().values())
             {
                 if (cardsThree.size() >= 3)
                 {
@@ -344,7 +344,7 @@ public enum EPatternType {
                 @Override
                 public void handle(Card[] item)
                 {
-                    for (List<Card> cardsOne : pAvailableCards.mNumberMap.values())
+                    for (List<Card> cardsOne : pAvailableCards.getNumberMap().values())
                     {
                         if (cardsOne.size() >= 1
                                 && cardsOne.get(0).getNumber() != numberHolder.getValue())
@@ -359,7 +359,7 @@ public enum EPatternType {
                 }
             };
 
-            for (final List<Card> cardsFour : pAvailableCards.mNumberMap.values())
+            for (final List<Card> cardsFour : pAvailableCards.getNumberMap().values())
             {
                 if (cardsFour.size() >= 4)
                 {
@@ -403,7 +403,7 @@ public enum EPatternType {
             };
             Card[] potentialGroup = new Card[5];
 
-            for (List<Card> cards : pAvailableCards.mSuitMap.values())
+            for (List<Card> cards : pAvailableCards.getSuitMap().values())
             {
                 if (cards.size() >= 5)
                 {

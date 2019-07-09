@@ -1,20 +1,25 @@
 package cn.saltedfish.saltedcdd.stage.gameplay;
 
 import android.util.Log;
+import android.view.View;
 
 import cn.saltedfish.saltedcdd.game.GameRound;
 import cn.saltedfish.saltedcdd.game.IPlayerController;
 import cn.saltedfish.saltedcdd.game.IPlayerActionReceiver;
 import cn.saltedfish.saltedcdd.game.Player;
 import cn.saltedfish.saltedcdd.game.PlayerAction;
-import cn.saltedfish.saltedcdd.game.TurnHint;
+import cn.saltedfish.saltedcdd.game.ActionHint;
 import cn.saltedfish.saltedcdd.game.card.Card;
-import cn.saltedfish.saltedcdd.robot.RobotPlayerController;
+import cn.saltedfish.saltedcdd.stage.Navigator;
 
 public class GamePlayPresenter implements GamePlayContract.Presenter, IPlayerController {
     protected GameModel mGameModel;
 
     protected GamePlayContract.View mView;
+
+    protected Navigator mNavigatorRestartGame;
+
+    protected Navigator mNavigatorQuitGame;
 
     protected IPlayerActionReceiver mActionReceiver;
 
@@ -22,10 +27,12 @@ public class GamePlayPresenter implements GamePlayContract.Presenter, IPlayerCon
 
     protected boolean mAutoPlay = true;
 
-    public GamePlayPresenter(GameModel pModel, GamePlayContract.View pView)
+    public GamePlayPresenter(GameModel pModel, Navigator pNavigatorRestartGame, Navigator pNavigatorQuitGame, GamePlayContract.View pView)
     {
         mGameModel = pModel;
         mView = pView;
+        mNavigatorQuitGame = pNavigatorQuitGame;
+        mNavigatorRestartGame = pNavigatorRestartGame;
 
         pView.setPresenter(this);
 
@@ -37,32 +44,35 @@ public class GamePlayPresenter implements GamePlayContract.Presenter, IPlayerCon
     @Override
     public void start()
     {
-        Log.d("CDD", "Presenter.start");
         mGameModel.prepareGame();
     }
 
     @Override
-    public void onStartGameClicked()
+    public void onRestartGameClicked()
     {
-
+        mNavigatorRestartGame.navigate();
     }
 
     @Override
     public void onResumeGameClicked()
     {
-
+        mGameModel.resumeGame();
+        mView.setPauseMenuVisibility(false);
+        mView.setPauseButtonVisibility(true);
     }
 
     @Override
     public void onPauseGameClicked()
     {
-
+        mGameModel.pauseGame();
+        mView.setPauseMenuVisibility(true);
+        mView.setPauseButtonVisibility(false);
     }
 
     @Override
     public void onQuitGameClicked()
     {
-
+        mNavigatorQuitGame.navigate();
     }
 
     @Override
@@ -103,7 +113,7 @@ public class GamePlayPresenter implements GamePlayContract.Presenter, IPlayerCon
     }
 
     @Override
-    public void onPlayerTurn(Player pPlayer, TurnHint pHint)
+    public void onPlayerTurn(Player pPlayer, ActionHint pHint)
     {
         Log.d("CDD", "Game.turnTo Player#" + pPlayer.getId());
         if (pHint.getPossibleMinimumCardGroup() != null)
@@ -145,7 +155,7 @@ public class GamePlayPresenter implements GamePlayContract.Presenter, IPlayerCon
     @Override
     public void onGameEnded()
     {
-        final GameResult result = new GameResult();
+        GameResult result = new GameResult();
         // TODO: generate game result
         mView.showGameResult(result);
         Log.d("CDD", "Game.ended");
@@ -189,7 +199,7 @@ public class GamePlayPresenter implements GamePlayContract.Presenter, IPlayerCon
         }
 
         @Override
-        public void onPlayerTurn(final Player pPlayer, final TurnHint pHint)
+        public void onPlayerTurn(final Player pPlayer, final ActionHint pHint)
         {
             mView.runOnUiThread(new Runnable() {
                 @Override

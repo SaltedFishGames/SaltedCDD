@@ -10,6 +10,8 @@ public class PlayerModel {
 
     protected IPlayerController mPlayerController;
 
+    protected boolean mIsRobot;
+
     public PlayerModel()
     {
         mPlayer = new Player();
@@ -38,5 +40,15 @@ public class PlayerModel {
     public Player getPlayer()
     {
         return mPlayer;
+    }
+
+    public boolean isRobot()
+    {
+        return mIsRobot;
+    }
+
+    public void setRobot(boolean pRobot)
+    {
+        mIsRobot = pRobot;
     }
 }

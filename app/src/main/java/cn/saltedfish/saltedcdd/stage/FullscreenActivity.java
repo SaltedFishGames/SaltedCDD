@@ -6,6 +6,8 @@ import android.view.View;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
+import cn.saltedfish.saltedcdd.data.Config;
+
 public class FullscreenActivity extends AppCompatActivity {
     private boolean mImmersiveEnabled = false;
 
@@ -18,6 +20,8 @@ public class FullscreenActivity extends AppCompatActivity {
             mImmersiveEnabled = true;
             hideSystemUI();
         }
+
+
     }
 
     @TargetApi(19)
@@ -38,5 +42,21 @@ public class FullscreenActivity extends AppCompatActivity {
         if (mImmersiveEnabled && hasFocus) {
             hideSystemUI();
         }
+    }
+
+    @Override
+    public void onPause()
+    {
+        super.onPause();
+
+        BGMContoller.getInstance().pause();
+    }
+
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+
+        BGMContoller.getInstance().play();
     }
 }

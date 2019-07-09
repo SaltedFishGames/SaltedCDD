@@ -1,6 +1,5 @@
 package cn.saltedfish.saltedcdd.robot;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -9,7 +8,7 @@ import cn.saltedfish.saltedcdd.game.IPlayerActionReceiver;
 import cn.saltedfish.saltedcdd.game.IPlayerController;
 import cn.saltedfish.saltedcdd.game.Player;
 import cn.saltedfish.saltedcdd.game.PlayerAction;
-import cn.saltedfish.saltedcdd.game.TurnHint;
+import cn.saltedfish.saltedcdd.game.ActionHint;
 import cn.saltedfish.saltedcdd.game.card.Card;
 import cn.saltedfish.saltedcdd.game.pattern.AnnotatedCards;
 import cn.saltedfish.saltedcdd.game.pattern.CardGroup;
@@ -45,7 +44,7 @@ public class RobotPlayerController implements IPlayerController {
     }
 
     @Override
-    public void onPlayerTurn(Player pPlayer, TurnHint pHint)
+    public void onPlayerTurn(Player pPlayer, ActionHint pHint)
     {
         if (pPlayer != mPlayer)
             return;
@@ -61,7 +60,7 @@ public class RobotPlayerController implements IPlayerController {
         mActionReceiver.pass();
     }
 
-    protected CardGroup suggest(Player pPlayer, TurnHint pHint)
+    protected CardGroup suggest(Player pPlayer, ActionHint pHint)
     {
         Random r = new Random();
 
@@ -75,20 +74,30 @@ public class RobotPlayerController implements IPlayerController {
             EPatternType[] patterns = PatternRecognizer.getAvailablePatterns(lastAction.getCardGroup().count());
             for (EPatternType pattern : patterns)
             {
-                if (pattern.compareWeight(lastAction.getCardGroup().getType()) < 0) continue;
+                if (pattern.compareWeight(lastAction.getCardGroup().getType()) < 0)
+                    continue;
 
-                if (r.nextDouble() < 0.25) continue;
                 List<CardGroup> potentialCards = pattern.potentialCardGroup(annotatedCards);
-                if (potentialCards != null && potentialCards.size() > 0)
+
+                if (potentialCards == null || potentialCards.size() == 0)
+                    continue;
+
+                for (CardGroup c : potentialCards)
                 {
-                    for (CardGroup c : potentialCards) {
-                        if (pHint.getGame().isShowCardAllowed(pPlayer, c.cards()))
+                    if (c.count() == 1)
+                    {
+                        List<Card> sameNumberCards = annotatedCards.getByNumber(c.get(0).getNumber());
+                        if (sameNumberCards != null && sameNumberCards.size() >= 3)
                         {
-                            return c;
+                            continue;
                         }
                     }
-
+                    if (pHint.getGame().isShowCardAllowed(pPlayer, c.cards()))
+                    {
+                        return c;
+                    }
                 }
+
             }
 
             return null;

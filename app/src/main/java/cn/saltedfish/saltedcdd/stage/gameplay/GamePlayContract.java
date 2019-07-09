@@ -8,11 +8,15 @@ import cn.saltedfish.saltedcdd.stage.BaseView;
 
 public interface GamePlayContract {
     interface View extends BaseView<Presenter> {
-        void showPlayerInfo(int index, String pNickname);
+        void setPauseMenuVisibility(boolean pVisible);
+
+        void setPauseButtonVisibility(boolean pVisible);
+
+        void setPlayerInfo(int index, String pNickname);
 
         void playDealCardsAnimation(); // 播放发牌动画
 
-        void updatePlayerCard(int index, List<Card> pCards); // 更新指定玩家手牌（数目 / 手牌）
+        void setPlayerCards(int index, List<Card> pCards); // 更新指定玩家手牌（数目 / 手牌）
 
         void showGameResult(GameResult pResult); // 游戏结束，展示游戏结果
 
@@ -36,7 +40,7 @@ public interface GamePlayContract {
     }
 
     interface Presenter extends BasePresenter {
-        void onStartGameClicked();
+        void onRestartGameClicked();
 
         void onResumeGameClicked();
 

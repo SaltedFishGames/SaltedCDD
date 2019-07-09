@@ -2,7 +2,6 @@ package cn.saltedfish.saltedcdd.stage.gameplay;
 
 import android.os.Handler;
 import android.os.HandlerThread;
-import android.util.Log;
 
 import java.util.List;
 
@@ -13,7 +12,7 @@ import cn.saltedfish.saltedcdd.game.IPlayerActionReceiver;
 import cn.saltedfish.saltedcdd.game.IPlayerController;
 import cn.saltedfish.saltedcdd.game.Player;
 import cn.saltedfish.saltedcdd.game.PlayerAction;
-import cn.saltedfish.saltedcdd.game.TurnHint;
+import cn.saltedfish.saltedcdd.game.ActionHint;
 import cn.saltedfish.saltedcdd.game.card.Card;
 import cn.saltedfish.saltedcdd.game.routine.FourPlayerGame;
 import cn.saltedfish.saltedcdd.robot.RobotPlayerController;
@@ -27,7 +26,9 @@ public class GameModel {
 
     protected Handler mHandler;
 
-    protected boolean isPaused;
+    protected boolean mIsPaused;
+
+    protected int mPlayerActionToken = 0;
 
     public GameModel()
     {
@@ -52,6 +53,7 @@ public class GameModel {
         for (int i = 1; i < mPlayerModels.length; i++)
         {
             attachPlayerController(i, new RobotPlayerController(mPlayerModels[i].getPlayer()));
+            mPlayerModels[i].setRobot(true);
         }
     }
 
@@ -63,7 +65,7 @@ public class GameModel {
     public void attachPlayerController(int index, IPlayerController pPlayerController)
     {
         mPlayerModels[index].setPlayerController(pPlayerController);
-        pPlayerController.setActionReceiver(new PlayerActionReceiver(mPlayerModels[index].getPlayer()));
+        pPlayerController.setActionReceiver(new PlayerActionReceiver(mPlayerModels[index]));
     }
 
     public void attachHumanPlayer(IPlayerController pPlayerController)
@@ -113,17 +115,18 @@ public class GameModel {
 
     public void pauseGame()
     {
-        if (!isPaused)
+        if (!mIsPaused)
         {
-            isPaused = true;
+            mPlayerActionToken++;
+            mIsPaused = true;
         }
     }
 
     public void resumeGame()
     {
-        if (isPaused)
+        if (mIsPaused)
         {
-            isPaused = false;
+            mIsPaused = false;
             mGame.setCurrentTurnedPlayer(mGame.getCurrentTurnedPlayer());
         }
     }
@@ -149,7 +152,7 @@ public class GameModel {
         }
 
         @Override
-        public void onPlayerTurn(Player pPlayer, TurnHint pHint)
+        public void onPlayerTurn(Player pPlayer, ActionHint pHint)
         {
             for (PlayerModel player : mPlayerModels)
             {
@@ -177,43 +180,59 @@ public class GameModel {
     }
 
     class PlayerActionReceiver implements IPlayerActionReceiver {
-        protected Player mPlayer;
+        protected PlayerModel mPlayerModel;
 
-        public PlayerActionReceiver(Player pPlayer)
+        public PlayerActionReceiver(PlayerModel pPlayerModel)
         {
-            mPlayer = pPlayer;
+            mPlayerModel = pPlayerModel;
         }
 
         @Override
         public void showCard(final List<Card> pCards)
         {
-            mHandler.post(new Runnable() {
+            final int actionToken = mPlayerActionToken;
+            Runnable runnable = new Runnable() {
                 @Override
                 public void run()
                 {
-                    if (isPaused)
+                    if (actionToken != mPlayerActionToken)
                     {
                         return;
                     }
-                    mGame.onPlayerShowCard(mPlayer, pCards);
+                    mGame.onPlayerShowCard(mPlayerModel.getPlayer(), pCards);
                 }
-            });
+            };
+            postAction(runnable);
         }
 
         @Override
         public void pass()
         {
-            mHandler.post(new Runnable() {
+            final int actionToken = mPlayerActionToken;
+            Runnable runnable = new Runnable() {
                 @Override
                 public void run()
                 {
-                if (isPaused)
-                {
-                    return;
+                    if (actionToken != mPlayerActionToken)
+                    {
+                        return;
+                    }
+                    mGame.onPlayerPass(mPlayerModel.getPlayer());
                 }
-                mGame.onPlayerPass(mPlayer);
-                }
-            });
+            };
+            postAction(runnable);
+        }
+
+        protected void postAction(Runnable pRunnable)
+        {
+            if (mPlayerModel.isRobot())
+            {
+                mHandler.postDelayed(pRunnable, (int)(2000 + Math.random() * 1000));
+            }
+            else
+            {
+                mHandler.post(pRunnable);
+            }
         }
     }
 }

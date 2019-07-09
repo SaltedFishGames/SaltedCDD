@@ -8,7 +8,7 @@ import cn.saltedfish.saltedcdd.game.pattern.CardGroup;
 import cn.saltedfish.saltedcdd.game.pattern.EPatternType;
 import cn.saltedfish.saltedcdd.game.pattern.PatternRecognizer;
 
-public class TurnHint {
+public class ActionHint {
     protected GameRound mRound;
 
     protected Player mPlayer;
@@ -19,7 +19,7 @@ public class TurnHint {
 
     protected CDDGame mGame;
 
-    public TurnHint(GameRound pRound, Player pPlayer, CDDGame pGame)
+    public ActionHint(GameRound pRound, Player pPlayer, CDDGame pGame)
     {
         mRound = pRound;
         mPlayer = pPlayer;

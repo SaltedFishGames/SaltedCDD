@@ -10,8 +10,8 @@ import cn.saltedfish.saltedcdd.game.card.ECardNumber;
 import cn.saltedfish.saltedcdd.game.card.ECardSuit;
 
 public class AnnotatedCards {
-    public EnumMap<ECardNumber, List<Card>> mNumberMap = new EnumMap<>(ECardNumber.class);
-    public EnumMap<ECardSuit, List<Card>> mSuitMap = new EnumMap<>(ECardSuit.class);
+    protected EnumMap<ECardNumber, List<Card>> mNumberMap = new EnumMap<>(ECardNumber.class);
+    protected EnumMap<ECardSuit, List<Card>> mSuitMap = new EnumMap<>(ECardSuit.class);
 
     public AnnotatedCards(List<Card> pCards)
     {
@@ -36,5 +36,26 @@ public class AnnotatedCards {
             }
             suitMap.add(card);
         }
+    }
+
+    public EnumMap<ECardNumber, List<Card>> getNumberMap()
+    {
+        return mNumberMap;
+    }
+
+
+    public EnumMap<ECardSuit, List<Card>> getSuitMap()
+    {
+        return mSuitMap;
+    }
+
+    public List<Card> getByNumber(ECardNumber pNumber)
+    {
+        return mNumberMap.get(pNumber);
+    }
+
+    public List<Card> getBySuit(ECardSuit pSuit)
+    {
+        return mSuitMap.get(pSuit);
     }
 }

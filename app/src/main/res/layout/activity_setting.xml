@@ -19,27 +19,61 @@
         app:srcCompat="@drawable/icon_return" />
 
     <SeekBar
-        android:id="@+id/seekBar2"
-        android:layout_width="324dp"
-        android:layout_height="18dp"
-        android:layout_marginStart="32dp"
+        android:id="@+id/seekBar_volume"
+        android:layout_width="0dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="120dp"
+        android:layout_marginBottom="102dp"
         android:background="@drawable/btn_main_normal"
+        android:max="100"
         android:progressTint="#00FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/imageButton"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.773" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/imageButton" />
 
     <ImageButton
         android:id="@+id/imageButton"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:layout_marginStart="124dp"
-        android:layout_marginBottom="68dp"
+        android:layout_marginStart="120dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="92dp"
         android:background="@drawable/btn_main_normal"
         android:scaleType="centerInside"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/seekBar_volume"
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/icon_music" />
+
+    <EditText
+        android:id="@+id/editText_nickname"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="120dp"
+        android:layout_marginEnd="120dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:textColor="#FFF"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/imageButton3"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/imageButton3"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="120dp"
+        android:layout_marginTop="112dp"
+        android:layout_marginEnd="24dp"
+        android:background="@drawable/btn_main_normal"
+        android:scaleType="centerInside"
+        app:layout_constraintEnd_toStartOf="@+id/editText_nickname"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/icon_person" />
 
 </android.support.constraint.ConstraintLayout>

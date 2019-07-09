@@ -9,7 +9,7 @@ import cn.saltedfish.saltedcdd.game.GameRound;
 import cn.saltedfish.saltedcdd.game.IGameEventListener;
 import cn.saltedfish.saltedcdd.game.Player;
 import cn.saltedfish.saltedcdd.game.PlayerAction;
-import cn.saltedfish.saltedcdd.game.TurnHint;
+import cn.saltedfish.saltedcdd.game.ActionHint;
 import cn.saltedfish.saltedcdd.game.card.Card;
 import cn.saltedfish.saltedcdd.game.card.ECardNumber;
 import cn.saltedfish.saltedcdd.game.card.ECardSuit;
@@ -91,7 +91,7 @@ public class CDDGameTest {
             }
 
             @Override
-            public void onPlayerTurn(Player pPlayer, TurnHint pHint)
+            public void onPlayerTurn(Player pPlayer, ActionHint pHint)
             {
                 currentTurnedPlayer.setValue(pPlayer);
                 currentRound.setValue(pHint.getRound());
