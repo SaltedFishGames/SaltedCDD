@@ -34,6 +34,17 @@ public class PlayerAction {
             mCardGroup = PatternRecognizer.recognize(pCards);
     }
 
+    public PlayerAction(Player pPlayer, EActionType pType, CardGroup pCardGroup)
+    {
+        mPlayer = pPlayer;
+        mType = pType;
+        if (pCardGroup != null)
+        {
+            mCardGroup = pCardGroup;
+            mCardGroup.recognize();
+        }
+    }
+
     public EActionType getType()
     {
         return mType;

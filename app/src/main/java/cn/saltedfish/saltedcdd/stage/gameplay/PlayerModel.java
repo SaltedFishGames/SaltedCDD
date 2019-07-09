@@ -1,17 +1,28 @@
 package cn.saltedfish.saltedcdd.stage.gameplay;
 
-import cn.saltedfish.saltedcdd.game.IGameEventListener;
+import cn.saltedfish.saltedcdd.game.IPlayerController;
 import cn.saltedfish.saltedcdd.game.Player;
 
 public class PlayerModel {
+    protected Player mPlayer;
+
     protected String mNickname;
 
-    protected Player mGamePlayer;
+    protected IPlayerController mPlayerController;
 
-    public PlayerModel(String pNickname)
+    public PlayerModel()
     {
-        mNickname = pNickname;
-        mGamePlayer = new Player();
+        mPlayer = new Player();
+    }
+
+    public IPlayerController getPlayerController()
+    {
+        return mPlayerController;
+    }
+
+    public void setPlayerController(IPlayerController pPlayerController)
+    {
+        mPlayerController = pPlayerController;
     }
 
     public String getNickname()
@@ -19,13 +30,13 @@ public class PlayerModel {
         return mNickname;
     }
 
-    public Player getGamePlayer()
+    public void setNickname(String pNickname)
     {
-        return mGamePlayer;
+        mNickname = pNickname;
     }
 
-    public interface IEventListener extends IGameEventListener
+    public Player getPlayer()
     {
-
+        return mPlayer;
     }
 }

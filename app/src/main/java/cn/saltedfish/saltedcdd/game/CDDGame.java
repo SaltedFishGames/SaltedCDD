@@ -6,6 +6,7 @@ import java.util.List;
 
 import cn.saltedfish.saltedcdd.game.card.Card;
 import cn.saltedfish.saltedcdd.game.card.CardFactory;
+import cn.saltedfish.saltedcdd.game.pattern.CardGroup;
 import cn.saltedfish.saltedcdd.game.pattern.EPatternType;
 
 public abstract class CDDGame implements IGameOperationBridge {
@@ -35,11 +36,13 @@ public abstract class CDDGame implements IGameOperationBridge {
 
     public abstract void startGame();
 
-    public abstract boolean onPlayerShowCard(Player pPlayer, List<Card> pCards);
+    public abstract PlayerAction onPlayerShowCard(Player pPlayer, List<Card> pCards);
 
-    public abstract boolean onPlayerPass(Player pPlayer);
+    public abstract PlayerAction onPlayerPass(Player pPlayer);
 
     public abstract boolean isShowCardAllowed(Player pPlayer, List<Card> pCards);
+
+    public abstract boolean isShowCardAllowed(Player pPlayer, CardGroup pCards);
 
     public abstract boolean isPassAllowed(Player pPlayer);
 
@@ -112,7 +115,8 @@ public abstract class CDDGame implements IGameOperationBridge {
         mCurrentTurnedPlayer = pPlayer;
         if (mEventListener != null)
         {
-            mEventListener.onPlayerTurn(pPlayer, getCurrentRound());
+            TurnHint hint = new TurnHint(getCurrentRound(), pPlayer, this);
+            mEventListener.onPlayerTurn(pPlayer, hint);
         }
     }
 

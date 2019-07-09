@@ -5,7 +5,7 @@ import java.util.List;
 import cn.saltedfish.saltedcdd.game.card.Card;
 
 public interface IPlayerActionReceiver {
-    void showCard(Player pPlayer, List<Card> pCards);
+    void showCard(List<Card> pCards);
 
-    void pass(Player pPlayer);
+    void pass();
 }

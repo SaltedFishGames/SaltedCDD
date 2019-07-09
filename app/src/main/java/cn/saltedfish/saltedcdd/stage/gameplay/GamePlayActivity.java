@@ -2,6 +2,7 @@ package cn.saltedfish.saltedcdd.stage.gameplay;
 
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 
@@ -14,8 +15,16 @@ public class GamePlayActivity extends FullscreenActivity {
     /**游戏暂停button*/
     ImageButton btn_pauseGame;
 
+    protected GamePlayPresenter mPresenter;
+
+    protected GamePlayView mView;
+
+    protected GameModel mGameModel;
+
     @Override
     protected void onCreate(Bundle savedInstanceState){
+        Log.d("CDD", "Hello");
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
@@ -63,6 +72,11 @@ public class GamePlayActivity extends FullscreenActivity {
             }
         });
 
+        mView = new GamePlayView(this);
+        mGameModel = new GameModel();
+        mPresenter = new GamePlayPresenter(mGameModel, mView);
+
+        mPresenter.start();
     }
 
     /**按返回键时不直接退出游戏，而是暂停游戏*/
@@ -75,6 +89,13 @@ public class GamePlayActivity extends FullscreenActivity {
     private void pauseGame(){
         layout_menu.setVisibility(View.VISIBLE);
         btn_pauseGame.setVisibility(View.GONE);
+    }
+
+    @Override
+    protected void onDestroy()
+    {
+        super.onDestroy();
+        mGameModel.destroy();
     }
 
 }

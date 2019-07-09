@@ -13,6 +13,7 @@ import cn.saltedfish.saltedcdd.game.Player;
 import cn.saltedfish.saltedcdd.game.PlayerAction;
 import cn.saltedfish.saltedcdd.game.card.Card;
 import cn.saltedfish.saltedcdd.game.card.CardFactory;
+import cn.saltedfish.saltedcdd.game.pattern.CardGroup;
 
 public class FourPlayerGame extends CDDGame {
     public static final int PlayerCount = 4;
@@ -66,7 +67,7 @@ public class FourPlayerGame extends CDDGame {
     }
 
     @Override
-    public boolean onPlayerShowCard(Player pPlayer, List<Card> pCards)
+    public PlayerAction onPlayerShowCard(Player pPlayer, List<Card> pCards)
     {
         PlayerAction action = new PlayerAction(pPlayer, EActionType.ShowCard, pCards);
 
@@ -74,41 +75,40 @@ public class FourPlayerGame extends CDDGame {
     }
 
     @Override
-    public boolean onPlayerPass(Player pPlayer)
+    public PlayerAction onPlayerPass(Player pPlayer)
     {
-        PlayerAction action = new PlayerAction(pPlayer, EActionType.Pass, null);
+        PlayerAction action = new PlayerAction(pPlayer, EActionType.Pass);
 
         return handlePlayerAction(action);
     }
 
-    protected boolean handlePlayerAction(PlayerAction pAction)
+    protected PlayerAction handlePlayerAction(PlayerAction pAction)
     {
         if (!isValidAction(pAction))
-            return false;
+            return pAction;
 
         mCurrentState.onPlayerAction(this, pAction);
 
         if (pAction.isAccepted())
         {
             mHistory.getCurrentRound().add(pAction);
-
-            if (mEventListener != null)
-            {
-                mEventListener.onPlayerAction(pAction);
-            }
-
-            if (pAction.getEnterNewState() != null)
-            {
-                enterState(pAction.getEnterNewState());
-            }
-
-            if (pAction.getTurnToPlayer() != null)
-            {
-                setCurrentTurnedPlayer(pAction.getTurnToPlayer());
-            }
         }
 
-        return pAction.isAccepted();
+        if (mEventListener != null)
+        {
+            mEventListener.onPlayerAction(pAction);
+        }
+
+        if (pAction.getEnterNewState() != null)
+        {
+            enterState(pAction.getEnterNewState());
+        }
+
+        if (pAction.getTurnToPlayer() != null)
+        {
+            setCurrentTurnedPlayer(pAction.getTurnToPlayer());
+        }
+        return pAction;
     }
 
     @Override
@@ -120,9 +120,15 @@ public class FourPlayerGame extends CDDGame {
     }
 
     @Override
+    public boolean isShowCardAllowed(Player pPlayer, CardGroup pCards)
+    {
+        return false;
+    }
+
+    @Override
     public boolean isPassAllowed(Player pPlayer)
     {
-        PlayerAction action = new PlayerAction(pPlayer, EActionType.Pass, null);
+        PlayerAction action = new PlayerAction(pPlayer, EActionType.Pass);
 
         return isPlayerActionAllowed(action);
     }

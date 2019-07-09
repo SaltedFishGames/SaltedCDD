@@ -68,6 +68,7 @@ public class CardGroup implements Comparable<CardGroup>{
 
     public void recognize()
     {
+        mType = EPatternType.Unrecognized;
         PatternRecognizer.recognize(this);
     }
 

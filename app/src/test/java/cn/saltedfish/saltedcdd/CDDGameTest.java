@@ -9,6 +9,7 @@ import cn.saltedfish.saltedcdd.game.GameRound;
 import cn.saltedfish.saltedcdd.game.IGameEventListener;
 import cn.saltedfish.saltedcdd.game.Player;
 import cn.saltedfish.saltedcdd.game.PlayerAction;
+import cn.saltedfish.saltedcdd.game.TurnHint;
 import cn.saltedfish.saltedcdd.game.card.Card;
 import cn.saltedfish.saltedcdd.game.card.ECardNumber;
 import cn.saltedfish.saltedcdd.game.card.ECardSuit;
@@ -90,10 +91,10 @@ public class CDDGameTest {
             }
 
             @Override
-            public void onPlayerTurn(Player pPlayer, GameRound pCurRound)
+            public void onPlayerTurn(Player pPlayer, TurnHint pHint)
             {
                 currentTurnedPlayer.setValue(pPlayer);
-                currentRound.setValue(pCurRound);
+                currentRound.setValue(pHint.getRound());
                 System.out.printf("[Game] Turned to Player #%d\n", pPlayer.getId());
             }
 
@@ -152,7 +153,7 @@ public class CDDGameTest {
 
         // first player cannot pass
         assertFalse(game.isPassAllowed(game.getCurrentTurnedPlayer()));
-        assertFalse(game.onPlayerPass(game.getCurrentTurnedPlayer()));
+        assertFalse(game.onPlayerPass(game.getCurrentTurnedPlayer()).isAccepted());
 
         // not current player cannot do any action
         List<Card> cards = new ArrayList<>();
@@ -164,7 +165,7 @@ public class CDDGameTest {
         cards.clear();
         cards.add(exceptedFirstPlayer.cards().get(0));
         assertTrue(game.isShowCardAllowed(exceptedFirstPlayer, new ArrayList<Card>(cards)));
-        assertTrue(game.onPlayerShowCard(exceptedFirstPlayer, new ArrayList<Card>(cards)));
+        assertTrue(game.onPlayerShowCard(exceptedFirstPlayer, new ArrayList<Card>(cards)).isAccepted());
         assertEquals(12, exceptedFirstPlayer.getCardCount());
 
         // turned to next player
@@ -176,13 +177,13 @@ public class CDDGameTest {
         assertEquals(2, secondTurnedPlayer.getCardCount());
         cards.clear();
         cards.add(secondTurnedPlayer.cards().get(0));
-        assertTrue(game.onPlayerShowCard(secondTurnedPlayer, new ArrayList<Card>(cards)));
+        assertTrue(game.onPlayerShowCard(secondTurnedPlayer, new ArrayList<Card>(cards)).isAccepted());
 
         // now player 2 has only 1 card
 
         // other player pass, enter a new round
-        assertTrue(game.onPlayerPass(game.getCurrentTurnedPlayer()));
-        assertTrue(game.onPlayerPass(game.getCurrentTurnedPlayer()));
+        assertTrue(game.onPlayerPass(game.getCurrentTurnedPlayer()).isAccepted());
+        assertTrue(game.onPlayerPass(game.getCurrentTurnedPlayer()).isAccepted());
         assertEquals(exceptedFirstPlayer, currentTurnedPlayer.getValue());
         assertEquals(currentRound.getValue(), firstRound);
 
@@ -192,7 +193,7 @@ public class CDDGameTest {
 
         cards.clear();
         cards.add(secondTurnedPlayer.cards().get(0));
-        assertTrue(game.onPlayerShowCard(secondTurnedPlayer, new ArrayList<Card>(cards)));
+        assertTrue(game.onPlayerShowCard(secondTurnedPlayer, new ArrayList<Card>(cards)).isAccepted());
         assertTrue(endedFlag.getValue());
     }
 }
