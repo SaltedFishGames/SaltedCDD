@@ -288,7 +288,6 @@ public enum EPatternType {
                 {
                     for (List<Card> cardsTwo : pAvailableCards.mNumberMap.values())
                     {
-
                         if (cardsTwo.size() >= 2
                                 && cardsTwo.get(0).getNumber() != numberHolder.getValue())
                         {

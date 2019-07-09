@@ -161,8 +161,6 @@ public class EPatternTypeTest {
         List<Card> cardList = createCardList("♦3", "♦4", "♦5", "♦6", "♦7", "♦8");
         AnnotatedCards annotatedCards = new AnnotatedCards(cardList);
         List<CardGroup> potentialList = EPatternType.StraightFlush.potentialCardGroup(annotatedCards);
-        System.out.println(potentialList.get(0));
-        System.out.println(potentialList.get(1));
         assertEquals(2, potentialList.size());
 
         CardGroup c = potentialList.get(0);

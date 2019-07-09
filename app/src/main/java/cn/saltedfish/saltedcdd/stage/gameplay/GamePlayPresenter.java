@@ -3,41 +3,28 @@ package cn.saltedfish.saltedcdd.stage.gameplay;
 import java.util.List;
 
 import cn.saltedfish.saltedcdd.game.IPlayerActionReceiver;
-import cn.saltedfish.saltedcdd.game.CDDGame;
 import cn.saltedfish.saltedcdd.game.GameRound;
-import cn.saltedfish.saltedcdd.game.IGameEventListener;
 import cn.saltedfish.saltedcdd.game.Player;
 import cn.saltedfish.saltedcdd.game.PlayerAction;
 import cn.saltedfish.saltedcdd.game.card.Card;
-import cn.saltedfish.saltedcdd.game.routine.FourPlayerGame;
 
-public class GameModel implements IGameEventListener, IPlayerActionReceiver {
-    protected CDDGame mGame;
+public class GamePlayPresenter implements GamePlayContract.Presenter {
+    protected GamePlayContract.View mGamePlayView;
 
-    protected PlayerModel[] mPlayerModels;
+    protected GameModel mGameModel;
 
-    public GameModel()
+    public void GamePlayPresenter(GameModel pGameModel, GamePlayView pView)
     {
+        mGameModel = pGameModel;
 
+        mGamePlayView = pView;
+        mGamePlayView.setPresenter(this);
     }
 
-    public void newGame()
+    @Override
+    public void start()
     {
-        mGame = new FourPlayerGame();
-    }
 
-    public void prepare(PlayerModel[] pPlayerModels)
-    {
-        mPlayerModels = pPlayerModels;
-
-        Player[] gamePlayers = new Player[pPlayerModels.length];
-
-        for (int i = 0; i < gamePlayers.length; i++)
-        {
-            gamePlayers[i] = pPlayerModels[i].getGamePlayer();
-        }
-
-        mGame.prepare(gamePlayers);
     }
 
     @Override
@@ -71,6 +58,18 @@ public class GameModel implements IGameEventListener, IPlayerActionReceiver {
     }
 
     @Override
+    public void startGame()
+    {
+
+    }
+
+    @Override
+    public void abortGame()
+    {
+
+    }
+
+    @Override
     public void showCard(List<Card> pCards)
     {
 
@@ -78,6 +77,12 @@ public class GameModel implements IGameEventListener, IPlayerActionReceiver {
 
     @Override
     public void pass()
+    {
+
+    }
+
+    @Override
+    public void setActionReceiver(IPlayerActionReceiver pGameModel)
     {
 
     }

@@ -1,5 +1,6 @@
 package cn.saltedfish.saltedcdd.stage.gameplay;
 
+import cn.saltedfish.saltedcdd.game.IGameEventListener;
 import cn.saltedfish.saltedcdd.game.Player;
 
 public class PlayerModel {
@@ -21,5 +22,10 @@ public class PlayerModel {
     public Player getGamePlayer()
     {
         return mGamePlayer;
+    }
+
+    public interface IEventListener extends IGameEventListener
+    {
+
     }
 }
