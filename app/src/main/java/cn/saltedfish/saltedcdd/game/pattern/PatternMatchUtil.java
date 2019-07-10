@@ -103,5 +103,35 @@ public class PatternMatchUtil {
         return sStraightPatterns;
     }
 
+    public static void enumCombination(EnumItemHandler pHandler, List<Card> pAvailableCards, int pStartIdx, int pTotalNum, int pFilledNum, int pSelectedIndex, Card[] pTmpArray)
+    {
+        if (pFilledNum == pTotalNum) {
+            pHandler.handle(pTmpArray);
+            return;
+        }
 
+        int targetIndex = pAvailableCards.size() - (pTotalNum - pFilledNum);
+        for (int i = pSelectedIndex; i <= targetIndex; i++) {
+            pTmpArray[pStartIdx + pFilledNum] = pAvailableCards.get(i);
+            enumCombination(pHandler, pAvailableCards, pStartIdx, pTotalNum, pFilledNum + 1, i + 1, pTmpArray);
+        }
+    }
+
+    public static void enumCombinationSimple(final List<CardGroup> pResult, List<Card> pAvailableCards, int pTotalNum)
+    {
+        Card[] tmpArray = new Card[pTotalNum];
+        EnumItemHandler handler = new EnumItemHandler() {
+            @Override
+            public void handle(Card[] item)
+            {
+                pResult.add(new CardGroup(item));
+            }
+        };
+        enumCombination(handler, pAvailableCards, 0, pTotalNum, 0, 0, tmpArray);
+    }
+
+    public interface EnumItemHandler
+    {
+        void handle(Card[] item);
+    }
 }

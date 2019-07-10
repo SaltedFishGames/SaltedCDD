@@ -2,15 +2,10 @@ package cn.saltedfish.saltedcdd.stage.gameplay;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.constraint.ConstraintLayout;
-import android.view.View;
-import android.widget.ImageButton;
 
 import cn.saltedfish.saltedcdd.R;
 import cn.saltedfish.saltedcdd.stage.FullscreenActivity;
 import cn.saltedfish.saltedcdd.stage.Navigator;
-import cn.saltedfish.saltedcdd.stage.setting.SettingActivity;
-import cn.saltedfish.saltedcdd.stage.title.TitleActivity;
 
 public class GamePlayActivity extends FullscreenActivity {
     protected GamePlayPresenter mPresenter;
@@ -29,9 +24,9 @@ public class GamePlayActivity extends FullscreenActivity {
             @Override
             public void navigate()
             {
-                Intent intent = getIntent();
-                finish();
-                startActivity(intent);
+            Intent intent = getIntent();
+            finish();
+            startActivity(intent);
             }
         };
 
@@ -56,12 +51,10 @@ public class GamePlayActivity extends FullscreenActivity {
         mPresenter.onPauseGameClicked();
     }
 
-
     @Override
     protected void onDestroy()
     {
         super.onDestroy();
         mGameModel.destroy();
     }
-
 }

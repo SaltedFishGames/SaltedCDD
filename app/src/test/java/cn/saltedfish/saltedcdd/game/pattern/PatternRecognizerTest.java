@@ -1,4 +1,4 @@
-package cn.saltedfish.saltedcdd;
+package cn.saltedfish.saltedcdd.game.pattern;
 
 import static org.junit.Assert.*;
 
