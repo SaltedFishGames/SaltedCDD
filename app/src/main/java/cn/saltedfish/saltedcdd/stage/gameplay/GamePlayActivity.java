@@ -7,12 +7,16 @@ import android.widget.ImageButton;
 
 import cn.saltedfish.saltedcdd.R;
 import cn.saltedfish.saltedcdd.stage.FullscreenActivity;
+import cn.saltedfish.saltedcdd.stage.gameplay.engine.Physics;
+import cn.saltedfish.saltedcdd.stage.gameplay.engine.Renderer;
 
 public class GamePlayActivity extends FullscreenActivity {
     /**游戏菜单layout*/
     ConstraintLayout layout_menu;
     /**游戏暂停button*/
     ImageButton btn_pauseGame;
+    /**游戏活动SurfaceView*/
+    GameView gameView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -20,6 +24,7 @@ public class GamePlayActivity extends FullscreenActivity {
         setContentView(R.layout.activity_game);
 
         layout_menu = findViewById(R.id.layout_menu);
+        gameView = findViewById(R.id.gameView);
 
         /*游戏暂停*/
         btn_pauseGame = findViewById(R.id.button_pauseGame);
@@ -27,6 +32,7 @@ public class GamePlayActivity extends FullscreenActivity {
             @Override
             public void onClick(View v) {
                 /*暂停游戏，弹出option（退出游戏/重新一局/继续游戏）*/
+                gameView.pauseGameView();
                 pauseGame();
             }
         });
@@ -38,6 +44,7 @@ public class GamePlayActivity extends FullscreenActivity {
             public void onClick(View v) {
                 layout_menu.setVisibility(View.GONE);
                 btn_pauseGame.setVisibility(View.VISIBLE);
+                gameView.continueGameView();
             }
         });
 
@@ -47,10 +54,11 @@ public class GamePlayActivity extends FullscreenActivity {
             @Override
             public void onClick(View v) {
                 /*结束游戏进程，释放资源*/
-
+                gameView.exitGameView();
                 /*界面跳转*/
                 finish();
                 overridePendingTransition(R.anim.activity_in, R.anim.activity_out);
+                exit();
             }
         });
 
@@ -59,10 +67,26 @@ public class GamePlayActivity extends FullscreenActivity {
         btn_refreshGame.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                gameView.setVisibility(View.GONE);
+                gameView.exitGameView();
+                layout_menu.setVisibility(View.GONE);
+                btn_pauseGame.setVisibility(View.VISIBLE);
+
+                gameView.setVisibility(View.VISIBLE);
 
             }
         });
+    }
 
+    public void exit() {
+        synchronized (Renderer.rendererArrayList) {
+            Renderer.clear = true;
+            if (Renderer.rendererArrayList != null) {
+                Renderer.rendererArrayList.clear();
+            }
+        }
+        Scene.getInstance().clear = true;
+        Physics.Clear();
     }
 
     /**按返回键时不直接退出游戏，而是暂停游戏*/
