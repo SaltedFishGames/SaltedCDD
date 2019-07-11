@@ -144,10 +144,6 @@ public class GamePlayView implements GamePlayContract.View {
     @Override
     public void showGameResult(GameResult pResult)
     {
-        mGameBoardView.getActionBarGameView().hide();
-        mBtnPauseGame.setVisibility(View.GONE);
-        mBtnGameEndToHome.setVisibility(View.VISIBLE);
-        mBtnGameEndToRefresh.setVisibility(View.VISIBLE);
         for (int i = 0; i < 4; i++)
         {
             PlayerGameView playerGameView = mGameBoardView.getPlayerGameView(i);
@@ -155,6 +151,10 @@ public class GamePlayView implements GamePlayContract.View {
             playerGameView.setShowCards(pResult.getCardsLeft(i));
             playerGameView.setHandCards(null);
         }
+        mGameBoardView.getActionBarGameView().hide();
+        mBtnPauseGame.setVisibility(View.GONE);
+        mBtnGameEndToHome.setVisibility(View.VISIBLE);
+        mBtnGameEndToRefresh.setVisibility(View.VISIBLE);
     }
 
     @Override
