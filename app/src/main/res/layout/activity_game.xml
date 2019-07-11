@@ -59,7 +59,7 @@
         android:id="@+id/layout_menu"
         android:layout_width="738dp"
         android:layout_height="421dp"
-        android:background="#32000000"
+        android:background="#80424242"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

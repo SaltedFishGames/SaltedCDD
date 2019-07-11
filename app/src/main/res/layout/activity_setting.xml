@@ -27,7 +27,8 @@
         android:layout_marginBottom="102dp"
         android:background="@drawable/btn_main_normal"
         android:max="100"
-        android:progressTint="#00FFFFFF"
+        android:progressTint="#FFFFFF"
+        android:thumb="@drawable/selector_thumb_bar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/imageButton" />

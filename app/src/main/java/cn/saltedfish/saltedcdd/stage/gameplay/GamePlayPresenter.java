@@ -159,7 +159,7 @@ public class GamePlayPresenter implements GamePlayContract.Presenter, IPlayerCon
         if (pPlayer == mThisPlayerModel.getPlayer())
         {
             mCurrentHint = pHint;
-            mView.showTurnToMyself(pHint.getPossibleMinimumCardGroup() != null, pHint.isPassAllowed());
+
             if (mAutoPlay)
             {
                 if (pHint.getPossibleMinimumCardGroup() != null)
@@ -170,6 +170,8 @@ public class GamePlayPresenter implements GamePlayContract.Presenter, IPlayerCon
                 {
                     mActionReceiver.pass();
                 }
+            } else {
+                mView.showTurnToMyself(pHint.getPossibleMinimumCardGroup() != null, pHint.isPassAllowed());
             }
         }
         else
