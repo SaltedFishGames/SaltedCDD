@@ -76,7 +76,7 @@ public class GameBoardView extends View {
                 (int)(CardGameView.sBigHeight * 0.15),
 
                 LayoutHelper.sRefWidth - CardGameView.sBigWidth - CardGameView.sSmallWidth - 100,
-                LayoutHelper.sRefHeight / 2 - CardGameView.sSmallHeight / 2 - 80,
+                LayoutHelper.sRefHeight / 2 - CardGameView.sSmallHeight / 2 - 60,
                 CardGroupGameView.ShowType.RL,
                 CardGameView.ShowType.SmallFront,
                 (int)(CardGameView.sSmallWidth * 1.1)
@@ -104,7 +104,7 @@ public class GameBoardView extends View {
                 (int)(CardGameView.sBigHeight * 0.15),
 
                 CardGameView.sBigWidth + 100,
-                LayoutHelper.sRefHeight / 2 - CardGameView.sSmallHeight / 2 - 80,
+                LayoutHelper.sRefHeight / 2 - CardGameView.sSmallHeight / 2 - 60,
                 CardGroupGameView.ShowType.LR,
                 CardGameView.ShowType.SmallFront,
                 (int)(CardGameView.sSmallWidth * 1.1)

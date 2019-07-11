@@ -4,6 +4,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import java.util.List;
+
 import cn.saltedfish.saltedcdd.game.EActionType;
 import cn.saltedfish.saltedcdd.game.GameRound;
 import cn.saltedfish.saltedcdd.game.IPlayerController;
@@ -197,7 +199,6 @@ public class GamePlayPresenter implements GamePlayContract.Presenter, IPlayerCon
             mView.setPlayerCards(i, mGameModel.getPlayerModel(i).getPlayer().cards());
             mView.repaint();
         }
-
     }
 
     @Override
@@ -205,7 +206,18 @@ public class GamePlayPresenter implements GamePlayContract.Presenter, IPlayerCon
     {
         GameResult result = new GameResult(mGameModel);
 
+        for (int i = 0; i < 4; i++)
+        {
+            List<Card> cardsLeft = mGameModel.getPlayerModel(i).getPlayer().cards();
+            if (cardsLeft.size() > 0)
+            {
+                mView.showPlayerShowCard(i, cardsLeft);
+            }
+        }
+
         mView.showGameResult(result);
+        mView.hideActionBar();
+        mView.repaint();
     }
 
     public IPlayerController getPlayerController()
@@ -255,7 +267,6 @@ public class GamePlayPresenter implements GamePlayContract.Presenter, IPlayerCon
                     GamePlayPresenter.this.onPlayerTurn(pPlayer, pHint);
                 }
             });
-
         }
 
         @Override

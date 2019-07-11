@@ -35,9 +35,9 @@ public class ActionBarGameView extends BaseGameView {
 
     public ActionBarGameView()
     {
-        mShowCardButton = new SpiritGameView();
-        mPassButton = new SpiritGameView();
-        mHintButton = new SpiritGameView();
+        mShowCardButton = new ExpandedSpiritGameView(0, 0, 24, 24);
+        mPassButton = new ExpandedSpiritGameView(0, 0, 24, 24);
+        mHintButton = new ExpandedSpiritGameView(0, 0, 24, 24);
 
         mShowCardButton.setPosX(LayoutHelper.sRefWidth / 2 - (int)(2 * sButtonWidth));
         mShowCardButton.setPosY(695);

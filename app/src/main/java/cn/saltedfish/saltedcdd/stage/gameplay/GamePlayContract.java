@@ -40,6 +40,7 @@ public interface GamePlayContract {
 
         void repaint();
 
+        void hideActionBar();
     }
 
     interface Presenter extends BasePresenter {

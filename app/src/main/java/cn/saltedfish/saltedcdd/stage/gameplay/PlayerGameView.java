@@ -53,7 +53,7 @@ public class PlayerGameView extends BaseGameView {
         mHandCardView.setCards(pCards);
     }
 
-    public void setShowCards(List<Card> pCards)
+    public void setShowCardAction(List<Card> pCards)
     {
         mShowCardView.setCards(pCards);
     }
@@ -90,7 +90,7 @@ public class PlayerGameView extends BaseGameView {
         mPassIndicator.setPosY(pY);
     }
 
-    public void showPass()
+    public void setPassAction()
     {
         mPassIndicator.setVisible(true);
     }

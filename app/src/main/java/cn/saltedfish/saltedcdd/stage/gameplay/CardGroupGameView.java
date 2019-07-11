@@ -28,6 +28,11 @@ public class CardGroupGameView extends BaseGameView implements SpiritGameView.On
         mCardGap = pCardGap;
     }
 
+    protected static int min(int a, int b)
+    {
+        return a < b ? a : b;
+    }
+
     public void setCards(List<Card> pCards)
     {
         removeAll();
@@ -46,12 +51,22 @@ public class CardGroupGameView extends BaseGameView implements SpiritGameView.On
                 x -= (int)(mCardGap * (double)(pCards.size() - 1) / 2);
                 break;
             case RL:
-                x -= mCardGap * (pCards.size() - 1);
-
+                x -= mCardGap * (min(7, pCards.size()) - 1);
         }
 
-        for (Card c : pCards)
+        int initialX = x;
+        int initialY = y;
+
+        for (int i = 0; i < pCards.size(); i++)
         {
+            if (i == 7 && (mShowType == ShowType.LR || mShowType == ShowType.RL))
+            {
+                y = (int)(initialY - CardGameView.sSmallHeight * 1.2);
+                x = initialX;
+            }
+
+            Card c = pCards.get(i);
+
             CardGameView cardView = new CardGameView(c, mCardShowType);
             cardView.setPosX(x);
             cardView.setPosY(y);

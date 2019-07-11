@@ -122,25 +122,23 @@ public class GamePlayView implements GamePlayContract.View {
     @Override
     public void showGameResult(GameResult pResult)
     {
-        for (int i = 0; i < 4; i++)
-        {
-            PlayerGameView playerGameView = mGameBoardView.getPlayerGameView(i);
-            playerGameView.removeLastAction();
-            playerGameView.setShowCards(pResult.getCardsLeft(i));
-            playerGameView.setHandCards(null);
-        }
+
     }
 
     @Override
     public void showPlayerPass(int index)
     {
-        mGameBoardView.getPlayerGameView(index).showPass();
+        PlayerGameView playerGameView = mGameBoardView.getPlayerGameView(index);
+        playerGameView.removeLastAction();
+        playerGameView.setPassAction();
     }
 
     @Override
     public void showPlayerShowCard(int index, List<Card> pCards)
     {
-        mGameBoardView.getPlayerGameView(index).setShowCards(pCards);
+        PlayerGameView playerGameView = mGameBoardView.getPlayerGameView(index);
+        playerGameView.removeLastAction();
+        playerGameView.setShowCardAction(pCards);
     }
 
     @Override
@@ -196,6 +194,12 @@ public class GamePlayView implements GamePlayContract.View {
     public void repaint()
     {
         mGameBoardView.invalidate();
+    }
+
+    @Override
+    public void hideActionBar()
+    {
+        mGameBoardView.getActionBarGameView().hide();
     }
 
     public void onDestroy()
