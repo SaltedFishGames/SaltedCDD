@@ -108,7 +108,7 @@ public class PlayerInfoGameView extends BaseGameView {
                 resId = R.drawable.icon_head;
                 break;
             case Robot:
-                resId = R.drawable.icon_head_autoplay;
+                resId = R.drawable.icon_robot_head_right;
                 break;
             case RobotLeft:
                 resId = R.drawable.icon_robot_head_left;
