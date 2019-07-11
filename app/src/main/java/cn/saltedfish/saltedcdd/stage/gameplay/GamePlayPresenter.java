@@ -214,9 +214,8 @@ public class GamePlayPresenter implements GamePlayContract.Presenter, IPlayerCon
                 mView.showPlayerShowCard(i, cardsLeft);
             }
         }
-
-        mView.showGameResult(result);
         mView.hideActionBar();
+        mView.showGameResult(result);
         mView.repaint();
     }
 

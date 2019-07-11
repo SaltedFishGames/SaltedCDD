@@ -10,10 +10,38 @@
         android:id="@+id/gameBoard"
         android:layout_width="0dp"
         android:layout_height="0dp"
+
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/button_gameEndToHome"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginStart="230dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/btn_main_normal"
+        android:scaleType="centerInside"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/icon_home" />
+
+    <ImageButton
+        android:id="@+id/button_gameEndToRefresh"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginEnd="230dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/btn_main_normal"
+        android:padding="7dp"
+        android:scaleType="centerInside"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/icon_refresh" />
 
     <ImageButton
         android:id="@+id/button_pauseGame"
@@ -76,4 +104,5 @@
             app:layout_constraintTop_toTopOf="@+id/button_refreshGame"
             app:srcCompat="@drawable/icon_continue" />
     </android.support.constraint.ConstraintLayout>
+
 </android.support.constraint.ConstraintLayout>

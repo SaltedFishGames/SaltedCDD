@@ -39,8 +39,6 @@ public interface GamePlayContract {
         void showToast(String pToast);
 
         void repaint();
-
-        void hideActionBar();
     }
 
     interface Presenter extends BasePresenter {
