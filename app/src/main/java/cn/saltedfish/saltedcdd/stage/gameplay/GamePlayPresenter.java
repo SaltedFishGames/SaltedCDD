@@ -2,7 +2,9 @@ package cn.saltedfish.saltedcdd.stage.gameplay;
 
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
+import cn.saltedfish.saltedcdd.game.EActionType;
 import cn.saltedfish.saltedcdd.game.GameRound;
 import cn.saltedfish.saltedcdd.game.IPlayerController;
 import cn.saltedfish.saltedcdd.game.IPlayerActionReceiver;
@@ -10,6 +12,8 @@ import cn.saltedfish.saltedcdd.game.Player;
 import cn.saltedfish.saltedcdd.game.PlayerAction;
 import cn.saltedfish.saltedcdd.game.ActionHint;
 import cn.saltedfish.saltedcdd.game.card.Card;
+import cn.saltedfish.saltedcdd.game.pattern.CardGroup;
+import cn.saltedfish.saltedcdd.game.pattern.EPatternType;
 import cn.saltedfish.saltedcdd.stage.Navigator;
 
 public class GamePlayPresenter implements GamePlayContract.Presenter, IPlayerController {
@@ -25,7 +29,11 @@ public class GamePlayPresenter implements GamePlayContract.Presenter, IPlayerCon
 
     protected IPlayerController mPlayerController;
 
-    protected boolean mAutoPlay = true;
+    protected boolean mAutoPlay = false;
+
+    protected ActionHint mCurrentHint;
+
+    protected PlayerModel mThisPlayerModel;
 
     public GamePlayPresenter(GameModel pModel, Navigator pNavigatorRestartGame, Navigator pNavigatorQuitGame, GamePlayContract.View pView)
     {
@@ -39,6 +47,8 @@ public class GamePlayPresenter implements GamePlayContract.Presenter, IPlayerCon
         mPlayerController = new PlayerControllerProxy();
 
         mGameModel.attachHumanPlayer(mPlayerController);
+
+        mThisPlayerModel = mGameModel.getHumanPlayer();
     }
 
     @Override
@@ -78,19 +88,32 @@ public class GamePlayPresenter implements GamePlayContract.Presenter, IPlayerCon
     @Override
     public void onShowCardClicked()
     {
-
+        mActionReceiver.showCard(mView.getCardSelection());
     }
 
     @Override
     public void onPassClicked()
     {
-
+        mActionReceiver.pass();
     }
 
     @Override
     public void onCardSelectionModified()
     {
 
+    }
+
+    @Override
+    public void onHintClicked()
+    {
+        if (mCurrentHint == null) return;
+        CardGroup possibleGroup = mCurrentHint.getPossibleMinimumCardGroup();
+        if (possibleGroup != null)
+        {
+            mView.clearCardSelection();
+            mView.setCardSelection(possibleGroup.cards());
+        }
+        mView.repaint();
     }
 
     @Override
@@ -102,63 +125,87 @@ public class GamePlayPresenter implements GamePlayContract.Presenter, IPlayerCon
     @Override
     public void onGamePrepared()
     {
-        Log.d("CDD", "Game.prepared");
+        for (int i = 0; i < 4; i++)
+        {
+            mView.setPlayerCards(i, mGameModel.getPlayerModel(i).getPlayer().cards());
+        }
+        mView.repaint();
         mGameModel.startGame();
     }
 
     @Override
     public void onNewRound(GameRound pNewRound)
     {
-        Log.d("CDD", "Game.newRound");
     }
 
     @Override
     public void onPlayerTurn(Player pPlayer, ActionHint pHint)
     {
-        Log.d("CDD", "Game.turnTo Player#" + pPlayer.getId());
-        if (pHint.getPossibleMinimumCardGroup() != null)
+        if (pPlayer == mThisPlayerModel.getPlayer())
         {
-            mActionReceiver.showCard(pHint.getPossibleMinimumCardGroup().cards());
+            mCurrentHint = pHint;
+            mView.showTurnToMyself(pHint.getPossibleMinimumCardGroup() != null, pHint.isPassAllowed());
+            if (mAutoPlay)
+            {
+                if (pHint.getPossibleMinimumCardGroup() != null)
+                {
+                    mActionReceiver.showCard(pHint.getPossibleMinimumCardGroup().cards());
+                }
+                else
+                {
+                    mActionReceiver.pass();
+                }
+            }
         }
         else
         {
-            mActionReceiver.pass();
+            mCurrentHint = null;
+            mView.showTurnToOthers(pPlayer.getId());
         }
+        mView.repaint();
     }
 
     @Override
     public void onPlayerAction(PlayerAction action)
     {
-        if (!action.isAccepted())
+        if (!action.isAccepted() && action.getPlayer() == mThisPlayerModel.getPlayer())
         {
-            Log.e("CDD", "Game.actionRejected Player#" + action.getPlayer().getId());
+            if (action.getType() == EActionType.ShowCard)
+            {
+                if (action.getCardGroup().getType() == EPatternType.Unknown)
+                {
+                    mView.showToast("牌型不合法");
+                }
+                else
+                {
+                    mView.showToast("所选牌不大于上家的牌");
+                }
+            }
+
+        }
+        if (action.isAccepted())
+        {
+            int i = action.getPlayer().getId();
+            switch (action.getType()) {
+                case Pass:
+                    mView.showPlayerPass(i);
+                    break;
+                case ShowCard:
+                    mView.showPlayerShowCard(i, action.getCardGroup().cards());
+                    break;
+            }
+            mView.setPlayerCards(i, mGameModel.getPlayerModel(i).getPlayer().cards());
+            mView.repaint();
         }
 
-        switch (action.getType())
-        {
-            case Pass:
-                Log.d("CDD", "Game.pass Player#" + action.getPlayer().getId());
-                break;
-            case ShowCard:
-                Log.d("CDD", "Game.showCard Player#" + action.getPlayer().getId() + ", cards=" + action.getCardGroup().toString());
-                break;
-        }
-        StringBuilder sb = new StringBuilder();
-        for (Card c : action.getPlayer().cards())
-        {
-            sb.append(c.toString());
-            sb.append(", ");
-        }
-        Log.d("CDD", "Game.now Player#" + action.getPlayer().getId() + " has cards " + sb.toString());
     }
 
     @Override
     public void onGameEnded()
     {
-        GameResult result = new GameResult();
-        // TODO: generate game result
+        GameResult result = new GameResult(mGameModel);
+
         mView.showGameResult(result);
-        Log.d("CDD", "Game.ended");
     }
 
     public IPlayerController getPlayerController()

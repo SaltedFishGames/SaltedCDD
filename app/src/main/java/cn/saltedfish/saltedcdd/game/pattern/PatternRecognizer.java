@@ -54,7 +54,6 @@ public class PatternRecognizer {
         if (group.getType() == EPatternType.Unrecognized)
         {
             group.setType(EPatternType.Unknown);
-            group.setCriticalCard(group.get(group.count() - 1));
         }
 
         return group;

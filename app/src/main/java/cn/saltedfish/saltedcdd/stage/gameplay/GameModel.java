@@ -73,9 +73,9 @@ public class GameModel {
         attachPlayerController(0, pPlayerController);
     }
 
-    public Player getHumanPlayer()
+    public PlayerModel getHumanPlayer()
     {
-        return mPlayerModels[0].getPlayer();
+        return mPlayerModels[0];
     }
 
     public void destroy()

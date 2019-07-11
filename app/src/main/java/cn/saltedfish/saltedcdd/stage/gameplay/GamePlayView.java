@@ -1,9 +1,10 @@
 package cn.saltedfish.saltedcdd.stage.gameplay;
 
-import android.content.Intent;
 import android.support.constraint.ConstraintLayout;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import java.lang.ref.WeakReference;
 import java.util.List;
@@ -14,9 +15,11 @@ import cn.saltedfish.saltedcdd.game.card.Card;
 public class GamePlayView implements GamePlayContract.View {
     protected WeakReference<GamePlayActivity> mActivity;
 
-    ConstraintLayout mLayoutMenu;
+    protected ConstraintLayout mLayoutMenu;
 
-    ImageButton mBtnPauseGame;
+    protected ImageButton mBtnPauseGame;
+
+    protected GameBoardView mGameBoardView;
 
     protected GamePlayContract.Presenter mPresenter;
 
@@ -57,11 +60,38 @@ public class GamePlayView implements GamePlayContract.View {
                 mPresenter.onRestartGameClicked();
             }
         });
+
+        DisplayMetrics dm = new DisplayMetrics();
+        pActivity.getWindowManager().getDefaultDisplay().getRealMetrics(dm);
+
+        mGameBoardView = pActivity.findViewById(R.id.gameBoard);
+        mGameBoardView.setLayoutHelper(new LayoutHelper(dm));
+
+        mGameBoardView.getActionBarGameView().setActionListener(new ActionBarGameView.IActionListener() {
+            @Override
+            public void onPass()
+            {
+                mPresenter.onPassClicked();
+            }
+
+            @Override
+            public void onShowCard()
+            {
+                mPresenter.onShowCardClicked();
+            }
+
+            @Override
+            public void onHint()
+            {
+                mPresenter.onHintClicked();
+            }
+        });
     }
 
     @Override
     public void setPauseMenuVisibility(boolean pVisible)
     {
+        mGameBoardView.setBlockTouchEvent(pVisible);
         mLayoutMenu.setVisibility(pVisible ? View.VISIBLE : View.GONE);
     }
 
@@ -86,61 +116,63 @@ public class GamePlayView implements GamePlayContract.View {
     @Override
     public void setPlayerCards(int index, List<Card> pCards)
     {
-
+        mGameBoardView.getPlayerGameView(index).setHandCards(pCards);
     }
 
     @Override
     public void showGameResult(GameResult pResult)
     {
-
+        for (int i = 0; i < 4; i++)
+        {
+            PlayerGameView playerGameView = mGameBoardView.getPlayerGameView(i);
+            playerGameView.removeLastAction();
+            playerGameView.setShowCards(pResult.getCardsLeft(i));
+            playerGameView.setHandCards(null);
+        }
     }
 
     @Override
     public void showPlayerPass(int index)
     {
-
+        mGameBoardView.getPlayerGameView(index).showPass();
     }
 
     @Override
     public void showPlayerShowCard(int index, List<Card> pCards)
     {
-
+        mGameBoardView.getPlayerGameView(index).setShowCards(pCards);
     }
 
     @Override
-    public void showTurnToMyself()
+    public void showTurnToMyself(boolean pShowCard, boolean pPass)
     {
-
+        mGameBoardView.getPlayerGameView(0).removeLastAction();
+        mGameBoardView.getActionBarGameView().show(pShowCard, pPass, pShowCard);
     }
 
     @Override
-    public void showTurnToOthers()
+    public void showTurnToOthers(int index)
     {
-
-    }
-
-    @Override
-    public void setPassEnable(boolean pIsEnable)
-    {
-
-    }
-
-    @Override
-    public void setShowCardEnable(boolean pIsEnable)
-    {
-
+        mGameBoardView.getActionBarGameView().hide();
+        mGameBoardView.getPlayerGameView(index).removeLastAction();
     }
 
     @Override
     public List<Card> getCardSelection()
     {
-        return null;
+        return mGameBoardView.getPlayerGameView(0).getHandCardView().getSelectedCards();
+    }
+
+    @Override
+    public void setCardSelection(List<Card> pCards)
+    {
+        mGameBoardView.getPlayerGameView(0).getHandCardView().selectAll(pCards);
     }
 
     @Override
     public void clearCardSelection()
     {
-
+        mGameBoardView.getPlayerGameView(0).getHandCardView().deselectAll();
     }
 
     @Override
@@ -152,5 +184,25 @@ public class GamePlayView implements GamePlayContract.View {
     public void runOnUiThread(Runnable pRunnable)
     {
         mActivity.get().runOnUiThread(pRunnable);
+    }
+
+    @Override
+    public void showToast(String pToast)
+    {
+        Toast.makeText(mActivity.get(), pToast, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void repaint()
+    {
+        mGameBoardView.invalidate();
+    }
+
+    public void onDestroy()
+    {
+        if (mGameBoardView != null)
+        {
+            mGameBoardView.onDestroy();
+        }
     }
 }

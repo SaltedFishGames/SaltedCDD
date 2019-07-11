@@ -56,5 +56,6 @@ public class GamePlayActivity extends FullscreenActivity {
     {
         super.onDestroy();
         mGameModel.destroy();
+        mView.onDestroy();
     }
 }

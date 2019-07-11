@@ -84,14 +84,14 @@ public class FourPlayerGame extends CDDGame {
 
     protected PlayerAction handlePlayerAction(PlayerAction pAction)
     {
-        if (!isValidAction(pAction))
-            return pAction;
-
-        mCurrentState.onPlayerAction(this, pAction);
-
-        if (pAction.isAccepted())
+        if (isValidAction(pAction))
         {
-            mHistory.getCurrentRound().add(pAction);
+            mCurrentState.onPlayerAction(this, pAction);
+
+            if (pAction.isAccepted())
+            {
+                mHistory.getCurrentRound().add(pAction);
+            }
         }
 
         if (mEventListener != null)
@@ -108,6 +108,7 @@ public class FourPlayerGame extends CDDGame {
         {
             setCurrentTurnedPlayer(pAction.getTurnToPlayer());
         }
+
         return pAction;
     }
 

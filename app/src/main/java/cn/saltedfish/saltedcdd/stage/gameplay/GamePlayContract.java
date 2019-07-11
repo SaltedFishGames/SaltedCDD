@@ -24,19 +24,22 @@ public interface GamePlayContract {
 
         void showPlayerShowCard(int index, List<Card> pCards);
 
-        void showTurnToMyself();
+        void showTurnToMyself(boolean pShowCard, boolean pPass);
 
-        void showTurnToOthers();
-
-        void setPassEnable(boolean pIsEnable);
-
-        void setShowCardEnable(boolean pIsEnable);
+        void showTurnToOthers(int index);
 
         List<Card> getCardSelection();
+
+        void setCardSelection(List<Card> pCards);
 
         void clearCardSelection();
 
         void runOnUiThread(Runnable pRunnable);
+
+        void showToast(String pToast);
+
+        void repaint();
+
     }
 
     interface Presenter extends BasePresenter {
@@ -53,5 +56,7 @@ public interface GamePlayContract {
         void onPassClicked();
 
         void onCardSelectionModified();
+
+        void onHintClicked();
     }
 }
