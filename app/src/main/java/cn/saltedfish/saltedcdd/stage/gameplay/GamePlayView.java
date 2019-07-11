@@ -106,6 +106,8 @@ public class GamePlayView implements GamePlayContract.View {
                 mPresenter.onHintClicked();
             }
         });
+
+
     }
 
     @Override
@@ -122,9 +124,12 @@ public class GamePlayView implements GamePlayContract.View {
     }
 
     @Override
-    public void setPlayerInfo(int index, String pNickname)
+    public void setPlayerInfo(int index, String pNickname, PlayerInfoGameView.AvatarType pAvatarType)
     {
-
+        PlayerInfoGameView playerInfoView = mGameBoardView.getPlayerGameView(index)
+                .getPlayerInfoView();
+        playerInfoView.setPlayerNickname(pNickname);
+        playerInfoView.setAvatar(pAvatarType);
     }
 
     @Override
@@ -172,6 +177,8 @@ public class GamePlayView implements GamePlayContract.View {
     {
         mGameBoardView.getPlayerGameView(0).removeLastAction();
         mGameBoardView.getActionBarGameView().show(pShowCard, pPass, pShowCard);
+
+        showPlayerTurnHighlight(0);
     }
 
     @Override
@@ -179,6 +186,16 @@ public class GamePlayView implements GamePlayContract.View {
     {
         mGameBoardView.getActionBarGameView().hide();
         mGameBoardView.getPlayerGameView(index).removeLastAction();
+
+        showPlayerTurnHighlight(index);
+    }
+
+    protected void showPlayerTurnHighlight(int pTurnTo)
+    {
+        for (int i = 0; i < 4; i++)
+        {
+            mGameBoardView.getPlayerGameView(i).getPlayerInfoView().setHighlight(i == pTurnTo);
+        }
     }
 
     @Override

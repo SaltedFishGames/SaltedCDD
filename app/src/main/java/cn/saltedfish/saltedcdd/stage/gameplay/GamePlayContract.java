@@ -12,7 +12,7 @@ public interface GamePlayContract {
 
         void setPauseButtonVisibility(boolean pVisible);
 
-        void setPlayerInfo(int index, String pNickname);
+        void setPlayerInfo(int index, String pNickname, PlayerInfoGameView.AvatarType pAvatarType);
 
         void playDealCardsAnimation(); // 播放发牌动画
 

@@ -3,21 +3,12 @@ package cn.saltedfish.saltedcdd.stage.gameplay;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
 import java.lang.ref.WeakReference;
-import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.List;
 
-import cn.saltedfish.saltedcdd.game.card.Card;
-import cn.saltedfish.saltedcdd.game.card.ECardNumber;
-import cn.saltedfish.saltedcdd.game.card.ECardSuit;
-
-import static android.view.MotionEvent.ACTION_DOWN;
-import static android.view.MotionEvent.ACTION_MOVE;
 import static android.view.MotionEvent.ACTION_UP;
 
 public class GameBoardView extends View {
@@ -72,7 +63,13 @@ public class GameBoardView extends View {
                 LayoutHelper.sRefHeight - CardGameView.sBigHeight - 100 - CardGameView.sSmallHeight,
                 CardGroupGameView.ShowType.CLR,
                 CardGameView.ShowType.SmallFront,
-                (int)(CardGameView.sSmallWidth * showGapFactor)
+                (int)(CardGameView.sSmallWidth * showGapFactor),
+
+                45,
+                LayoutHelper.sRefHeight - PlayerInfoGameView.sAvatarHeight - PlayerInfoGameView.sNicknameSize - 25,
+                45,
+                LayoutHelper.sRefHeight - 25,
+                PlayerInfoGameView.NicknameShowType.LR
         );
 
         mPlayerViews[1] = new PlayerGameView(
@@ -86,7 +83,13 @@ public class GameBoardView extends View {
                 LayoutHelper.sRefHeight / 2 - CardGameView.sSmallHeight / 2 - 60,
                 CardGroupGameView.ShowType.RL,
                 CardGameView.ShowType.SmallFront,
-                (int)(CardGameView.sSmallWidth * showGapFactor)
+                (int)(CardGameView.sSmallWidth * showGapFactor),
+
+                LayoutHelper.sRefWidth - CardGameView.sBigWidth - PlayerInfoGameView.sAvatarWidth - 100,
+                LayoutHelper.sRefHeight / 2 + CardGameView.sSmallHeight / 2,
+                LayoutHelper.sRefWidth - CardGameView.sBigWidth  - 100,
+                LayoutHelper.sRefHeight / 2 + CardGameView.sSmallHeight / 2 + PlayerInfoGameView.sAvatarHeight + 40,
+                PlayerInfoGameView.NicknameShowType.RL
         );
 
         mPlayerViews[2] = new PlayerGameView(
@@ -100,7 +103,13 @@ public class GameBoardView extends View {
                 (int)(CardGameView.sBigHeight * 0.5) + 50,
                 CardGroupGameView.ShowType.CLR,
                 CardGameView.ShowType.SmallFront,
-                (int)(CardGameView.sSmallWidth * showGapFactor)
+                (int)(CardGameView.sSmallWidth * showGapFactor),
+
+                CardGameView.sBigWidth + 120,
+                20,
+                CardGameView.sBigWidth + 120,
+                20 + PlayerInfoGameView.sAvatarHeight + PlayerInfoGameView.sNicknameSize,
+                PlayerInfoGameView.NicknameShowType.LR
         );
 
         mPlayerViews[3] = new PlayerGameView(
@@ -114,7 +123,13 @@ public class GameBoardView extends View {
                 LayoutHelper.sRefHeight / 2 - CardGameView.sSmallHeight / 2 - 60,
                 CardGroupGameView.ShowType.LR,
                 CardGameView.ShowType.SmallFront,
-                (int)(CardGameView.sSmallWidth * showGapFactor)
+                (int)(CardGameView.sSmallWidth * showGapFactor),
+
+                CardGameView.sBigWidth + 100,
+                LayoutHelper.sRefHeight / 2 + CardGameView.sSmallHeight / 2,
+                CardGameView.sBigWidth + 100,
+                LayoutHelper.sRefHeight / 2 + CardGameView.sSmallHeight / 2 + PlayerInfoGameView.sAvatarHeight + PlayerInfoGameView.sNicknameSize,
+                PlayerInfoGameView.NicknameShowType.LR
         );
 
         mActionBarGameView = new ActionBarGameView();

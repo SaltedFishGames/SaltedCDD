@@ -5,6 +5,7 @@ import android.os.HandlerThread;
 
 import java.util.List;
 
+import cn.saltedfish.saltedcdd.data.Config;
 import cn.saltedfish.saltedcdd.game.CDDGame;
 import cn.saltedfish.saltedcdd.game.GameRound;
 import cn.saltedfish.saltedcdd.game.IGameEventListener;
@@ -55,6 +56,11 @@ public class GameModel {
             attachPlayerController(i, new RobotPlayerController(mPlayerModels[i].getPlayer()));
             mPlayerModels[i].setRobot(true);
         }
+
+        mPlayerModels[0].setNickname(Config.getNickname());
+        mPlayerModels[1].setNickname("大咸鱼");
+        mPlayerModels[2].setNickname("二咸鱼");
+        mPlayerModels[3].setNickname("三咸鱼");
     }
 
     public PlayerModel getPlayerModel(int index)

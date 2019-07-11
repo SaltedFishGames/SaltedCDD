@@ -9,7 +9,7 @@ import cn.saltedfish.saltedcdd.R;
 import cn.saltedfish.saltedcdd.game.card.Card;
 
 public class PlayerGameView extends BaseGameView {
-    protected PlayerInfoGameView mPlayerInfoView = new PlayerInfoGameView();
+    protected PlayerInfoGameView mPlayerInfoView;
 
     protected CardGroupGameView mHandCardView;
 
@@ -26,11 +26,13 @@ public class PlayerGameView extends BaseGameView {
             int pHandGap,
             int showX, int showY,
             CardGroupGameView.ShowType pShowShowType, CardGameView.ShowType pShowCardShowType,
-            int pShowGap
+            int pShowGap,
+            int pAvatarX, int pAvatarY, int pNicknameX, int pNicknameY, PlayerInfoGameView.NicknameShowType pNicknameShowType
     )
     {
         mHandCardView = new CardGroupGameView(handX, handY, pHandShowType, pHandCardShowType, pHandGap);
         mShowCardView = new CardGroupGameView(showX, showY, pShowShowType, pShowCardShowType, pShowGap);
+        mPlayerInfoView = new PlayerInfoGameView(pAvatarX, pAvatarY, pNicknameX, pNicknameY, pNicknameShowType);
 
         mPassIndicator = new SpiritGameView();
         mPassIndicator.setVisible(false);
@@ -44,6 +46,8 @@ public class PlayerGameView extends BaseGameView {
     {
         mHandCardView.onDraw(pCanvas);
         mShowCardView.onDraw(pCanvas);
+
+        mPlayerInfoView.onDraw(pCanvas);
 
         mPassIndicator.onDraw(pCanvas);
     }

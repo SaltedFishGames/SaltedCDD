@@ -56,6 +56,11 @@ public class GamePlayPresenter implements GamePlayContract.Presenter, IPlayerCon
     @Override
     public void start()
     {
+        mView.setPlayerInfo(0, mGameModel.getPlayerModel(0).getNickname(), PlayerInfoGameView.AvatarType.Player);
+        mView.setPlayerInfo(1, mGameModel.getPlayerModel(1).getNickname(), PlayerInfoGameView.AvatarType.RobotRight);
+        mView.setPlayerInfo(2, mGameModel.getPlayerModel(2).getNickname(), PlayerInfoGameView.AvatarType.Robot);
+        mView.setPlayerInfo(3, mGameModel.getPlayerModel(3).getNickname(), PlayerInfoGameView.AvatarType.RobotLeft);
+
         mGameModel.prepareGame();
     }
 
