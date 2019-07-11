@@ -15,6 +15,8 @@ import cn.saltedfish.saltedcdd.game.card.Card;
 import cn.saltedfish.saltedcdd.game.card.ECardNumber;
 import cn.saltedfish.saltedcdd.game.card.ECardSuit;
 
+import static android.view.MotionEvent.ACTION_DOWN;
+import static android.view.MotionEvent.ACTION_MOVE;
 import static android.view.MotionEvent.ACTION_UP;
 
 public class GameBoardView extends View {
@@ -54,18 +56,20 @@ public class GameBoardView extends View {
 
         mBitmapFactory = new GameBitmapFactory(pContext.getResources());
 
+        double showGapFactor = 0.75;
+
         mPlayerViews[0] = new PlayerGameView(
                 LayoutHelper.sRefWidth / 2 - CardGameView.sBigWidth / 2,
                 LayoutHelper.sRefHeight - CardGameView.sBigHeight,
                 CardGroupGameView.ShowType.CLR,
                 CardGameView.ShowType.BigFront,
-                (int)(CardGameView.sBigWidth * 0.75),
+                (int)(CardGameView.sBigWidth * 0.55),
 
                 LayoutHelper.sRefWidth / 2 - CardGameView.sSmallWidth / 2,
                 LayoutHelper.sRefHeight - CardGameView.sBigHeight - 100 - CardGameView.sSmallHeight,
                 CardGroupGameView.ShowType.CLR,
                 CardGameView.ShowType.SmallFront,
-                (int)(CardGameView.sSmallWidth * 1.1)
+                (int)(CardGameView.sSmallWidth * showGapFactor)
         );
 
         mPlayerViews[1] = new PlayerGameView(
@@ -79,7 +83,7 @@ public class GameBoardView extends View {
                 LayoutHelper.sRefHeight / 2 - CardGameView.sSmallHeight / 2 - 80,
                 CardGroupGameView.ShowType.RL,
                 CardGameView.ShowType.SmallFront,
-                (int)(CardGameView.sSmallWidth * 1.1)
+                (int)(CardGameView.sSmallWidth * showGapFactor)
         );
 
         mPlayerViews[2] = new PlayerGameView(
@@ -93,7 +97,7 @@ public class GameBoardView extends View {
                 (int)(CardGameView.sBigHeight * 0.5) + 50,
                 CardGroupGameView.ShowType.CLR,
                 CardGameView.ShowType.SmallFront,
-                (int)(CardGameView.sSmallWidth * 1.1)
+                (int)(CardGameView.sSmallWidth * showGapFactor)
         );
 
         mPlayerViews[3] = new PlayerGameView(
@@ -107,7 +111,7 @@ public class GameBoardView extends View {
                 LayoutHelper.sRefHeight / 2 - CardGameView.sSmallHeight / 2 - 80,
                 CardGroupGameView.ShowType.LR,
                 CardGameView.ShowType.SmallFront,
-                (int)(CardGameView.sSmallWidth * 1.1)
+                (int)(CardGameView.sSmallWidth * showGapFactor)
         );
 
         mActionBarGameView = new ActionBarGameView();
@@ -150,6 +154,7 @@ public class GameBoardView extends View {
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
         if (mBlockTouchEvent) return true;
+
         if (ev.getAction() == ACTION_UP)
         {
             int x = (int) ev.getX();

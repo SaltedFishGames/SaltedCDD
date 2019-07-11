@@ -19,6 +19,10 @@ public class GamePlayView implements GamePlayContract.View {
 
     protected ImageButton mBtnPauseGame;
 
+    protected ImageButton mBtnGameEndToHome;
+
+    protected ImageButton mBtnGameEndToRefresh;
+
     protected GameBoardView mGameBoardView;
 
     protected GamePlayContract.Presenter mPresenter;
@@ -34,6 +38,22 @@ public class GamePlayView implements GamePlayContract.View {
             @Override
             public void onClick(View v) {
                 mPresenter.onPauseGameClicked();
+            }
+        });
+
+        mBtnGameEndToHome = pActivity.findViewById(R.id.button_gameEndToHome);
+        mBtnGameEndToHome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mPresenter.onQuitGameClicked();
+            }
+        });
+
+        mBtnGameEndToRefresh = pActivity.findViewById(R.id.button_gameEndToRefresh);
+        mBtnGameEndToRefresh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mPresenter.onRestartGameClicked();
             }
         });
 
@@ -95,6 +115,8 @@ public class GamePlayView implements GamePlayContract.View {
         mLayoutMenu.setVisibility(pVisible ? View.VISIBLE : View.GONE);
     }
 
+
+
     @Override
     public void setPauseButtonVisibility(boolean pVisible)
     {
@@ -122,6 +144,10 @@ public class GamePlayView implements GamePlayContract.View {
     @Override
     public void showGameResult(GameResult pResult)
     {
+        mGameBoardView.getActionBarGameView().hide();
+        mBtnPauseGame.setVisibility(View.GONE);
+        mBtnGameEndToHome.setVisibility(View.VISIBLE);
+        mBtnGameEndToRefresh.setVisibility(View.VISIBLE);
         for (int i = 0; i < 4; i++)
         {
             PlayerGameView playerGameView = mGameBoardView.getPlayerGameView(i);
