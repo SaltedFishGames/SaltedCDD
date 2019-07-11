@@ -86,9 +86,9 @@ public class GameBoardView extends View {
                 (int)(CardGameView.sSmallWidth * showGapFactor),
 
                 LayoutHelper.sRefWidth - CardGameView.sBigWidth - PlayerInfoGameView.sAvatarWidth - 100,
-                LayoutHelper.sRefHeight / 2 + CardGameView.sSmallHeight / 2,
+                LayoutHelper.sRefHeight / 2 + CardGameView.sSmallHeight / 2 - 30,
                 LayoutHelper.sRefWidth - CardGameView.sBigWidth  - 100,
-                LayoutHelper.sRefHeight / 2 + CardGameView.sSmallHeight / 2 + PlayerInfoGameView.sAvatarHeight + 40,
+                LayoutHelper.sRefHeight / 2 + CardGameView.sSmallHeight / 2 + PlayerInfoGameView.sAvatarHeight + PlayerInfoGameView.sNicknameSize - 30,
                 PlayerInfoGameView.NicknameShowType.RL
         );
 
@@ -126,9 +126,9 @@ public class GameBoardView extends View {
                 (int)(CardGameView.sSmallWidth * showGapFactor),
 
                 CardGameView.sBigWidth + 100,
-                LayoutHelper.sRefHeight / 2 + CardGameView.sSmallHeight / 2,
+                LayoutHelper.sRefHeight / 2 + CardGameView.sSmallHeight / 2 - 30,
                 CardGameView.sBigWidth + 100,
-                LayoutHelper.sRefHeight / 2 + CardGameView.sSmallHeight / 2 + PlayerInfoGameView.sAvatarHeight + PlayerInfoGameView.sNicknameSize,
+                LayoutHelper.sRefHeight / 2 + CardGameView.sSmallHeight / 2 + PlayerInfoGameView.sAvatarHeight + PlayerInfoGameView.sNicknameSize - 30,
                 PlayerInfoGameView.NicknameShowType.LR
         );
 

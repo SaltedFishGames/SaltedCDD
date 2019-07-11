@@ -24,10 +24,14 @@ public class PlayerGameView extends BaseGameView {
             int handX, int handY, 
             CardGroupGameView.ShowType pHandShowType, CardGameView.ShowType pHandCardShowType, 
             int pHandGap,
+
             int showX, int showY,
             CardGroupGameView.ShowType pShowShowType, CardGameView.ShowType pShowCardShowType,
             int pShowGap,
-            int pAvatarX, int pAvatarY, int pNicknameX, int pNicknameY, PlayerInfoGameView.NicknameShowType pNicknameShowType
+
+            int pAvatarX, int pAvatarY,
+            int pNicknameX, int pNicknameY,
+            PlayerInfoGameView.NicknameShowType pNicknameShowType
     )
     {
         mHandCardView = new CardGroupGameView(handX, handY, pHandShowType, pHandCardShowType, pHandGap);
@@ -102,6 +106,15 @@ public class PlayerGameView extends BaseGameView {
     @Override
     public boolean onTouch(int x, int y)
     {
-        return mHandCardView.onTouch(x, y);
+        if (mHandCardView.onTouch(x, y))
+        {
+            return true;
+        }
+        else if (mPlayerInfoView.onTouch(x, y))
+        {
+            return true;
+        }
+        return false;
+
     }
 }

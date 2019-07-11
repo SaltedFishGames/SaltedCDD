@@ -14,11 +14,11 @@ public interface GamePlayContract {
 
         void setPlayerInfo(int index, String pNickname, PlayerInfoGameView.AvatarType pAvatarType);
 
-        void playDealCardsAnimation(); // 播放发牌动画
+        void playDealCardsAnimation();
 
-        void setPlayerCards(int index, List<Card> pCards); // 更新指定玩家手牌（数目 / 手牌）
+        void setPlayerCards(int index, List<Card> pCards);
 
-        void showGameResult(GameResult pResult); // 游戏结束，展示游戏结果
+        void showGameResult(GameResult pResult);
 
         void showPlayerPass(int index);
 
@@ -33,6 +33,8 @@ public interface GamePlayContract {
         void setCardSelection(List<Card> pCards);
 
         void clearCardSelection();
+
+        void setPlayerAvatar(int index, PlayerInfoGameView.AvatarType pAvatarType);
 
         void runOnUiThread(Runnable pRunnable);
 
@@ -54,7 +56,7 @@ public interface GamePlayContract {
 
         void onPassClicked();
 
-        void onCardSelectionModified();
+        void onSwitchAutoplay();
 
         void onHintClicked();
     }

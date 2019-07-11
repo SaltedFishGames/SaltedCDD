@@ -107,7 +107,13 @@ public class GamePlayView implements GamePlayContract.View {
             }
         });
 
-
+        mGameBoardView.getPlayerGameView(0).getPlayerInfoView().setAvatarClickListener(new SpiritGameView.OnClickListener() {
+            @Override
+            public void onClick(SpiritGameView pView)
+            {
+                mPresenter.onSwitchAutoplay();
+            }
+        });
     }
 
     @Override
@@ -214,6 +220,14 @@ public class GamePlayView implements GamePlayContract.View {
     public void clearCardSelection()
     {
         mGameBoardView.getPlayerGameView(0).getHandCardView().deselectAll();
+    }
+
+    @Override
+    public void setPlayerAvatar(int index, PlayerInfoGameView.AvatarType pAvatarType)
+    {
+        PlayerInfoGameView playerInfoView = mGameBoardView.getPlayerGameView(index)
+                .getPlayerInfoView();
+        playerInfoView.setAvatar(pAvatarType);
     }
 
     @Override

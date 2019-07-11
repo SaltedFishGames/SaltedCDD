@@ -122,6 +122,18 @@ public class PlayerInfoGameView extends BaseGameView {
         mAvatarView.setBitmap(GameBoardView.getInstance().getBitmapFactory().getBitmap(resId));
     }
 
+    public void setAvatarClickListener(SpiritGameView.OnClickListener pListener)
+    {
+        mAvatarView.setInteractable(pListener != null);
+        mAvatarView.setOnClickListener(pListener);
+    }
+
+    @Override
+    public boolean onTouch(int x, int y)
+    {
+        return mAvatarView.onTouch(x, y);
+    }
+
     public enum NicknameShowType
     {
         LR,
@@ -136,10 +148,5 @@ public class PlayerInfoGameView extends BaseGameView {
         Robot,
         RobotLeft,
         RobotRight
-    }
-
-    public interface ISwitchAutoPlayListener
-    {
-        void setAutoPlay(boolean pAutoPlay);
     }
 }

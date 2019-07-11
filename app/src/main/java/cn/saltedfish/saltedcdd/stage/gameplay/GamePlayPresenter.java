@@ -105,9 +105,14 @@ public class GamePlayPresenter implements GamePlayContract.Presenter, IPlayerCon
     }
 
     @Override
-    public void onCardSelectionModified()
+    public void onSwitchAutoplay()
     {
-
+        mAutoPlay = !mAutoPlay;
+        mView.setPlayerAvatar(0, mAutoPlay ? PlayerInfoGameView.AvatarType.Robot : PlayerInfoGameView.AvatarType.Player);
+        if (mAutoPlay && mCurrentHint != null)
+        {
+            onPlayerTurn(mThisPlayerModel.getPlayer(), mCurrentHint);
+        }
     }
 
     @Override
@@ -218,7 +223,9 @@ public class GamePlayPresenter implements GamePlayContract.Presenter, IPlayerCon
             {
                 mView.showPlayerShowCard(i, cardsLeft);
             }
+            mView.setPlayerCards(i, null);
         }
+
         mView.showGameResult(result);
         mView.repaint();
     }
