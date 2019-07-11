@@ -22,14 +22,15 @@ public class GameBitmapFactory {
         WeakReference<Bitmap> cached = mBitmapCache.get(pResId);
         if (cached != null)
         {
-            return cached.get();
+            Bitmap bitmap = cached.get();
+            if (bitmap != null)
+            {
+                return bitmap;
+            }
         }
-        else
-        {
-            Bitmap bitmap = BitmapFactory.decodeResource(mResources, pResId);
-            mBitmapCache.put(pResId, new WeakReference<>(bitmap));
-            return bitmap;
-        }
+        Bitmap bitmap = BitmapFactory.decodeResource(mResources, pResId);
+        mBitmapCache.put(pResId, new WeakReference<>(bitmap));
+        return bitmap;
     }
 
     public void clear()
