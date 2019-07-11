@@ -22,6 +22,8 @@ public class GameBoardView extends View {
 
     protected ActionBarGameView mActionBarGameView;
 
+    protected ResultGameView mResultGameView;
+
     protected boolean mBlockTouchEvent = false;
 
     protected LinkedList<CardGameView> mCardGameViewCache = new LinkedList<>();
@@ -65,10 +67,11 @@ public class GameBoardView extends View {
                 CardGameView.ShowType.SmallFront,
                 (int)(CardGameView.sSmallWidth * showGapFactor),
 
-                45,
-                LayoutHelper.sRefHeight - PlayerInfoGameView.sAvatarHeight - PlayerInfoGameView.sNicknameSize - 25,
-                45,
-                LayoutHelper.sRefHeight - 25,
+                345,
+                LayoutHelper.sRefHeight - PlayerInfoGameView.sAvatarHeight
+                        - PlayerInfoGameView.sNicknameSize - CardGameView.sBigHeight - 70,
+                345,
+                LayoutHelper.sRefHeight - CardGameView.sBigHeight - 70,
                 PlayerInfoGameView.NicknameShowType.LR
         );
 
@@ -105,10 +108,11 @@ public class GameBoardView extends View {
                 CardGameView.ShowType.SmallFront,
                 (int)(CardGameView.sSmallWidth * showGapFactor),
 
-                CardGameView.sBigWidth + 120,
-                20,
-                CardGameView.sBigWidth + 120,
-                20 + PlayerInfoGameView.sAvatarHeight + PlayerInfoGameView.sNicknameSize,
+                LayoutHelper.sRefWidth - CardGameView.sBigWidth - 350,
+                (int)(CardGameView.sBigHeight * 0.5) + 50,
+                LayoutHelper.sRefWidth - CardGameView.sBigWidth - 350,
+                (int)(CardGameView.sBigHeight * 0.5) + 50
+                        + PlayerInfoGameView.sAvatarHeight + PlayerInfoGameView.sNicknameSize,
                 PlayerInfoGameView.NicknameShowType.LR
         );
 
@@ -126,9 +130,10 @@ public class GameBoardView extends View {
                 (int)(CardGameView.sSmallWidth * showGapFactor),
 
                 CardGameView.sBigWidth + 100,
-                LayoutHelper.sRefHeight / 2 + CardGameView.sSmallHeight / 2 - 30,
+                LayoutHelper.sRefHeight / 2 - CardGameView.sSmallHeight / 2 - 275,
                 CardGameView.sBigWidth + 100,
-                LayoutHelper.sRefHeight / 2 + CardGameView.sSmallHeight / 2 + PlayerInfoGameView.sAvatarHeight + PlayerInfoGameView.sNicknameSize - 30,
+                LayoutHelper.sRefHeight / 2 - CardGameView.sSmallHeight / 2 - 275 +
+                        PlayerInfoGameView.sAvatarHeight + PlayerInfoGameView.sNicknameSize,
                 PlayerInfoGameView.NicknameShowType.LR
         );
 
@@ -146,6 +151,11 @@ public class GameBoardView extends View {
         {
             mCardGameViewCache.add(new CardGameView());
         }
+
+        mResultGameView = new ResultGameView();
+        mResultGameView.setVisible(false);
+        mResultGameView.setPosX(0);
+        mResultGameView.setPosY(777);
 
         invalidate();
     }
@@ -172,6 +182,7 @@ public class GameBoardView extends View {
         }
 
         mActionBarGameView.onDraw(pCanvas);
+        mResultGameView.onDraw(pCanvas);
     }
 
     @Override
@@ -246,5 +257,10 @@ public class GameBoardView extends View {
     public void recycleCardGameView(CardGameView pCardGameView)
     {
         mCardGameViewCache.add(pCardGameView);
+    }
+
+    public ResultGameView getResultGameView()
+    {
+        return mResultGameView;
     }
 }

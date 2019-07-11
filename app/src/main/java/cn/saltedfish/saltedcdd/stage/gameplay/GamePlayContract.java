@@ -18,8 +18,6 @@ public interface GamePlayContract {
 
         void setPlayerCards(int index, List<Card> pCards);
 
-        void showGameResult(GameResult pResult);
-
         void showPlayerPass(int index);
 
         void showPlayerShowCard(int index, List<Card> pCards);
@@ -35,6 +33,12 @@ public interface GamePlayContract {
         void clearCardSelection();
 
         void setPlayerAvatar(int index, PlayerInfoGameView.AvatarType pAvatarType);
+
+        void showGameResult();
+
+        void setResultMyselfRank(int pRank);
+
+        void setResultPlayerRank(int index, String pNickname, int pScore);
 
         void runOnUiThread(Runnable pRunnable);
 

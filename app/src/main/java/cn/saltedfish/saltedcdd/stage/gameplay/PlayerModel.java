@@ -12,6 +12,8 @@ public class PlayerModel {
 
     protected boolean mIsRobot;
 
+    protected int mScore;
+
     public PlayerModel()
     {
         mPlayer = new Player();
@@ -50,5 +52,10 @@ public class PlayerModel {
     public void setRobot(boolean pRobot)
     {
         mIsRobot = pRobot;
+    }
+
+    public int getScore()
+    {
+        return GameResult.calcScore(mPlayer);
     }
 }

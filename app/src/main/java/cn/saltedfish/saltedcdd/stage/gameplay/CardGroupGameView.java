@@ -56,7 +56,6 @@ public class CardGroupGameView extends BaseGameView implements SpiritGameView.On
                 x -= mCardGap * (min(7, count) - 1);
         }
 
-
         int initialX = x;
         int initialY = y;
 
@@ -64,7 +63,7 @@ public class CardGroupGameView extends BaseGameView implements SpiritGameView.On
         {
             if (i == 7 && (mShowType == ShowType.LR || mShowType == ShowType.RL))
             {
-                y = (int)(initialY - CardGameView.sSmallHeight * 1.15);
+                y = (int)(initialY - CardGameView.sSmallHeight * 0.6);
                 x = initialX;
             }
 
@@ -90,8 +89,15 @@ public class CardGroupGameView extends BaseGameView implements SpiritGameView.On
                     break;
             }
         }
-    }
 
+        if (mCardViews.size() > 7 && (mShowType == ShowType.LR || mShowType == ShowType.RL))
+        {
+            for (int i = 0; i < 7; i++)
+            {
+                mCardViews.add(mCardViews.remove(0));
+            }
+        }
+    }
 
     public void removeAll()
     {

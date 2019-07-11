@@ -150,8 +150,9 @@ public class GamePlayView implements GamePlayContract.View {
         mGameBoardView.getPlayerGameView(index).setHandCards(pCards);
     }
 
+
     @Override
-    public void showGameResult(GameResult pResult)
+    public void showGameResult()
     {
         mGameBoardView.getActionBarGameView().hide();
 
@@ -160,6 +161,8 @@ public class GamePlayView implements GamePlayContract.View {
 
         mBtnGameEndToHome.setVisibility(View.VISIBLE);
         mBtnGameEndToRefresh.setVisibility(View.VISIBLE);
+
+        mGameBoardView.getResultGameView().setVisible(true);
     }
 
     @Override
@@ -228,6 +231,18 @@ public class GamePlayView implements GamePlayContract.View {
         PlayerInfoGameView playerInfoView = mGameBoardView.getPlayerGameView(index)
                 .getPlayerInfoView();
         playerInfoView.setAvatar(pAvatarType);
+    }
+
+    @Override
+    public void setResultMyselfRank(int pRank)
+    {
+        mGameBoardView.getResultGameView().setRank(pRank);
+    }
+
+    @Override
+    public void setResultPlayerRank(int index, String pNickname, int pScore)
+    {
+        mGameBoardView.getResultGameView().setLine(index, pNickname, pScore);
     }
 
     @Override

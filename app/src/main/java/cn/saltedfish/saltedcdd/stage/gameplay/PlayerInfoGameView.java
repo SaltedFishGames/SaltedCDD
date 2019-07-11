@@ -30,7 +30,6 @@ public class PlayerInfoGameView extends BaseGameView {
         sNicknamePaint = new Paint();
         sNicknamePaint.setColor(Color.WHITE);
         sNicknamePaint.setAntiAlias(true);
-        sNicknamePaint.setTextSize(sNicknameSize);
     }
 
     public PlayerInfoGameView(int pAvatarX, int pAvatarY, int pNicknameX, int pNicknameY, NicknameShowType pNicknameShowType)
@@ -69,6 +68,7 @@ public class PlayerInfoGameView extends BaseGameView {
 
     protected void drawNickname(Canvas pCanvas)
     {
+        LayoutHelper helper = GameBoardView.getInstance().getLayoutHelper();
         switch (mNicknameShowType)
         {
             case LR:
@@ -81,10 +81,13 @@ public class PlayerInfoGameView extends BaseGameView {
                 sNicknamePaint.setTextAlign(Paint.Align.CENTER);
                 break;
         }
+
+        sNicknamePaint.setTextSize(helper.convM(sNicknameSize));
+
         pCanvas.drawText(
                 mPlayerNickname,
-                mNicknamePosX,
-                mNicknamePosY,
+                helper.convX(mNicknamePosX),
+                helper.convY(mNicknamePosY),
                 sNicknamePaint
         );
     }
@@ -107,7 +110,7 @@ public class PlayerInfoGameView extends BaseGameView {
             case Player:
                 resId = R.drawable.icon_head;
                 break;
-            case Robot:
+            case PlayerAutoplay:
                 resId = R.drawable.icon_head_autoplay;
                 break;
             case RobotLeft:
@@ -145,8 +148,8 @@ public class PlayerInfoGameView extends BaseGameView {
     public enum AvatarType
     {
         Player,
-        Robot,
         RobotLeft,
-        RobotRight
+        RobotRight,
+        PlayerAutoplay
     }
 }

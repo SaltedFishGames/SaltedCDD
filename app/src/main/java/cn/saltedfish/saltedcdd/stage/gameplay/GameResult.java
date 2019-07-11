@@ -1,14 +1,10 @@
 package cn.saltedfish.saltedcdd.stage.gameplay;
 
-import java.util.HashMap;
-import java.util.List;
-
-import cn.saltedfish.saltedcdd.game.card.Card;
+import cn.saltedfish.saltedcdd.game.Player;
 
 public class GameResult {
-
-    public GameResult(GameModel pGameModel)
+    public static int calcScore(Player pPlayer)
     {
+        return (13 - pPlayer.cards().size() + 2) / 3 * 100 - 100;
     }
-
 }

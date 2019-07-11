@@ -4,6 +4,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import cn.saltedfish.saltedcdd.game.EActionType;
@@ -58,7 +61,7 @@ public class GamePlayPresenter implements GamePlayContract.Presenter, IPlayerCon
     {
         mView.setPlayerInfo(0, mGameModel.getPlayerModel(0).getNickname(), PlayerInfoGameView.AvatarType.Player);
         mView.setPlayerInfo(1, mGameModel.getPlayerModel(1).getNickname(), PlayerInfoGameView.AvatarType.RobotRight);
-        mView.setPlayerInfo(2, mGameModel.getPlayerModel(2).getNickname(), PlayerInfoGameView.AvatarType.Robot);
+        mView.setPlayerInfo(2, mGameModel.getPlayerModel(2).getNickname(), PlayerInfoGameView.AvatarType.RobotRight);
         mView.setPlayerInfo(3, mGameModel.getPlayerModel(3).getNickname(), PlayerInfoGameView.AvatarType.RobotLeft);
 
         mGameModel.prepareGame();
@@ -108,7 +111,7 @@ public class GamePlayPresenter implements GamePlayContract.Presenter, IPlayerCon
     public void onSwitchAutoplay()
     {
         mAutoPlay = !mAutoPlay;
-        mView.setPlayerAvatar(0, mAutoPlay ? PlayerInfoGameView.AvatarType.Robot : PlayerInfoGameView.AvatarType.Player);
+        mView.setPlayerAvatar(0, mAutoPlay ? PlayerInfoGameView.AvatarType.PlayerAutoplay : PlayerInfoGameView.AvatarType.Player);
         if (mAutoPlay && mCurrentHint != null)
         {
             onPlayerTurn(mThisPlayerModel.getPlayer(), mCurrentHint);
@@ -214,11 +217,14 @@ public class GamePlayPresenter implements GamePlayContract.Presenter, IPlayerCon
     @Override
     public void onGameEnded()
     {
-        GameResult result = new GameResult(mGameModel);
+        List<PlayerModel> mPlayerModels = new ArrayList<>();
 
         for (int i = 0; i < 4; i++)
         {
-            List<Card> cardsLeft = mGameModel.getPlayerModel(i).getPlayer().cards();
+            PlayerModel playerModel = mGameModel.getPlayerModel(i);
+            mPlayerModels.add(playerModel);
+
+            List<Card> cardsLeft = playerModel.getPlayer().cards();
             if (cardsLeft.size() > 0)
             {
                 mView.showPlayerShowCard(i, cardsLeft);
@@ -226,7 +232,23 @@ public class GamePlayPresenter implements GamePlayContract.Presenter, IPlayerCon
             mView.setPlayerCards(i, null);
         }
 
-        mView.showGameResult(result);
+        Collections.sort(mPlayerModels, new Comparator<PlayerModel>() {
+            @Override
+            public int compare(PlayerModel o1, PlayerModel o2)
+            {
+                return o2.getScore() - o1.getScore();
+            }
+        });
+
+        mView.setResultMyselfRank(1 + mPlayerModels.indexOf(mThisPlayerModel));
+
+        for (int i = 0; i < 4; i++)
+        {
+            PlayerModel playerModel = mPlayerModels.get(i);
+            mView.setResultPlayerRank(i, playerModel.getNickname(), playerModel.getScore());
+        }
+
+        mView.showGameResult();
         mView.repaint();
     }
 
