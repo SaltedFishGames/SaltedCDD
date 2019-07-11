@@ -210,7 +210,7 @@ public class GameModel {
             };
             if (mPlayerModel.isRobot())
             {
-                mHandler.postDelayed(runnable, (int)(1500 + Math.random() * 1500));
+                mHandler.postDelayed(runnable, (int)(1500 + Math.random() * 1250));
             }
             else
             {
@@ -235,7 +235,7 @@ public class GameModel {
             };
             if (mPlayerModel.isRobot())
             {
-                mHandler.postDelayed(runnable, (int)(1000 + Math.random() * 750));
+                mHandler.postDelayed(runnable, (int)(1500 + Math.random() * 750));
             }
             else
             {

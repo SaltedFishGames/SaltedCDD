@@ -170,7 +170,9 @@ public class GamePlayPresenter implements GamePlayContract.Presenter, IPlayerCon
                 {
                     mActionReceiver.pass();
                 }
-            } else {
+            }
+            else
+            {
                 mView.showTurnToMyself(pHint.getPossibleMinimumCardGroup() != null, pHint.isPassAllowed());
             }
         }
@@ -238,7 +240,7 @@ public class GamePlayPresenter implements GamePlayContract.Presenter, IPlayerCon
             @Override
             public int compare(PlayerModel o1, PlayerModel o2)
             {
-                return o2.getScore() - o1.getScore();
+                return o1.getPlayer().cards().size() - o2.getPlayer().cards().size();
             }
         });
 

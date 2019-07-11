@@ -20,7 +20,7 @@ public class ResultGameView extends BaseGameView {
     protected final static int sFontSize = 40;
     protected final static int sFontSizeBig = 128;
 
-    protected final static int sWidth = 600;
+    protected final static int sWidth = 570;
 
     protected static Paint sTextPaint;
 
@@ -58,7 +58,7 @@ public class ResultGameView extends BaseGameView {
 
         drawText(pCanvas, "游戏结束", false, x + 80, y + sFontSizeBig + 50, sFontSizeBig);
 
-        x += 1272;
+        x += 1300;
         int xEnd = x + sWidth;
         y += sFontSize;
 
