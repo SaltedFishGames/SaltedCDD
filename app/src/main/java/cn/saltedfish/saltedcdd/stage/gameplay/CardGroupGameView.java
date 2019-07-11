@@ -42,17 +42,20 @@ public class CardGroupGameView extends BaseGameView implements SpiritGameView.On
         int x = getPosX();
         int y = getPosY();
 
+        int count = pCards.size();
+
         switch (mShowType)
         {
             case CUD:
-                y -= (int)(mCardGap * (double)(pCards.size() - 1) / 2);
+                y -= (int)(mCardGap * (double)(count - 1) / 2);
                 break;
             case CLR:
-                x -= (int)(mCardGap * (double)(pCards.size() - 1) / 2);
+                x -= (int)(mCardGap * (double)(count - 1) / 2);
                 break;
             case RL:
-                x -= mCardGap * (min(7, pCards.size()) - 1);
+                x -= mCardGap * (min(7, count) - 1);
         }
+
 
         int initialX = x;
         int initialY = y;
@@ -61,13 +64,14 @@ public class CardGroupGameView extends BaseGameView implements SpiritGameView.On
         {
             if (i == 7 && (mShowType == ShowType.LR || mShowType == ShowType.RL))
             {
-                y = (int)(initialY - CardGameView.sSmallHeight * 1.2);
+                y = (int)(initialY - CardGameView.sSmallHeight * 1.15);
                 x = initialX;
             }
 
             Card c = pCards.get(i);
 
-            CardGameView cardView = new CardGameView(c, mCardShowType);
+            CardGameView cardView = GameBoardView.getInstance().getCardGameViewFromPool();
+            cardView.reset(c, mCardShowType);
             cardView.setPosX(x);
             cardView.setPosY(y);
             cardView.setInteractable(true);
@@ -88,8 +92,13 @@ public class CardGroupGameView extends BaseGameView implements SpiritGameView.On
         }
     }
 
+
     public void removeAll()
     {
+        for (CardGameView c : mCardViews)
+        {
+            GameBoardView.getInstance().recycleCardGameView(c);
+        }
         mCardViews.clear();
     }
 

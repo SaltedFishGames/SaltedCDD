@@ -202,7 +202,14 @@ public class GameModel {
                     mGame.onPlayerShowCard(mPlayerModel.getPlayer(), pCards);
                 }
             };
-            postAction(runnable);
+            if (mPlayerModel.isRobot())
+            {
+                mHandler.postDelayed(runnable, (int)(1500 + Math.random() * 1500));
+            }
+            else
+            {
+                mHandler.post(runnable);
+            }
         }
 
         @Override
@@ -220,18 +227,13 @@ public class GameModel {
                     mGame.onPlayerPass(mPlayerModel.getPlayer());
                 }
             };
-            postAction(runnable);
-        }
-
-        protected void postAction(Runnable pRunnable)
-        {
             if (mPlayerModel.isRobot())
             {
-                mHandler.postDelayed(pRunnable, (int)(2000 + Math.random() * 1000));
+                mHandler.postDelayed(runnable, (int)(500 + Math.random() * 1000));
             }
             else
             {
-                mHandler.post(pRunnable);
+                mHandler.post(runnable);
             }
         }
     }

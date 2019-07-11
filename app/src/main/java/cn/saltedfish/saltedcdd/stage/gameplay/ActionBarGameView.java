@@ -134,6 +134,8 @@ public class ActionBarGameView extends BaseGameView {
     @Override
     public boolean onTouch(int x, int y)
     {
+        if (!mVisible) return false;
+
         if (mShowCardButton.onTouch(x, y)) return true;
         if (mPassButton.onTouch(x, y)) return true;
         if (mHintButton.onTouch(x, y)) return true;

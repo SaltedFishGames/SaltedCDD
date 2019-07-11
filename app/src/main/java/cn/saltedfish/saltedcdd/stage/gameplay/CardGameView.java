@@ -185,8 +185,14 @@ public class CardGameView extends SpiritGameView {
 
     public CardGameView(Card pCard, ShowType pShowType)
     {
+        reset(pCard, pShowType);
+    }
+
+    public void reset(Card pCard, ShowType pShowType)
+    {
         mCard = pCard;
         mShowType = pShowType;
+        mSelected = false;
 
         updateBaseView();
     }

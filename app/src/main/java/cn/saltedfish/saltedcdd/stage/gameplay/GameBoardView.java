@@ -9,6 +9,7 @@ import android.view.View;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import cn.saltedfish.saltedcdd.game.card.Card;
@@ -31,6 +32,8 @@ public class GameBoardView extends View {
     protected ActionBarGameView mActionBarGameView;
 
     protected boolean mBlockTouchEvent = false;
+
+    protected LinkedList<CardGameView> mCardGameViewCache = new LinkedList<>();
 
     public GameBoardView(Context context)
     {
@@ -124,6 +127,11 @@ public class GameBoardView extends View {
         mPlayerViews[2].setPassIndicatorPosition(LayoutHelper.sRefWidth / 2 - PlayerGameView.sPassIndicatorWidth / 2, (int)(CardGameView.sBigHeight * 0.5) + 50);
         mPlayerViews[3].setPassIndicatorPosition(CardGameView.sBigWidth + 100, LayoutHelper.sRefHeight / 2 - PlayerGameView.sPassIndicatorHeight / 2 - 80);
 
+        for (int i = 0; i < 52; i++)
+        {
+            mCardGameViewCache.add(new CardGameView());
+        }
+
         invalidate();
     }
 
@@ -206,5 +214,22 @@ public class GameBoardView extends View {
     public void onDestroy()
     {
         mBitmapFactory.clear();
+    }
+
+    public CardGameView getCardGameViewFromPool()
+    {
+        if (mCardGameViewCache.size() > 0)
+        {
+            return mCardGameViewCache.removeLast();
+        }
+        else
+        {
+            return new CardGameView();
+        }
+    }
+
+    public void recycleCardGameView(CardGameView pCardGameView)
+    {
+        mCardGameViewCache.add(pCardGameView);
     }
 }

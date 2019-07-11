@@ -115,8 +115,6 @@ public class GamePlayView implements GamePlayContract.View {
         mLayoutMenu.setVisibility(pVisible ? View.VISIBLE : View.GONE);
     }
 
-
-
     @Override
     public void setPauseButtonVisibility(boolean pVisible)
     {
@@ -147,6 +145,7 @@ public class GamePlayView implements GamePlayContract.View {
         mGameBoardView.getActionBarGameView().hide();
 
         setPauseButtonVisibility(false);
+        mGameBoardView.setBlockTouchEvent(true);
 
         mBtnGameEndToHome.setVisibility(View.VISIBLE);
         mBtnGameEndToRefresh.setVisibility(View.VISIBLE);

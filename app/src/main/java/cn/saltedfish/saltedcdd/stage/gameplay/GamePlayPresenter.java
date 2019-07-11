@@ -183,8 +183,8 @@ public class GamePlayPresenter implements GamePlayContract.Presenter, IPlayerCon
                     mView.showToast("所选牌不大于上家的牌");
                 }
             }
-
         }
+
         if (action.isAccepted())
         {
             int i = action.getPlayer().getId();
@@ -214,7 +214,6 @@ public class GamePlayPresenter implements GamePlayContract.Presenter, IPlayerCon
                 mView.showPlayerShowCard(i, cardsLeft);
             }
         }
-        mView.hideActionBar();
         mView.showGameResult(result);
         mView.repaint();
     }
