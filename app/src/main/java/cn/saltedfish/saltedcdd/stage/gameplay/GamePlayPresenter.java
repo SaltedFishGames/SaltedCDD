@@ -36,6 +36,8 @@ public class GamePlayPresenter implements GamePlayContract.Presenter, IPlayerCon
 
     protected boolean mAutoPlay = false;
 
+    protected boolean mGaming = false;
+
     protected ActionHint mCurrentHint;
 
     protected PlayerModel mThisPlayerModel;
@@ -146,6 +148,8 @@ public class GamePlayPresenter implements GamePlayContract.Presenter, IPlayerCon
         }
         mView.repaint();
         mGameModel.startGame();
+
+        mGaming = true;
     }
 
     @Override
@@ -254,11 +258,18 @@ public class GamePlayPresenter implements GamePlayContract.Presenter, IPlayerCon
 
         mView.showGameResult();
         mView.repaint();
+
+        mGaming = false;
     }
 
     public IPlayerController getPlayerController()
     {
         return mPlayerController;
+    }
+
+    public boolean isGaming()
+    {
+        return mGaming;
     }
 
     class PlayerControllerProxy implements IPlayerController

@@ -49,8 +49,10 @@ public class GamePlayActivity extends FullscreenActivity {
     public void onPause()
     {
         super.onPause();
-
-        mPresenter.onPauseGameClicked();
+        if (mPresenter.isGaming())
+        {
+            mPresenter.onPauseGameClicked();
+        }
     }
 
     @Override
